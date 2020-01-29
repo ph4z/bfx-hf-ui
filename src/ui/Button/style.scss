@@ -1,22 +1,25 @@
+@import '../../colors.scss';
+
 .hfui-button, button {
-  background: #102331;
+  @include color('button-text');
+  @include background('button-bg');
+
   border: none;
-  color: #eee;
   font-size: 12px;
-  font-weight:  300;
+  font-weight: 300;
 
   &.red {
-    background: #F05359;
-    border-color: #F05359;
+    @include background('button-red-bg');
+    @include borderColor('button-red-border');
   }
 
   &.green {
-    background: #54B361;
-    border-color: #54B361;
+    @include background('button-green-bg');
+    @include borderColor('button-green-border');
   }
 
   &:hover:not(.disabled) {
-    color: #fff;
+    @include color('button-hovered-text');
     cursor: pointer;
     opacity: 0.8;
   }

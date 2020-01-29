@@ -1,0 +1,91 @@
+@mixin themify($property, $key) {
+  @each $theme, $colors in $themes {
+    &.theme-#{$theme},
+    .theme-#{$theme} & {
+      #{$property}: map-get($colors, $key);
+    }
+  }
+}
+
+@mixin themifyEnd($property, $key, $args...) {
+  @each $theme, $colors in $themes {
+    &.theme-#{$theme},
+    .theme-#{$theme} & {
+      #{$property}: $args map-get($colors, $key);
+    }
+  }
+}
+
+@mixin themifyImportant($property, $key) {
+  @each $theme, $colors in $themes {
+    &.theme-#{$theme},
+    .theme-#{$theme} & {
+      #{$property}: map-get($colors, $key) !important;
+    }
+  }
+}
+
+@mixin color($arguments...) { @include themify('color', $arguments...); }
+@mixin borderColor($arguments...) { @include themify('border-color', $arguments...); }
+@mixin background($arguments...) { @include themify('background', $arguments...); }
+@mixin backgroundColor($arguments...) { @include themify('background-color', $arguments...); }
+@mixin borderBottomColor($arguments...) { @include themify('border-bottom-color', $arguments...); }
+@mixin boxShadow($arguments...) { @include themifyEnd('box-shadow', $arguments...); }
+
+@mixin colorImportant($arguments...) { @include themifyImportant('color', $arguments...); }
+@mixin borderColorImportant($arguments...) { @include themifyImportant('border-color', $arguments...); }
+@mixin backgroundImportant($arguments...) { @include themifyImportant('background', $arguments...); }
+@mixin backgroundColorImportant($arguments...) { @include themifyImportant('background-color', $arguments...); }
+@mixin borderBottomColorImportant($arguments...) { @include themifyImportant('border-bottom-color', $arguments...); }
+
+$th-classic-dark__white: #fff;
+$th-classic-dark__white_faded: #f0f1f2;
+$th-classic-dark__white_darker: #eee;
+$th-classic-dark__white_dim: rgba(255, 255, 255, 0.3);
+$th-classic-dark__white_dimmer: rgba(255, 255, 255, 0.1);
+$th-classic-dark__dark_gray: #102331;
+$th-classic-dark__gray: #172d3e;
+$th-classic-dark__green: #54b361;
+$th-classic-dark__yellow: #fcd206;
+$th-classic-dark__red: #F05359;
+$th-classic-dark__dark_green: #35704f;
+
+$themes: (
+  'classic-dark': (
+    'panel-bg': $th-classic-dark__gray,
+    'panel-header-bg': $th-classic-dark__gray,
+    'panel-header-border': $th-classic-dark__dark_gray,
+    'panel-header-selected-tab': $th-classic-dark__green,
+    'panel-header-icon': $th-classic-dark__white,
+    'panel-header-hovered-icon': $th-classic-dark__white_darker,
+    'panel-header-spinner': $th-classic-dark__yellow,
+    'panel-dark-bg': $th-classic-dark__dark_gray,
+    'panel-dark-header-bg': $th-classic-dark__dark_gray,
+
+    'dropdown-inset-shadow': $th-classic-dark__dark_green,
+    'dropdown-border': $th-classic-dark__green,
+    'dropdown-bg': $th-classic-dark__gray,
+    'dropdown-item-bg': $th-classic-dark__dark_gray,
+    'dropdown-selected-item': $th-classic-dark__green,
+    'dropdown-icon': $th-classic-dark__white_faded,
+
+    'select-value': $th-classic-dark__white_darker,
+    'select-bg': $th-classic-dark__dark_gray,
+    'select-border': $th-classic-dark__green,
+    'select-focused-option': $th-classic-dark__white_dimmer,
+    'select-selected-option': $th-classic-dark__white_dim,
+
+    'input-icon': $th-classic-dark__green,
+    'input-text': $th-classic-dark__green,
+    'input-border': $th-classic-dark__dark_gray,
+    'input-bg': $th-classic-dark__dark_gray,
+
+    'button-text': $th-classic-dark__white_darker,
+    'button-hovered-text': $th-classic-dark__white,
+    'button-bg': $th-classic-dark__gray,
+    'button-red-bg': $th-classic-dark__red,
+    'button-red-border': $th-classic-dark__red,
+    'button-green-bg': $th-classic-dark__green,
+    'button-green-border': $th-classic-dark__green,
+  )
+) !default;

@@ -14,6 +14,9 @@ import NotificationsSidebar from '../NotificationsSidebar'
 import { propTypes, defaultProps } from './HFUI.props'
 import './style.css'
 
+// TODO: Move into store
+const THEME = 'classic-dark'
+
 export default class HFUI extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -41,7 +44,7 @@ export default class HFUI extends React.PureComponent {
     setInterval(getLastVersion(), oneHour)
     if (!authToken) {
       return (
-        <div className='hfui-app'>
+        <div className={`hfui-app theme-${THEME}`}>
           <AuthenticationPage />
           <NotificationsSidebar />
         </div>
@@ -49,7 +52,7 @@ export default class HFUI extends React.PureComponent {
     }
 
     return (
-      <div className='hfui-app'>
+      <div className={`hfui-app theme-${THEME}`}>
         <Navbar />
         {
           currentPage !== '/settings' && (

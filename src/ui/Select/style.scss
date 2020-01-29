@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 .hfui-select__outer {
   display: flex;
   flex-direction: row;
@@ -31,7 +33,7 @@
 }
 
 .hfui-select__single-value {
-  color: #eee !important;
+  @include color('select-value', !important);
 }
 
 .hfui-select__value-container {
@@ -47,9 +49,11 @@
 }
 
 .hfui-select__menu {
-  background: #102331 !important;
+  @include background('select-bg', !important);
+  @include borderColor('select-border');
   box-shadow: none !important;
-  border: 1px solid #54b361;
+  border-width: 1px;
+  border-style: solid;
   border-radius: 0 !important;
   border-top: none;
   margin-top: 0 !important;
@@ -66,11 +70,12 @@
 }
 
 .hfui-select__option--is-selected {
-  background: rgba(255, 255, 255, 0.3) !important;
+  @include color('select-selected-option', !important);
 }
 
 .hfui-select__option--is-focused:not(.hfui-select__option--is-selected) {
-  background: rgba(255, 255, 255, 0.1) !important;
+  @include color('select-focused-option', !important);
+  background: none;
 
   &:hover {
     cursor: pointer;
@@ -78,5 +83,5 @@
 }
 
 .hfui-select__input {
-  color: #eee !important;
+  @include color('select-value', !important);
 }

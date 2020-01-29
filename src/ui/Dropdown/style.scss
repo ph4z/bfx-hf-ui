@@ -1,3 +1,5 @@
+@import '../../colors.scss';
+
 .hfui-dropdown__wrapper {
   font-size: 13px;
   position: relative;
@@ -8,10 +10,13 @@
     position: absolute;
     top: 34px;
     left: 0;
-    border: 1px solid #54b361;
+    border-width: 1px;
+    border-style: solid;
     width: 200px;
-    background: #102331;
     z-index: 999;
+
+    @include borderColor('dropdown-border');
+    @include background('dropdown-bg');
 
     &.with-icon {
       padding-left: 32px;
@@ -20,19 +25,11 @@
     li {
       line-height: 40px;
       padding: 0 8px;
-      background: #102331;
+      @include background('dropdown-item-bg');
 
       &:hover:not(.label) {
         text-decoration: underline;
         cursor: pointer;
-      }
-
-      &.label {
-        text-align: center;
-        border-bottom: 1px solid #3c3202;
-        border-top: 1px solid #222;
-        font-size: 11px;
-        line-height: 20px;
       }
     }
   }
@@ -48,10 +45,10 @@
   padding-left: 8px;
 
   &.highlight {
-    box-shadow: inset 0 0 0 2px #35704f;
+    @include boxShadow('dropdown-inset-shadow', inset 0 0 0 2px);
 
     &, i, p {
-      color: #54B361;
+      @include color('dropdown-selected-item');
     }
   }
 
@@ -60,7 +57,7 @@
     left: 15px;
     font-size: 10px;
     margin-top: 12px;
-    color: #f0f1f2;
+    @include color('dropdown-icon');
   }
 
   p {
