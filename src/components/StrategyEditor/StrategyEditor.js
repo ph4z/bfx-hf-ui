@@ -10,7 +10,6 @@ import HFS from 'bfx-hf-strategy'
 import HFU from 'bfx-hf-util'
 import raw from 'raw.macro'
 import _ from 'lodash'
-import * as SRD from '@projectstorm/react-diagrams'
 
 import Templates from './templates'
 import Results from './Results'
@@ -30,17 +29,8 @@ const generalHelp = raw('./help/general.md')
 const debug = Debug('hfui-ui:c:strategy-editor')
 const STRATEGY_SECTIONS = [
   'defineIndicators',
-  'onPriceUpdate',
-  'onEnter',
-  'onUpdate',
-  'onUpdateLong',
-  'onUpdateShort',
-  'onUpdateClosing',
-  'onPositionOpen',
-  'onPositionUpdate',
-  'onPositionClose',
-  'onStart',
-  'onStop',
+  'defineMeta',
+  'exec',
 ]
 
 export default class StrategyEditor extends React.PureComponent {
@@ -63,7 +53,6 @@ export default class StrategyEditor extends React.PureComponent {
     editorMaximised: false,
     createNewStrategyModalOpen: false,
     openExistingStrategyModalOpen: false,
-    editorMode: 'visual',
     helpOpen: false,
   }
 
@@ -282,11 +271,15 @@ export default class StrategyEditor extends React.PureComponent {
     this.execWorker.postMessage({
       type: 'EXEC_STRATEGY',
       data: {
-        exID: activeExchange,
-        mID: activeMarket.uiID,
-        strategyContent,
-        candleData,
         tf,
+        strategyContent,
+        exID: activeExchange,
+        mID: activeMarket.wsID,
+        candleData: {
+          [activeExchange]: {
+            [`${tf}:${activeMarket.wsID}`]: candleData[activeExchange][`${tf}:${activeMarket.uiID}`],
+          },
+        },
       },
     })
   }
@@ -295,10 +288,6 @@ export default class StrategyEditor extends React.PureComponent {
     this.setState(({ editorMaximised }) => ({
       editorMaximised: !editorMaximised,
     }))
-  }
-
-  onSwitchEditorMode(editorMode) {
-    this.setState(() => ({ editorMode }))
   }
 
   setSectionError(section, msg) {
@@ -366,8 +355,7 @@ export default class StrategyEditor extends React.PureComponent {
 
   renderPanel(content) {
     const {
-      strategy, execRunning, strategyDirty, helpOpen, editorMaximised,
-      editorMode, dark,
+      strategy, execRunning, strategyDirty, helpOpen, editorMaximised, dark,
     } = this.state
 
     const { onRemove, moveable, removeable } = this.props
@@ -382,7 +370,6 @@ export default class StrategyEditor extends React.PureComponent {
         helpOpen={helpOpen}
         strategyDirty={strategyDirty}
         strategy={strategy}
-        editorMode={editorMode}
         editorMaximised={editorMaximised}
         onToggleHelp={this.onToggleHelp}
         onOpenSelectModal={this.onOpenSelectModal}
@@ -443,38 +430,12 @@ export default class StrategyEditor extends React.PureComponent {
     const {
       activeContent, results, execError, execRunning, currentTick, totalTicks,
       strategy, createNewStrategyModalOpen, openExistingStrategyModalOpen,
-      sectionErrors, helpOpen, editorMaximised, // editorMode,
+      sectionErrors, helpOpen, editorMaximised,
     } = this.state
 
     if (!strategy) {
       return this.renderPanel(this.renderEmptyContent())
     }
-
-    // 1) setup the diagram engine
-    const engine = new SRD.DiagramEngine()
-    engine.installDefaultFactories()
-
-    // 2) setup the diagram model
-    const model = new SRD.DiagramModel()
-
-    // 3) create a default node
-    const node1 = new SRD.DefaultNodeModel('Node 1', 'rgb(0,192,255)')
-    const port1 = node1.addOutPort('Out')
-    node1.setPosition(100, 100)
-
-    // 4) create another default node
-    const node2 = new SRD.DefaultNodeModel('Node 2', 'rgb(192,255,0)')
-    const port2 = node2.addInPort('In')
-    node2.setPosition(400, 100)
-
-    // 5) link the ports
-    const link1 = port1.link(port2)
-
-    // 6) add the models to the root graph
-    model.addAll(node1, node2, link1)
-
-    // 7) load model into engine
-    engine.setDiagramModel(model)
 
     return this.renderPanel(
       <div className='hfui-strategyeditor__wrapper'>

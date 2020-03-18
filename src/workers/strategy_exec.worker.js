@@ -1,3 +1,4 @@
+import _isFunction from 'lodash/isFunction'
 import Indicators from 'bfx-hf-indicators'
 import { execOffline } from 'bfx-hf-backtest'
 import HFS from 'bfx-hf-strategy'
@@ -19,7 +20,7 @@ const onExecStrategy = ({
     try {
       if (section.substring(0, 6) === 'define') {
         strategy[section] = eval(sectionContent) // eslint-disable-line
-      } else if (section.substring(0, 2) === 'on') {
+      } else {
         strategy[section] = eval(sectionContent)({ HFS, HFU, _ }) // eslint-disable-line
       }
     } catch (e) {
@@ -36,12 +37,16 @@ const onExecStrategy = ({
   }
 
   strategy = HFS.define({
-    ...strategy,
+    ...(_isFunction(strategy.defineMeta) ? strategy.defineMeta() : {}),
 
     tf,
     symbol: mID,
+    exec: strategy.exec,
     indicators: {
-      ...strategy.defineIndicators(Indicators),
+      ...(_isFunction(strategy.defineIndicators)
+        ? strategy.defineIndicators(Indicators)
+        : {}
+      ),
     },
   })
 
@@ -87,7 +92,7 @@ const onExecStrategy = ({
     postMessage({
       type: 'EXEC_STRATEGY_ERROR',
       data: {
-        message: e.message,
+        message: e.stack,
       },
     })
   })

@@ -1,4 +1,5 @@
 import React from 'react'
+// import ClassNames from 'classnames'
 
 import Button from '../../../ui/Button'
 import Panel from '../../../ui/Panel'
@@ -14,8 +15,7 @@ export default class StrategyEditorPanel extends React.PureComponent {
       onRemove, moveable, removeable, children, execRunning, /* helpOpen, */
       strategyDirty, strategy, /* onToggleHelp, */ onOpenSelectModal,
       onOpenCreateModal, onSaveStrategy, onBacktestStrategy, dark,
-      // onSwitchEditorMode, onToggleMaximiseEditor, editorMode,
-      // editorMaximised,
+      // onToggleMaximiseEditor, editorMaximised,
     } = this.props
 
     return (
@@ -84,34 +84,21 @@ export default class StrategyEditorPanel extends React.PureComponent {
             )}
 
             {/*
-              <div
-                key='mode'
-                className='mode-button'
-                onClick={() => onSwitchEditorMode(editorMode === 'code'
-                  ? 'visual'
-                  : 'code'
-                )}
-              >
-                <p>Switch to {_capitalize(editorMode === 'code' ? 'visual' : 'code')} view</p>
-              </div>,
-              */
-
-              /*
-              <div
-                key='maximise'
-                onClick={onToggleMaximiseEditor}
-                className={ClassNames('maximize-button', {
-                  yellow: editorMaximised,
-                })}
-              >
-                {editorMaximised ? [
-                  <i key='icon' className='far fa-window-minimize' />,
-                  <p key='label'>Minimize Editor</p>
-                ] : [
-                  <i key='icon' className='far fa-window-maximize' />,
-                  <p key='label'>Maximize Editor</p>
-                ]}
-              </div>
+            <div
+              key='maximise'
+              onClick={onToggleMaximiseEditor}
+              className={ClassNames('maximize-button', {
+                yellow: editorMaximised,
+              })}
+            >
+              {editorMaximised ? [
+                <i key='icon' className='far fa-window-minimize' />,
+                <p key='label'>Minimize Editor</p>,
+              ] : [
+                <i key='icon' className='far fa-window-maximize' />,
+                <p key='label'>Maximize Editor</p>,
+              ]}
+            </div>
             */}
           </div>
         )}
