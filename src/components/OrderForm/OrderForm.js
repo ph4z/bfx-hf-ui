@@ -3,7 +3,7 @@ import _capitalize from 'lodash/capitalize'
 import _isEqual from 'lodash/isEqual'
 import ClassNames from 'classnames'
 import {
-  Iceberg, TWAP, AccumulateDistribute, PingPong, MACrossover, OCOCO,
+  Iceberg, TWAP, AccumulateDistribute, PingPong, MACrossover, OCOCO, OOCC,
 } from 'bfx-hf-algo'
 
 import { COMPONENTS_FOR_ID } from './FieldComponents'
@@ -101,6 +101,7 @@ export default class OrderForm extends React.Component {
       Iceberg,
       TWAP,
       OCOCO,
+      OOCC,
     ].map(ao => ao.meta.getUIDef({
       timeframes: Object.values(TIME_FRAMES_FOR_EXID[exID]),
     }))
