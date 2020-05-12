@@ -17,3 +17,8 @@ yarn.lock
 todo
 /db
 /logs/*.log
+tags
+
+Session.vim
+.undodir
+coverage
