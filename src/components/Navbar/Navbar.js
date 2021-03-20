@@ -41,6 +41,15 @@ export default class Navbar extends React.PureComponent {
           </li>
           <li>
             <NavbarButton
+              route='/portfolio'
+              label={[
+                <Icon key='icon' name='pie-chart' />,
+                <p key='label'>Portfolio</p>,
+              ]}
+            />
+          </li>
+          <li>
+            <NavbarButton
               route='/settings'
               label={[
                 <Icon key='icon' name='cog' />,

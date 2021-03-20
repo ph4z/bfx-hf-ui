@@ -67,13 +67,14 @@ export default class Settings extends React.Component {
       this.onSubmitAPIKeys(this.state)
     }
 
+    const { ga } = true
     updateSettings({
-      chart, dms, theme, authToken,
+      authToken, chart, theme, dms, ga,
     })
   }
 
   render() {
-    // const themes = ['bfx-dark-theme', 'bfx-light-theme']
+    const themes = ['bfx-dark-theme', 'bfx-light-theme']
     const { CHARTS } = UserSettings
     const charts = Object.keys(CHARTS).map(key => CHARTS[key])
     const { authToken } = this.props
@@ -84,7 +85,7 @@ export default class Settings extends React.Component {
       this.setState(() => ({ chart, theme, dms }))
     }
 
-    const { chart, dms } = this.state
+    const { theme, chart, dms } = this.state
 
     return (
       <div className='hfui-settingspage__wrapper'>
@@ -95,7 +96,7 @@ export default class Settings extends React.Component {
         <div className='hfui-settings__content'>
           <div>
             <ul className='hfui-settings__options'>
-              {/*
+
               <li>
                 <p className='hfui-settings__option-label'>Theme</p>
                 <div className='hfui-settings__item-list'>
@@ -107,7 +108,6 @@ export default class Settings extends React.Component {
                   />
                 </div>
               </li>
-              */}
 
               <li>
                 <p className='hfui-settings__option-label'>Chart</p>

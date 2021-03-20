@@ -1,6 +1,7 @@
 import React from 'react'
 
-import HFIcon from '../../ui/HFIcon'
+// import HFIcon from '../../ui/HFIcon'
+import FHGif from '../../ui/Icons/FHGif.gif'
 import AuthenticationInitForm from './AuthenticationInitForm'
 import AuthenticationUnlockForm from './AuthenticationUnlockForm'
 import AuthenticationConnectingForm from './AuthenticationConnectingForm'
@@ -22,10 +23,10 @@ export default class Authentication extends React.PureComponent {
       <div className='hfui-authenticationpage__wrapper'>
         <div className='hfui-authenticationpage__inner'>
           <div className='hfui-authenticationpage__inner-left'>
-            <HFIcon />
+            <img src={FHGif} alt='Loading...' />
             <div className='hfui-authenticationpage__inner-left-version-container'>
               <div className='hfui-authenticationpage__inner-left-version'>
-                <h6>Crafted by Bitfinex</h6>
+                <h6>Crafted by the Money Maker Boy Army.</h6>
                 <p>
                   v
                   {version}

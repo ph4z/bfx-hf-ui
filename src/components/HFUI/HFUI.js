@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router'
 
 import SettingsPage from '../../pages/Settings'
+import PortfolioPage from '../../pages/Portfolio'
 import TradingPage from '../../pages/Trading'
 import StrategyEditorPage from '../../pages/StrategyEditor'
 import MarketDataPage from '../../pages/MarketData'
@@ -89,6 +90,12 @@ export default class HFUI extends React.PureComponent {
             path='/settings'
             render={() => (
               <SettingsPage />
+            )}
+          />
+          <Route
+            path='/portfolio'
+            render={() => (
+              <PortfolioPage />
             )}
           />
         </Switch>

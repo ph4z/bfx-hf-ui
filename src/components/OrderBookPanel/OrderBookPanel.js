@@ -176,7 +176,6 @@ export default class OrderBookPanel extends React.Component {
           label: _capitalize(currentExchange),
           value: currentExchange,
         }}
-
         options={exchanges.map(ex => ({
           label: _capitalize(ex),
           value: ex,
@@ -225,7 +224,6 @@ export default class OrderBookPanel extends React.Component {
           showExchange && this.renderExchangeDropdown(),
           showMarket && this.renderMarketDropdown(),
         ]}
-
         settingsOpen={settingsOpen}
         onToggleSettings={this.onToggleSettings}
       >

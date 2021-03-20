@@ -22,11 +22,13 @@ import {
 
 import BitfinexOrders from '../../orders/bitfinex'
 import BinanceOrders from '../../orders/binance'
+import KrakenOrders from '../../orders/kraken'
 import { propTypes, defaultProps } from './GridLayoutPage.props'
 
 const orderDefinitions = {
   bitfinex: Object.values(BitfinexOrders).map(uiDef => uiDef()),
   binance: Object.values(BinanceOrders).map(uiDef => uiDef()),
+  kraken: Object.values(KrakenOrders).map(uiDef => uiDef()),
 }
 
 export default class GridLayoutPage extends React.Component {
@@ -189,28 +191,24 @@ export default class GridLayoutPage extends React.Component {
           activeLayoutID={layoutID}
           layoutDirty={layoutDirty}
           layouts={layouts}
-
           onDeleteLayout={this.onDeleteLayout}
           onSaveLayout={this.onSaveLayout}
           onAddLayout={this.onToggleCreateNewLayoutModal}
           onAddComponent={this.onToggleAddComponentModal}
           onChangeLayout={this.onChangeLayout}
         />
-
         {addLayoutModalOpen && (
           <CreateNewLayoutModal
             onClose={this.onToggleCreateNewLayoutModal}
             onSubmit={this.onCreateNewLayout}
           />
         )}
-
         {addComponentModalOpen && (
           <AddLayoutComponentModal
             onClose={this.onToggleAddComponentModal}
             onSubmit={this.onAddComponentToLayout}
           />
         )}
-
         <GridLayout
           darkPanels={darkPanels}
           layoutDef={layoutDef}
@@ -220,23 +218,19 @@ export default class GridLayoutPage extends React.Component {
             disableToolbar: true,
             ...chartProps,
           })}
-
           bookProps={{ canChangeStacked: true, ...bookProps }}
           tradesProps={{ ...tradesProps }}
           ordersProps={({
             market: activeMarket,
             ...ordersProps,
           })}
-
           orderFormProps={({
             orders: orderDefinitions,
             ...orderFormProps,
           })}
-
           onLayoutChange={this.onLayoutChange}
           onRemoveComponent={this.onRemoveComponentFromLayout}
         />
-
 
         <StatusBar
           key='statusbar'

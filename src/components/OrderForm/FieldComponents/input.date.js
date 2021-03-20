@@ -39,7 +39,6 @@ export default class DateInput extends React.PureComponent {
           timeFormat='HH:mm'
           timeIntervals={10}
           showTimeSelect
-
           selected={value}
           onChange={onChange}
           placeholder={CONVERT_LABELS_TO_PLACEHOLDERS && renderedLabel}

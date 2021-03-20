@@ -10,6 +10,7 @@ import StatusBar from '../../components/StatusBar'
 
 import BitfinexOrders from '../../orders/bitfinex'
 import BinanceOrders from '../../orders/binance'
+import KrakenOrders from '../../orders/kraken'
 import { propTypes, defaultProps } from './Trading.props'
 import './style.css'
 
@@ -17,6 +18,7 @@ const LAYOUT_ID = '__hfui_trading_page'
 const orderDefinitions = {
   bitfinex: Object.values(BitfinexOrders).map(uiDef => uiDef()),
   binance: Object.values(BinanceOrders).map(uiDef => uiDef()),
+  kraken: Object.values(KrakenOrders).map(uiDef => uiDef()),
 }
 
 export default class Trading extends React.PureComponent {

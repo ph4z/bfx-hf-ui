@@ -17,7 +17,6 @@ const renderExchangeDropdown = ({
       label: _capitalize(currentExchange),
       value: currentExchange,
     }}
-
     options={exchanges.map(m => ({
       label: _capitalize(m),
       value: m,

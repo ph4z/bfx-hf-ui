@@ -12,13 +12,11 @@ import {
   getComponentState, getActiveExchange, getActiveMarket,
 } from '../../redux/selectors/ui'
 
-
 const mapStateToProps = (state = {}, ownProps = {}) => {
   const { layoutID, layoutI: id } = ownProps
   const { ui = {} } = state
   const { settings = {} } = ui
-  const { chart, theme, dms } = settings || {}
-
+  const { theme, chart, dms } = settings || {}
 
   return {
     activeExchange: getActiveExchange(state),
@@ -57,17 +55,17 @@ const mapDispatchToProps = dispatch => ({
   },
 
   updateSettings: ({
-    authToken, chart, dms, theme,
+    authToken, chart, theme, dms, ga,
   }) => {
     dispatch(WSActions.send([
       'settings.update',
       authToken,
+      theme,
       chart,
       dms,
-      theme,
+      ga,
     ]))
   },
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

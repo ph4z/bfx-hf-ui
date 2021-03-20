@@ -41,7 +41,6 @@ export default class StrategyEditorPanel extends React.PureComponent {
           ),
           */
         ]}
-
         headerComponents={(
           <div className='hfui-strategyeditor__header'>
             <Button

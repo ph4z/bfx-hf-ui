@@ -52,8 +52,8 @@ export default class AuthenticationInit extends React.Component {
 
     return (
       <div className='hfui-authenticationpage__content' onKeyDown={this.onEnterPress}>
-        <h2>Honey Framework UI</h2>
-        <p>Enter your password to unlock.</p>
+        <h2>Interstellar Framework UI</h2>
+        <p><i>Dare mighty things.</i></p>
 
         <form className='hfui-authenticationpage__inner-form'>
           <Input
@@ -74,17 +74,17 @@ export default class AuthenticationInit extends React.Component {
           <Button
             onClick={this.onUnlock}
             disabled={!submitReady}
-            label='Unlock'
+            label='liftoff'
             green
           />
         </form>
 
         <div className='hfui-authenticationpage__clear'>
-          <p>Alternatively, clear your credentials &amp; and stored data to set a new password.</p>
+          <p><i>Houston, we have a problem.</i></p>
 
           <Button
             onClick={this.onReset}
-            label='Clear Data &amp; Reset'
+            label='self-destruct'
             red
           />
         </div>

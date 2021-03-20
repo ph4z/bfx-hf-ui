@@ -185,7 +185,6 @@ export default class TradingStatePanel extends React.Component {
             id: 'balances',
             label: 'Balances',
           }]}
-
           darkHeader
           activeTab={activeTab}
           onChangeTab={this.onChangeTab}

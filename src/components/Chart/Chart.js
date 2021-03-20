@@ -406,7 +406,6 @@ export default class Chart extends React.Component {
           label: _capitalize(currentExchange),
           value: currentExchange,
         }}
-
         options={exchanges.map(ex => ({
           label: _capitalize(ex),
           value: ex,
@@ -516,7 +515,6 @@ export default class Chart extends React.Component {
                   AXIS_COLOR: '#444',
                   AXIS_TICK_COLOR: '#00000000',
                 }}
-
                 showMarketLabel={!showMarket}
                 extraHeaderComponentsLeft={(showExchange || showMarket) && (
                   <div className='hfui-chart__extra-header-components'>

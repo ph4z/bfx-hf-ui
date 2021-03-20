@@ -24,7 +24,7 @@ export default class GridLayout extends React.PureComponent {
 
   render() {
     const {
-      layoutDef, chartProps, bookProps, tradesProps, orderFormProps, ordersProps,
+      layoutDef, chartProps, bookProps, tradesProps, orderFormProps, ordersProps, marketcapProps, heatmapProps, newsflowProps,
       onRemoveComponent, layoutID, darkPanels,
     } = this.props
 
@@ -33,6 +33,9 @@ export default class GridLayout extends React.PureComponent {
       trades: tradesProps,
       chart: chartProps,
       orders: ordersProps,
+      marketcap: marketcapProps,
+      heatmap: heatmapProps,
+      newsflow: newsflowProps,
       book: bookProps,
       dark: darkPanels,
     }

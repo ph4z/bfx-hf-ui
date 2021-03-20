@@ -4,6 +4,9 @@ export const propTypes = {
   onLayoutChange: PropTypes.func.isRequired,
   layoutDef: PropTypes.object.isRequired,
   chartProps: PropTypes.object,
+  marketcapProps: PropTypes.object,
+  heatmapProps: PropTypes.object,
+  newsflowProps: PropTypes.object,
   bookProps: PropTypes.object,
   tradesProps: PropTypes.object,
   orderFormProps: PropTypes.object,
@@ -15,6 +18,9 @@ export const propTypes = {
 
 export const defaultProps = {
   chartProps: {},
+  marketcapProps: {},
+  heatmapProps: {},
+  newsflowProps: {},
   bookProps: {},
   tradesProps: {},
   orderFormProps: {},

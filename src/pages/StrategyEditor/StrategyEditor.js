@@ -111,7 +111,6 @@ export default class StrategyEditorPage extends React.Component {
               disableIndicatorSettings
               disableIndicators
               disableToolbar
-
               onTFChange={this.onTFChange}
             />
           </div>
