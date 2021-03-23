@@ -67,7 +67,7 @@ export default class Settings extends React.Component {
       this.onSubmitAPIKeys(this.state)
     }
 
-    const { ga } = true
+    const ga = true
     updateSettings({
       authToken, chart, theme, dms, ga,
     })
