@@ -29,6 +29,10 @@ import getNotifications from './get_notifications'
 import getAPICredentials from './get_api_credentials'
 import getAllSyncRanges from './get_all_sync_ranges'
 
+import getBacktestState from './get_backtest_state'
+import getBacktestData from './get_backtest_data'
+import getBacktestResults from './get_backtest_results'
+
 import getAPIClientState from './get_api_client_state'
 import getAPIClientStates from './get_api_client_states'
 import apiClientConnected from './api_client_connected'
@@ -58,6 +62,10 @@ export {
   isSyncingCandles,
   getLastCandleUpdate,
   getStrategies,
+
+  getBacktestState,
+  getBacktestData,
+  getBacktestResults,
 
   getAPIClientState,
   getAPIClientStates,

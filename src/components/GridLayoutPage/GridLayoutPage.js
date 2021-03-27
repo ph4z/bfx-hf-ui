@@ -21,14 +21,10 @@ import {
 } from '../GridLayout/GridLayout.helpers'
 
 import BitfinexOrders from '../../orders/bitfinex'
-import BinanceOrders from '../../orders/binance'
-import KrakenOrders from '../../orders/kraken'
 import { propTypes, defaultProps } from './GridLayoutPage.props'
 
 const orderDefinitions = {
   bitfinex: Object.values(BitfinexOrders).map(uiDef => uiDef()),
-  binance: Object.values(BinanceOrders).map(uiDef => uiDef()),
-  kraken: Object.values(KrakenOrders).map(uiDef => uiDef()),
 }
 
 export default class GridLayoutPage extends React.Component {
@@ -180,35 +176,40 @@ export default class GridLayoutPage extends React.Component {
 
     const {
       activeMarket, layouts, tradingEnabled, chartProps, bookProps, tradesProps,
-      ordersProps, orderFormProps, darkPanels,
+      ordersProps, orderFormProps, sharedProps, darkPanels, showToolbar,
     } = this.props
-
     return (
       <div className='hfui-gridlayoutpage__wrapper'>
-        <LayoutControlToolbar
-          tradingEnabled={tradingEnabled}
-          activeLayout={layoutDef}
-          activeLayoutID={layoutID}
-          layoutDirty={layoutDirty}
-          layouts={layouts}
-          onDeleteLayout={this.onDeleteLayout}
-          onSaveLayout={this.onSaveLayout}
-          onAddLayout={this.onToggleCreateNewLayoutModal}
-          onAddComponent={this.onToggleAddComponentModal}
-          onChangeLayout={this.onChangeLayout}
-        />
+        {
+          ((showToolbar) && (
+            <LayoutControlToolbar
+              tradingEnabled={tradingEnabled}
+              activeLayout={layoutDef}
+              activeLayoutID={layoutID}
+              layoutDirty={layoutDirty}
+              layouts={layouts}
+              onDeleteLayout={this.onDeleteLayout}
+              onSaveLayout={this.onSaveLayout}
+              onAddLayout={this.onToggleCreateNewLayoutModal}
+              onAddComponent={this.onToggleAddComponentModal}
+              onChangeLayout={this.onChangeLayout}
+            />
+          ))
+        }
         {addLayoutModalOpen && (
           <CreateNewLayoutModal
             onClose={this.onToggleCreateNewLayoutModal}
             onSubmit={this.onCreateNewLayout}
           />
         )}
+
         {addComponentModalOpen && (
           <AddLayoutComponentModal
             onClose={this.onToggleAddComponentModal}
             onSubmit={this.onAddComponentToLayout}
           />
         )}
+
         <GridLayout
           darkPanels={darkPanels}
           layoutDef={layoutDef}
@@ -224,6 +225,7 @@ export default class GridLayoutPage extends React.Component {
             market: activeMarket,
             ...ordersProps,
           })}
+          sharedProps={{ ...sharedProps }}
           orderFormProps={({
             orders: orderDefinitions,
             ...orderFormProps,

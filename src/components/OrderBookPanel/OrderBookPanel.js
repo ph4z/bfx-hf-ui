@@ -237,7 +237,6 @@ export default class OrderBookPanel extends React.Component {
                 value={sumAmounts}
                 onChange={this.onChangeSumAmounts}
               />,
-
               canChangeStacked && (
               <Checkbox
                 key='stacked-view'

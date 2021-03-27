@@ -11,7 +11,13 @@ import BalancesTable from '../BalancesTable'
 import { propTypes, defaultProps } from './TradingStatePanel.props'
 import './style.css'
 
-const DEFAULT_ACTIVE_TAB = 'positions'
+const renderCounter = (num) => {
+  if (num <= 0) {
+    return ''
+  }
+
+  return <span className='hfui-tspanel-counter'>{num}</span>
+}
 
 export default class TradingStatePanel extends React.Component {
   static propTypes = propTypes
@@ -22,7 +28,6 @@ export default class TradingStatePanel extends React.Component {
 
     const { savedState = {} } = props
     const {
-      activeTab = DEFAULT_ACTIVE_TAB,
       exchangeFilterActive = false,
       marketFilterActive = false,
     } = savedState
@@ -30,19 +35,26 @@ export default class TradingStatePanel extends React.Component {
     this.state = {
       exchangeFilterActive,
       marketFilterActive,
-      activeTab,
     }
 
-    this.onChangeTab = this.onChangeTab.bind(this)
     this.onToggleMarketFilter = this.onToggleMarketFilter.bind(this)
     this.onToggleExchangeFilter = this.onToggleExchangeFilter.bind(this)
   }
-
-  onChangeTab(activeTab) {
-    this.setState(() => ({ activeTab }))
-    this.deferSaveState()
+  shouldComponentUpdate(nextProps, nextState) {
+    return (JSON.stringify(nextProps) !== JSON.stringify(this.props)
+            || JSON.stringify(nextState) !== JSON.stringify(this.state))
   }
-
+  componentDidUpdate() {}
+  getSnapshotBeforeUpdate() {
+    const atomicOrders = this.getFilteredAtomicOrders()
+    const algoOrders = this.getFilteredAlgoOrders()
+    const positions = this.getFilteredPositions()
+    const balances = this.getFilteredBalances()
+    this.setState({
+      algoOrders, atomicOrders, positions, balances,
+    })
+    return null
+  }
   onToggleMarketFilter() {
     this.setState(({ marketFilterActive }) => ({
       marketFilterActive: !marketFilterActive,
@@ -56,51 +68,61 @@ export default class TradingStatePanel extends React.Component {
   }
 
   getFilteredAtomicOrders() {
-    const { activeExchange, activeMarket, atomicOrders } = this.props
+    const {
+      activeExchange, activeMarket, atomicOrders, setFilteredValueWithKey,
+    } = this.props
     const { exchangeFilterActive, marketFilterActive } = this.state
 
     const filteredByExchange = exchangeFilterActive
       ? Object.values(atomicOrders[activeExchange] || {})
       : _flatten(Object.values(atomicOrders).map(Object.values))
-
-    return marketFilterActive
+    const filteredAtomicOrders = marketFilterActive
       ? filteredByExchange.filter(o => o.symbol === activeMarket.wsID)
       : filteredByExchange
+    setFilteredValueWithKey('filteredAtomicOrders', filteredAtomicOrders)
+    return filteredAtomicOrders
   }
 
   getFilteredAlgoOrders() {
-    const { activeExchange, activeMarket, algoOrders } = this.props
+    const {
+      activeExchange, activeMarket, algoOrders, setFilteredValueWithKey,
+    } = this.props
     const { exchangeFilterActive, marketFilterActive } = this.state
 
     const filteredByExchange = exchangeFilterActive
       ? Object.values(algoOrders[activeExchange] || {})
       : _flatten(Object.values(algoOrders).map(Object.values))
-
-    return marketFilterActive
+    const filteredAO = marketFilterActive
       ? filteredByExchange.filter(ao => ao.args.symbol === activeMarket.wsID)
       : filteredByExchange
+    setFilteredValueWithKey('filteredAO', filteredAO)
+    return filteredAO
   }
 
   getFilteredPositions() {
-    const { activeExchange, activeMarket, positions } = this.props
+    const {
+      activeExchange, activeMarket, positions, setFilteredValueWithKey,
+    } = this.props
     const { exchangeFilterActive, marketFilterActive } = this.state
 
     const filteredByExchange = exchangeFilterActive
       ? Object.values(positions[activeExchange] || {})
       : _flatten(Object.values(positions).map(Object.values))
-
-    return marketFilterActive
+    const filteredPositions = marketFilterActive
       ? filteredByExchange.filter(p => p.symbol === activeMarket.wsID)
       : filteredByExchange
+    setFilteredValueWithKey('filteredPositions', filteredPositions)
+    return filteredPositions
   }
 
   getFilteredBalances() {
-    const { activeExchange, balances } = this.props
+    const { activeExchange, balances, setFilteredValueWithKey } = this.props
     const { exchangeFilterActive } = this.state
-
-    return exchangeFilterActive
+    const filteredBalances = exchangeFilterActive
       ? Object.values(balances[activeExchange] || {})
       : _flatten(Object.values(balances).map(Object.values))
+    setFilteredValueWithKey('filteredBalances', filteredBalances)
+    return filteredBalances
   }
 
   deferSaveState() {
@@ -111,12 +133,11 @@ export default class TradingStatePanel extends React.Component {
 
   saveState() {
     const { saveState, layoutID, layoutI } = this.props
-    const { activeTab, marketFilterActive, exchangeFilterActive } = this.state
+    const { marketFilterActive, exchangeFilterActive } = this.state
 
     saveState(layoutID, layoutI, {
       exchangeFilterActive,
       marketFilterActive,
-      activeTab,
     })
   }
 
@@ -124,12 +145,9 @@ export default class TradingStatePanel extends React.Component {
     const {
       onRemove, activeExchange, activeMarket, moveable, removeable,
     } = this.props
-
-    const { activeTab, exchangeFilterActive, marketFilterActive } = this.state
-    const atomicOrders = this.getFilteredAtomicOrders()
-    const algoOrders = this.getFilteredAlgoOrders()
-    const positions = this.getFilteredPositions()
-    const balances = this.getFilteredBalances()
+    const {
+      exchangeFilterActive, marketFilterActive, atomicOrders = [], algoOrders = [], positions = [],
+    } = this.state
 
     return (
       <Panel
@@ -169,54 +187,44 @@ export default class TradingStatePanel extends React.Component {
           onRemove={onRemove}
           moveable={moveable}
           removeable={removeable}
-          tabs={[{
-            id: 'positions',
-            label: 'Positions',
-            suffix: positions.length,
-          }, {
-            id: 'atomics',
-            label: 'Atomic Orders',
-            suffix: atomicOrders.length,
-          }, {
-            id: 'algos',
-            label: 'Algo Orders',
-            suffix: algoOrders.length,
-          }, {
-            id: 'balances',
-            label: 'Balances',
-          }]}
           darkHeader
-          activeTab={activeTab}
-          onChangeTab={this.onChangeTab}
         >
-          {activeTab === 'positions' && (
-            <PositionsTable
-              exID={activeExchange}
-              positions={positions}
-            />
-          )}
-
-          {activeTab === 'atomics' && (
-            <AtomicOrdersTable
-              exID={activeExchange}
-              orders={atomicOrders}
-            />
-          )}
-
-          {activeTab === 'algos' && (
-            <AlgoOrdersTable
-              exID={activeExchange}
-              orders={algoOrders}
-            />
-          )}
-
-          {activeTab === 'balances' && (
-            <BalancesTable
-              exID={activeExchange}
-              hideZeroBalances
-              balances={balances}
-            />
-          )}
+          <PositionsTable
+            htmlKey='Positions'
+            tabtitle={(
+              <span>
+                Positions
+                {renderCounter(positions.length)}
+              </span>
+            )}
+            exID={activeExchange}
+          />
+          <AtomicOrdersTable
+            htmlKey='Atomics'
+            tabtitle={(
+              <span>
+                Atomics
+                {renderCounter(atomicOrders.length)}
+              </span>
+            )}
+            exID={activeExchange}
+          />
+          <AlgoOrdersTable
+            htmlKey='Algos'
+            tabtitle={(
+              <span>
+                Algos
+                {renderCounter(algoOrders.length)}
+              </span>
+            )}
+            exID={activeExchange}
+          />
+          <BalancesTable
+            htmlKey='Balances'
+            tabtitle='Balances'
+            exID={activeExchange}
+            hideZeroBalances
+          />
         </Panel>
       </Panel>
     )

@@ -11,6 +11,7 @@ const debug = Debug('hfui:c:positions-table')
 
 const mapStateToProps = (state = {}, ownProps = {}) => ({ // eslint-disable-line
   authToken: getAuthToken(state),
+  filteredPositions: state.ui.filteredPositions,
 })
 
 const mapDispatchToProps = dispatch => ({

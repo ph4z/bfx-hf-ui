@@ -1,7 +1,7 @@
 import React from 'react'
 import MarketSelect from '../../MarketSelect'
 
-const renderMarketDropdown = ({
+export default ({
   onChangeMarket, currentMarket, marketDirty, markets, disabled, // eslint-disable-line
 }) => (
   <MarketSelect
@@ -14,7 +14,3 @@ const renderMarketDropdown = ({
     renderLabel
   />
 )
-
-renderMarketDropdown.displayName = 'MarketDropdown'
-
-export default renderMarketDropdown

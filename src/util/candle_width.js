@@ -3,12 +3,10 @@ import _uniq from 'lodash/uniq'
 
 import bitfinexTFs from './time_frames/bitfinex'
 import binanceTFs from './time_frames/binance'
-import krakenTFs from './time_frames/kraken'
 
 const tfs = _uniq(_flatten([
   Object.values(bitfinexTFs),
   Object.values(binanceTFs),
-  Object.values(krakenTFs),
 ]))
 
 const SUFFIX_WIDTHS = {

@@ -53,7 +53,7 @@ export default class AuthenticationInit extends React.Component {
 
     return (
       <div className='hfui-authenticationpage__content'>
-        <h2>Interstallar Framework UI</h2>
+        <h2>Honey Framework UI</h2>
         <p>Create a password to encrypt your API credentials &amp; strategies. All data is stored locally, and your password is hashed.</p>
 
         <form className='hfui-authenticationpage__inner-form'>

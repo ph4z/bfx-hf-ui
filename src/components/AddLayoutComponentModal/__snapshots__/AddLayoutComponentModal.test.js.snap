@@ -64,6 +64,18 @@ exports[`AddLayoutComponentModal it renders a dropdown with one of each componen
                 "value": "CHART",
               },
               Object {
+                "label": "Heat Map",
+                "value": "HEAT_MAP",
+              },
+              Object {
+                "label": "News Flow",
+                "value": "NEWS_FLOW",
+              },
+              Object {
+                "label": "Market Capitalization",
+                "value": "MARKET_CAP",
+              },
+              Object {
                 "label": "Order Book",
                 "value": "ORDER_BOOK",
               },
@@ -121,6 +133,18 @@ exports[`AddLayoutComponentModal it renders a dropdown with one of each componen
                 Object {
                   "label": "Chart",
                   "value": "CHART",
+                },
+                Object {
+                  "label": "Heat Map",
+                  "value": "HEAT_MAP",
+                },
+                Object {
+                  "label": "News Flow",
+                  "value": "NEWS_FLOW",
+                },
+                Object {
+                  "label": "Market Capitalization",
+                  "value": "MARKET_CAP",
                 },
                 Object {
                   "label": "Order Book",

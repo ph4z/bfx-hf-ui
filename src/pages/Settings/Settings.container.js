@@ -4,6 +4,8 @@ import Settings from './Settings'
 import { getExchanges, getMarkets } from '../../redux/selectors/meta'
 import UIActions from '../../redux/actions/ui'
 import WSActions from '../../redux/actions/ws'
+import GAActions from '../../redux/actions/google_analytics'
+
 import {
   getAPIClientStates, getAuthToken, getAPICredentials,
 } from '../../redux/selectors/ws'
@@ -15,8 +17,10 @@ import {
 const mapStateToProps = (state = {}, ownProps = {}) => {
   const { layoutID, layoutI: id } = ownProps
   const { ui = {} } = state
-  const { settings = {} } = ui
-  const { theme, chart, dms } = settings || {}
+  const { settings = {}, firstLogin } = ui
+  const {
+    chart, theme, dms, ga,
+  } = settings || {}
 
   return {
     activeExchange: getActiveExchange(state),
@@ -30,6 +34,8 @@ const mapStateToProps = (state = {}, ownProps = {}) => {
     chart,
     theme,
     dms,
+    ga,
+    firstLogin,
   }
 }
 
@@ -53,15 +59,15 @@ const mapDispatchToProps = dispatch => ({
       apiSecret,
     ]))
   },
-
+  gaUpdateSettings: () => {
+    dispatch(GAActions.updateSettings())
+  },
   updateSettings: ({
-    authToken, chart, theme, dms, ga,
+    authToken, dms, ga,
   }) => {
     dispatch(WSActions.send([
       'settings.update',
       authToken,
-      theme,
-      chart,
       dms,
       ga,
     ]))

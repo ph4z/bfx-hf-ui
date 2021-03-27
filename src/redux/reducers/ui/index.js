@@ -29,6 +29,8 @@ function getInitialState() {
     previousMarket: null,
     previousExchange: null,
     remoteVersion: null,
+    firstLogin: false,
+    TRADING_PAGE_IS_GUIDE_ACTIVE: true,
   }
 
   if (!localStorage) {
@@ -195,6 +197,14 @@ function reducer(state = getInitialState(), action = {}) {
       }
     }
 
+    case types.SET_FILTRED_VALUE: {
+      const { key, value } = payload
+      return {
+        ...state,
+        [key]: value,
+      }
+    }
+
     case types.SET_ROUTE: {
       const { route } = payload
 
@@ -203,7 +213,19 @@ function reducer(state = getInitialState(), action = {}) {
         route,
       }
     }
-
+    case types.FIRST_LOGIN: {
+      return {
+        ...state,
+        firstLogin: true,
+      }
+    }
+    case types.FINISH_GUIDE: {
+      const page = payload
+      return {
+        ...state,
+        [`${page}_GUIDE_ACTIVE`]: false,
+      }
+    }
     default: {
       return state
     }

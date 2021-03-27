@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
 
 export const propTypes = {
-  balances: PropTypes.array.isRequired,
+  filteredBalances: PropTypes.array,
   hideZeroBalances: PropTypes.bool,
 }
 
 export const defaultProps = {
+  filteredBalances: [],
   hideZeroBalances: true,
 }

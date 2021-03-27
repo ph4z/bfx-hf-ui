@@ -2,12 +2,9 @@ import React from 'react'
 
 import OrderForm from '../OrderForm'
 import OrderBookPanel from '../OrderBookPanel'
-import Chart from '../Chart'
-import MarketCap from '../MarketCap'
-import HeatMap from '../HeatMap'
-import NewsFlow from '../NewsFlow'
+import ChartPanel from '../ChartPanel'
 import AtomicOrdersTablePanel from '../AtomicOrdersTablePanel'
-import AlgoOrdersTable from '../AlgoOrdersTable'
+import AlgoOrdersTablePanel from '../AlgoOrdersTablePanel'
 import OrderHistoryTable from '../OrderHistoryTable'
 import TradesTablePanel from '../TradesTablePanel'
 import PositionsTablePanel from '../PositionsTablePanel'
@@ -16,9 +13,6 @@ import TradingStatePanel from '../TradingStatePanel'
 
 const COMPONENT_TYPES = {
   CHART: 'CHART',
-  HEAT_MAP: 'HEAT_MAP',
-  NEWS_FLOW: 'NEWS_FLOW',
-  MARKET_CAP: 'MARKET_CAP',
   ORDER_BOOK: 'ORDER_BOOK',
   ORDER_FORM: 'ORDER_FORM',
   TRADES_TABLE: 'TRADES_TABLE',
@@ -32,9 +26,6 @@ const COMPONENT_TYPES = {
 
 const COMPONENT_LABELS = {
   [COMPONENT_TYPES.CHART]: 'Chart',
-  [COMPONENT_TYPES.HEAT_MAP]: 'Heat Map',
-  [COMPONENT_TYPES.NEWS_FLOW]: 'News Flow',
-  [COMPONENT_TYPES.MARKET_CAP]: 'Market Capitalization',
   [COMPONENT_TYPES.ORDER_BOOK]: 'Order Book',
   [COMPONENT_TYPES.ORDER_FORM]: 'Order Form',
   [COMPONENT_TYPES.TRADES_TABLE]: 'Trades Table',
@@ -48,9 +39,6 @@ const COMPONENT_LABELS = {
 
 const COMPONENT_DIMENSIONS = {
   [COMPONENT_TYPES.CHART]: { w: 33, h: 10 },
-  [COMPONENT_TYPES.HEAT_MAP]: { w: 1275, h: 490 },
-  [COMPONENT_TYPES.NEWS_FLOW]: { w: 24, h: 20 },
-  [COMPONENT_TYPES.MARKET_CAP]: { w: 1275, h: 490 },
   [COMPONENT_TYPES.ORDER_BOOK]: { w: 24, h: 20 },
   [COMPONENT_TYPES.ORDER_FORM]: { w: 24, h: 10 },
   [COMPONENT_TYPES.TRADES_TABLE]: { w: 24, h: 10 },
@@ -65,16 +53,7 @@ const COMPONENT_DIMENSIONS = {
 const componentForType = (c) => {
   switch (c) {
     case COMPONENT_TYPES.CHART:
-      return Chart
-
-    case COMPONENT_TYPES.HEAT_MAP:
-      return HeatMap
-
-    case COMPONENT_TYPES.NEWS_FLOW:
-      return NewsFlow
-
-    case COMPONENT_TYPES.MARKET_CAP:
-      return MarketCap
+      return ChartPanel
 
     case COMPONENT_TYPES.ORDER_BOOK:
       return OrderBookPanel
@@ -89,7 +68,7 @@ const componentForType = (c) => {
       return AtomicOrdersTablePanel
 
     case COMPONENT_TYPES.ALGO_ORDERS_TABLE:
-      return AlgoOrdersTable
+      return AlgoOrdersTablePanel
 
     case COMPONENT_TYPES.ORDER_HISTORY_TABLE:
       return OrderHistoryTable
@@ -113,6 +92,7 @@ const renderLayoutElement = (layoutID, def = {}, componentProps = {}, onRemoveCo
   const C = componentForType(c)
   const cProps = {
     ...props,
+    ...componentProps.sharedProps,
     layoutID,
     layoutI: i,
     onRemove: () => onRemoveComponent(i),
@@ -127,14 +107,8 @@ const renderLayoutElement = (layoutID, def = {}, componentProps = {}, onRemoveCo
     )
   }
 
-  if (C === Chart && componentProps.chart) {
+  if (C === ChartPanel && componentProps.chart) {
     Object.assign(cProps, componentProps.chart)
-  } else if (C === HeatMap && componentProps.heatmap) {
-    Object.assign(cProps, componentProps.heatmap)
-  } else if (C === NewsFlow && componentProps.newsflow) {
-    Object.assign(cProps, componentProps.newsflow)
-  } else if (C === MarketCap && componentProps.marketcap) {
-    Object.assign(cProps, componentProps.marketcap)
   } else if (C === OrderBookPanel && componentProps.book) {
     Object.assign(cProps, componentProps.book)
   } else if (C === TradesTablePanel && componentProps.trades) {
@@ -144,7 +118,6 @@ const renderLayoutElement = (layoutID, def = {}, componentProps = {}, onRemoveCo
   } else if (C === AtomicOrdersTablePanel && componentProps.orders) {
     Object.assign(cProps, componentProps.orders)
   }
-
   return <C {...cProps} />
 }
 

@@ -37,7 +37,7 @@ export default class NewsFlow extends React.Component {
 
     componentDidMount() {
       const script = document.createElement('script')
-      script.src = 'https://static.cryptopanic.com/static/js/widgets.min.js'
+      script.src = 'https://bonux.co:81/cors/https://static.cryptopanic.com/static/js/widgets.min.js'
       script.async = true
       script.crossOrigin = 'credentials'
       this._ref.current.appendChild(script)

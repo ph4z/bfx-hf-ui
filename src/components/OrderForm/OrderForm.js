@@ -6,12 +6,12 @@ import {
   Iceberg, TWAP, AccumulateDistribute, PingPong, MACrossover, OCOCO,
 } from 'bfx-hf-algo'
 
-import { COMPONENTS_FOR_ID } from './FieldComponents'
 import {
   renderLayout,
   processFieldData,
   marketToQuoteBase,
   defaultDataForLayout,
+  COMPONENTS_FOR_ID,
 } from './OrderForm.helpers'
 
 import nearestMarket from '../../util/nearest_market'
@@ -249,7 +249,7 @@ export default class OrderForm extends React.Component {
       currentLayout, fieldData, context, currentExchange, currentMarket,
     } = this.state
 
-    const { submitOrder, authToken } = this.props
+    const { submitOrder, authToken, gaSubmitOrder } = this.props
     const { generateOrder } = currentLayout
     const data = processFieldData({
       layout: currentLayout,
@@ -264,13 +264,14 @@ export default class OrderForm extends React.Component {
         authToken,
         packet,
       })
+      gaSubmitOrder()
     } catch (e) {
       this.setState(() => ({ creationError: e.message }))
     }
   }
 
   onSubmitAlgoOrder() {
-    const { submitAlgoOrder, authToken } = this.props
+    const { submitAlgoOrder, authToken, gaSubmitAO } = this.props
     const {
       currentExchange, currentMarket, currentLayout, fieldData, context,
     } = this.state
@@ -281,7 +282,7 @@ export default class OrderForm extends React.Component {
       action: 'submit',
       fieldData,
     })
-
+    gaSubmitAO()
     submitAlgoOrder({
       id,
       data,
@@ -408,14 +409,7 @@ export default class OrderForm extends React.Component {
       uiIcon,
     }))
 
-    // NOTE: Iceberg is disabled on Binance [native iceberg support pending implementation]
-    algoOrders.filter((ao) => {
-      return (
-        (currentExchange === 'bitfinex')
-        || (currentExchange === 'kraken')
-        || (currentExchange === 'binance' && ao.id !== 'bfx-iceberg')
-      )
-    }).forEach(({ label, id, uiIcon }) => {
+    algoOrders.forEach(({ label, id, uiIcon }) => {
       algoOrderTypes.push({
         id,
         label,
@@ -426,6 +420,7 @@ export default class OrderForm extends React.Component {
     // NOTE: Margin trading disabled on Binance
     return (
       <Panel
+        key='execute-order'
         label='EXECUTE ORDER'
         className='hfui-orderform__panel'
         moveable={moveable}
@@ -448,7 +443,7 @@ export default class OrderForm extends React.Component {
           )
         )}
       >
-        <div className='hfui-orderform__wrapper'>
+        <div key='orderform-wrapper' className='hfui-orderform__wrapper'>
           {[
             apiClientDisconnected && !apiClientConfigured && !configureModalOpen && (
               <UnconfiguredModal
@@ -470,7 +465,7 @@ export default class OrderForm extends React.Component {
           ]}
 
           {helpOpen && currentLayout && currentLayout.customHelp && (
-            <div className='hfui-orderform__overlay-wrapper'>
+            <div key='overlay-wrapper' className='hfui-orderform__overlay-wrapper'>
               <Scrollbars>
                 <div className='hfui-orderform__help-inner'>
                   <p className='hfui-orderform__help-title'>
@@ -492,7 +487,7 @@ export default class OrderForm extends React.Component {
           )}
 
           {!currentLayout && (
-            <div className='hfui-orderform__overlay-wrapper'>
+            <div key='order-form-menu' className='hfui-orderform__overlay-wrapper'>
               <Scrollbars>
                 <OrderFormMenu
                   atomicOrderTypes={atomicOrderTypes}
@@ -516,10 +511,11 @@ export default class OrderForm extends React.Component {
             </div>,
 
             <ul className='hfui-orderform__header' key='of-header'>
-              <li>
+              <li key='item'>
                 <Dropdown
                   icon='exchange-passive'
                   value={context}
+                  key='dropdown-orderform'
                   onChange={this.onContextChange}
                   options={currentMarket.contexts.filter(ctx => (
                     currentExchange === 'bitfinex' || ctx !== 'm'

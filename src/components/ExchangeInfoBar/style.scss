@@ -6,18 +6,17 @@
   height: 60px;
 
   position: relative;
-  top: 33px;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  padding: 0 1%;
+  padding: 0 32px;
 
   ul {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex: 1;
-    margin-left: 1%;
+    margin-left: 55px;
   }
 
   li {
@@ -47,6 +46,7 @@
 .hfui-exchangeinfobar__right {
   text-align: right;
   height: 100%;
+  margin-left: 20px;
 
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@
 .hfui-exchangeinfobar__item.vertical {
   display: block;
   padding: 0;
-  margin-right: 3% !important;
+  margin-right: 59px !important;
 
   &:last-child {
     margin-right: 0 !important;
@@ -89,7 +89,6 @@
     margin-bottom: 20px;
   }
 }
-
 
 .hfui-exchangeinfobar__item-label,
 .hfui-exchangeinfobar__item-data {

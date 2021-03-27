@@ -5,7 +5,7 @@ import Dropdown from '../../../ui/Dropdown'
 import { propTypes, defaultProps } from './input.dropdown.props'
 import {
   renderString, CONVERT_LABELS_TO_PLACEHOLDERS,
-} from '../OrderForm.render.helpers'
+} from '../OrderForm.helpers'
 
 export default class DropdownInput extends React.PureComponent {
   static propTypes = propTypes
@@ -28,7 +28,7 @@ export default class DropdownInput extends React.PureComponent {
         <Dropdown
           value={value}
           onChange={onChange}
-          placeholder={CONVERT_LABELS_TO_PLACEHOLDERS && renderedLabel}
+          placeholder={CONVERT_LABELS_TO_PLACEHOLDERS ? renderedLabel : undefined}
           options={Object.keys(options).map(opt => ({
             label: options[opt],
             value: opt,
