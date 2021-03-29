@@ -39,12 +39,13 @@ export default class CreateNewStrategyModal extends React.Component {
 
   onSubmit() {
     const { label, template } = this.state
-    const { onSubmit, onClose } = this.props
+    const { onSubmit, onClose, gaCreateStrategy } = this.props
 
     if (_isEmpty(label)) {
       this.setState(() => ({ error: 'Label empty' }))
       return
     }
+    gaCreateStrategy()
 
     onSubmit(label, template)
     onClose()
@@ -67,7 +68,6 @@ export default class CreateNewStrategyModal extends React.Component {
           />
         )}
       >
-        <p className='notice'>Your strategy will be encrypted with a password before being sent to the server</p>
 
         <Input
           type='text'

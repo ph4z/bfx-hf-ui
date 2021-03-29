@@ -1,0 +1,9 @@
+.hfui-createnewstrategymodal__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 16px; }
+  .hfui-createnewstrategymodal__wrapper > * {
+    margin-bottom: 16px; }
+    .hfui-createnewstrategymodal__wrapper > *:last-child {
+      margin-bottom: 0; }

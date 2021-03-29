@@ -20,8 +20,8 @@ class Dropdown extends React.Component {
     this.onToggleOpen = this.onToggleOpen.bind(this)
   }
 
-  onToggleOpen() {
-    this.setState(({ open }) => ({ open: !open }))
+  handleClickOutside() {
+    this.setState(() => ({ open: false }))
   }
 
   onSelect(value) {
@@ -31,8 +31,8 @@ class Dropdown extends React.Component {
     this.setState(() => ({ open: false }))
   }
 
-  handleClickOutside() {
-    this.setState(() => ({ open: false }))
+  onToggleOpen() {
+    this.setState(({ open }) => ({ open: !open }))
   }
 
   render() {
@@ -72,9 +72,7 @@ class Dropdown extends React.Component {
 
           {(open || isOpen) && (
             <ul
-              className={ClassNames('hfui-dropdown__dropdown', {
-                'with-icon': icon,
-              })}
+              className={ClassNames({ 'with-icon': icon })}
             >
               <Scrollbars autoHeight style={{ maxHeight: '300px' }}>
                 {options.map(o => (

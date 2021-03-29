@@ -44,7 +44,8 @@ export default class OrderBook extends React.Component {
     const allBids = fullOB.filter(pl => pl[1] > 0)
     const allAsks = fullOB.filter(pl => pl[1] < 0)
     const bids = allBids.slice(0, TEMP_OB_SIDE_LENGTH_LIMIT)
-    const asks = allAsks.slice(0, TEMP_OB_SIDE_LENGTH_LIMIT)
+    const asks = allAsks.slice(allAsks.length - TEMP_OB_SIDE_LENGTH_LIMIT)
+
     const ob = [...asks, ...bids]
     const maxVol = _max(ob.map(pl => Math.abs(pl[1])))
     const totalBuyAmount = _sum(ob.filter(pl => pl[1] > 0).map(pl => pl[1]))
@@ -76,7 +77,7 @@ export default class OrderBook extends React.Component {
               if (i > 0 && pl[1] > 0 && ob[i - 1][1] < 0) {
                 html.push(
                   <li
-                    key='spread'
+                    key={`spread-${i}`} // eslint-disable-line
                     className='spread'
                     style={{
                       marginTop: `calc(100% / ${ob.length})`,
@@ -150,13 +151,13 @@ export default class OrderBook extends React.Component {
           </ul>,
         ] : [
           <OBSide
-            key='bids'
+            key='ob-bids'
             levels={bids}
             sumAmounts={sumAmounts}
           />,
 
           <OBSide
-            key='asks'
+            key='ob-asks'
             levels={_reverse(asks)}
             sumAmounts={sumAmounts}
           />,

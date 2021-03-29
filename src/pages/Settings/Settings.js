@@ -1,9 +1,6 @@
 import React from 'react'
-import _capitalize from 'lodash/capitalize'
-import { UserSettings } from 'bfx-hf-ui-config'
 
 import StatusBar from '../../components/StatusBar'
-import Select from '../../ui/Select'
 import Checkbox from '../../ui/Checkbox'
 import Input from '../../ui/Input'
 import Button from '../../ui/Button'
@@ -22,9 +19,8 @@ export default class Settings extends React.Component {
 
   constructor(props) {
     super(props)
-
     const {
-      savedState = {}, activeExchange, chart, theme, dms,
+      savedState = {}, activeExchange, theme, dms, ga,
     } = props
 
     const { currentExchange = activeExchange } = savedState
@@ -32,13 +28,33 @@ export default class Settings extends React.Component {
     this.state = {
       ...this.state,
       currentExchange,
-      chart,
       theme,
       dms,
+      ga,
     }
 
     this.onSubmitAPIKeys = this.onSubmitAPIKeys.bind(this)
     this.onSettingsSave = this.onSettingsSave.bind(this)
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    // eslint-disable-next-line
+    if (this.state.dms !== nextState.dms || this.props.dms !== nextProps.dms || this.state.ga !== nextState.ga || this.props.ga !== nextProps.ga) {
+      return true
+    }
+    return false
+  }
+  componentDidUpdate() {}
+  getSnapshotBeforeUpdate() {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (this.state.dms === undefined) {
+      const {
+        dms, ga,
+      } = this.props
+      this.setState(() => ({
+        dms, ga,
+      }))
+    }
+    return null
   }
 
   onOptionChange(e, option) {
@@ -58,75 +74,38 @@ export default class Settings extends React.Component {
   }
 
   onSettingsSave(authToken) {
-    const { updateSettings } = this.props
+    const { updateSettings, gaUpdateSettings } = this.props
     const {
-      apiKey, apiSecret, chart, dms, theme,
+      apiKey, apiSecret, dms, ga,
     } = this.state
 
     if (apiKey.trim().length > 0 && apiSecret.trim().length > 0) {
       this.onSubmitAPIKeys(this.state)
     }
 
-    const ga = true
     updateSettings({
-      authToken, chart, theme, dms, ga,
+      dms, authToken, ga,
     })
+    gaUpdateSettings()
+  }
+
+  getValidBool(value) { //eslint-disable-line
+    return typeof value === 'boolean' ? value : false
   }
 
   render() {
-    const themes = ['bfx-dark-theme', 'bfx-light-theme']
-    const { CHARTS } = UserSettings
-    const charts = Object.keys(CHARTS).map(key => CHARTS[key])
     const { authToken } = this.props
-
-    // eslint-disable-next-line react/destructuring-assignment
-    if (this.props.chart && (!this.state.chart || this.state.dms === undefined)) {
-      const { chart, theme, dms } = this.props
-      this.setState(() => ({ chart, theme, dms }))
-    }
-
-    const { theme, chart, dms } = this.state
-
+    const {
+      dms, ga,
+    } = this.state
     return (
       <div className='hfui-settingspage__wrapper'>
         <div className='hfui-settings__title'>
           Settings
         </div>
-
         <div className='hfui-settings__content'>
           <div>
             <ul className='hfui-settings__options'>
-
-              <li>
-                <p className='hfui-settings__option-label'>Theme</p>
-                <div className='hfui-settings__item-list'>
-                  <Select
-                    value={{ value: theme, label: _capitalize(theme) }}
-                    className='hfui-setting__select'
-                    options={themes.map(t => ({ value: t, label: t }))}
-                    onChange={e => this.onOptionChange(e, 'theme')}
-                  />
-                </div>
-              </li>
-
-              <li>
-                <p className='hfui-settings__option-label'>Chart</p>
-                <div className='hfui-settings__option-description'>
-                  <p>
-                    NOTE: Only the HF UI Chart supports rendering order and position
-                    lines
-                  </p>
-                </div>
-
-                <div className='hfui-settings__item-list'>
-                  <Select
-                    value={{ value: chart, label: _capitalize(chart) }}
-                    className='hfui-setting__select'
-                    options={charts.map(c => ({ value: c, label: _capitalize(c) }))}
-                    onChange={e => this.onOptionChange(e, 'chart')}
-                  />
-                </div>
-              </li>
 
               <li>
                 <p className='hfui-settings__option-label'>Dead Man Switch</p>
@@ -145,12 +124,23 @@ export default class Settings extends React.Component {
                     application is started up again.
                   </p>
                 </div>
-                <div className='hfui-settings__option-check'>
+                <div className='hfui-settings__option-check dms'>
                   <Checkbox
                     className='hfui-settings_check'
                     onChange={e => this.onOptionChange(e, 'dms')}
                     label='DMS'
-                    value={dms}
+                    value={this.getValidBool(dms)} // eslint-disable-line
+                  />
+                </div>
+              </li>
+
+              <li>
+                <div className='hfui-settings__option-check ga'>
+                  <Checkbox
+                    className='hfui-settings_check'
+                    onChange={e => this.onOptionChange(e, 'ga')}
+                    label='Usage reporting'
+                    value={this.getValidBool(ga)} // eslint-disable-line
                   />
                 </div>
               </li>
@@ -162,15 +152,16 @@ export default class Settings extends React.Component {
                 </div>
                 <div className='hfui-settings__option'>
                   <Input
+                    type='text'
                     placeholder='API Key'
                     onChange={e => this.onOptionChange(e, 'apiKey')}
-                    className='hfui-settings__item-list'
+                    className='hfui-settings__item-list api-key'
                   />
                   <Input
                     type='password'
                     placeholder='API Secret'
                     onChange={e => this.onOptionChange(e, 'apiSecret')}
-                    className='hfui-settings__item-list'
+                    className='hfui-settings__item-list api-secret'
                   />
                 </div>
               </li>

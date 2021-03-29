@@ -1,4 +1,5 @@
 import t from '../../constants/ws'
+import { MAX_STORED_TRADES } from '../../config'
 
 const getInitialState = () => {
   return {}
@@ -8,29 +9,15 @@ export default function (state = getInitialState(), action = {}) {
   const { type, payload = {} } = action
 
   switch (type) {
-    case t.DATA_TRADE: {
-      const { exID, channel, trade = {} } = payload
-      const [, market] = channel
-      const symbol = market.uiID
-
-      return {
-        ...state,
-
-        [exID]: {
-          ...(state[exID] || {}),
-          [symbol]: [
-            trade,
-            ...((state[exID] || {})[symbol] || []),
-          ],
-        },
-      }
-    }
-
     case t.DATA_TRADES: {
-      const { exID, channel, trades = [] } = payload
+      const { exID = {}, channel, trades = [] } = payload
       const [, market] = channel
-      const symbol = market.uiID
-
+      const symbol = market.uiID || ''
+      const currentTrades = state[exID] && state[exID][symbol] ? state[exID][symbol] : []
+      const totalTrades = currentTrades.length + trades.length
+      if (totalTrades >= MAX_STORED_TRADES) {
+        currentTrades.splice(-(totalTrades - MAX_STORED_TRADES))
+      }
       return {
         ...state,
 
@@ -38,10 +25,20 @@ export default function (state = getInitialState(), action = {}) {
           ...(state[exID] || {}),
           [symbol]: [
             ...trades,
-            ...((state[exID] || {})[symbol] || []),
+            ...currentTrades,
           ],
         },
       }
+    }
+
+    case t.PURGE_DATA_TRADES: {
+      const { exID, channel = [] } = payload
+      const [, market] = channel
+      const symbol = market.uiID
+
+      delete (state[exID] || {})[symbol] // eslint-disable-line
+
+      return state
     }
 
     default: {

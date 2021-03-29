@@ -1,0 +1,72 @@
+.hfui-strategyeditor__results-wrapper {
+  width: 100%;
+  padding: 0 8px;
+  margin: 40px 0; }
+  .hfui-strategyeditor__results-wrapper > p:first-child {
+    font-size: 12px;
+    font-weight: 500;
+    margin: 8px 0;
+    width: 100%;
+    color: #54b361;
+    text-align: center; }
+  .hfui-strategyeditor__results-wrapper ul {
+    font-size: 12px; }
+    .hfui-strategyeditor__results-wrapper ul li {
+      margin-bottom: 4px; }
+      .hfui-strategyeditor__results-wrapper ul li:last-child {
+        margin-bottom: 0; }
+      .hfui-strategyeditor__results-wrapper ul li p:first-child {
+        text-align: right;
+        margin-right: 16px;
+        width: 50%; }
+      .hfui-strategyeditor__results-wrapper ul li > * {
+        display: inline-block;
+        vertical-align: middle; }
+
+.hfui-strategyeditor__results-list-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px; }
+
+.hfui-strategyeditor__results-section {
+  width: 50%;
+  display: inline-block; }
+
+.hfui-strategyeditor__results-header {
+  display: flex;
+  flex-direction: row;
+  margin: 30px 0px; }
+
+.hfui-strategyeditor__results-header-item {
+  flex: 1;
+  align-items: center;
+  white-space: nowrap; }
+
+.hfui-strategyeditor__results-header-item_wrapper {
+  width: 40px;
+  margin: auto;
+  display: block; }
+  .hfui-strategyeditor__results-header-item_wrapper p {
+    color: #666;
+    font-size: 11px;
+    line-height: 16px; }
+  .hfui-strategyeditor__results-header-item_wrapper h4 {
+    font-size: 23px; }
+
+.hfui-strategyeditor__empty-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+  .hfui-strategyeditor__empty-content > div:first-child {
+    text-align: center; }
+    .hfui-strategyeditor__empty-content > div:first-child > * {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 4px; }
+      .hfui-strategyeditor__empty-content > div:first-child > *:last-child {
+        margin-right: 0; }
+  .hfui-strategyeditor__empty-content .button {
+    text-decoration: underline; }
+    .hfui-strategyeditor__empty-content .button:hover {
+      cursor: pointer;
+      color: #fcd206; }

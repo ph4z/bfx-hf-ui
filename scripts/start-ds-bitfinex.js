@@ -9,10 +9,12 @@ const DataServer = require('bfx-hf-data-server')
 const HFDBLowDBAdapter = require('bfx-hf-models-adapter-lowdb')
 const { schema: HFDBBitfinexSchema } = require('bfx-hf-ext-plugin-bitfinex')
 
+const dir = `${os.homedir()}/.honeyframework`;
+
 const dbBitfinex = new HFDB({
   schema: HFDBBitfinexSchema,
   adapter: HFDBLowDBAdapter({
-    dbPath: `${os.homedir()}/.hfdb/hf-bitfinex.json`,
+    dbPath: `${os.homedir()}/.honeyframework/hf-bitfinex.json`,
   }),
 })
 

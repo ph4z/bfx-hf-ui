@@ -1,35 +1,56 @@
 import React from 'react'
 import randomColor from 'randomcolor'
+import Joyride, { STATUS } from 'react-joyride'
 
 import StrategyEditor from '../../components/StrategyEditor'
-import StrategyTradesTable from '../../components/StrategyTradesTable'
-import Chart from '../../components/Chart'
+import Panel from '../../ui/Panel'
+import Markdown from '../../ui/Markdown'
 import StatusBar from '../../components/StatusBar'
+import Backtester from '../../components/Backtester'
+import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
 import { propTypes, defaultProps } from './StrategyEditor.props'
+
 import './style.css'
+
+const DocsPath = require('bfx-hf-strategy/docs/api.md')
 
 export default class StrategyEditorPage extends React.Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   state = {
-    results: {},
     indicators: [],
-    tf: '1m',
-    focusMTS: null,
+    strategyContent: null,
+    steps: [
+      {
+        target: '.hfui-create-strategy__btn',
+        content: 'Create your own strategies',
+      },
+      {
+        target: '.hfui-open-strategy__btn',
+        content: 'Or open an existing one',
+      },
+      {
+        locale: { last: 'Finish' },
+        target: '.hfui-markdown__wrapper',
+        content: 'In this section you find the available function declarations to code your own strategies',
+      },
+    ],
   }
 
   constructor(props) {
     super(props)
 
-    this.onResultsChange = this.onResultsChange.bind(this)
     this.onIndicatorsChange = this.onIndicatorsChange.bind(this)
-    this.onTradeClick = this.onTradeClick.bind(this)
-    this.onTFChange = this.onTFChange.bind(this)
+    this.onGuideFinish = this.onGuideFinish.bind(this)
   }
 
-  onResultsChange(results) {
-    this.setState(() => ({ results }))
+  componentDidMount() {
+    // load readme docs (DocsPath is an object when running in electron window)
+    const docsPath = typeof DocsPath === 'object' ? DocsPath.default : DocsPath
+    fetch(docsPath)
+      .then(response => response.text())
+      .then(t => this.setState(() => ({ docsText: t })))
   }
 
   onIndicatorsChange(indicators) {
@@ -55,71 +76,83 @@ export default class StrategyEditorPage extends React.Component {
     }))
   }
 
-  onTFChange(tf) {
-    this.setState(() => ({ tf }))
-  }
-
-  onTradeClick(trade) {
-    const { mts } = trade
-
-    this.setState(() => ({
-      focusMTS: mts,
-    }))
+  onGuideFinish(data) {
+    const { finishGuide } = this.props
+    const { status } = data
+    const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED]
+    const CLOSE = 'close'
+    if (finishedStatuses.includes(status) || data.action === CLOSE) {
+      finishGuide()
+    }
   }
 
   render() {
-    const { activeExchange, activeMarket } = this.props
     const {
-      results = {}, indicators, focusMTS, tf,
+      indicators,
+      strategyContent,
+      docsText = '',
+      steps,
     } = this.state
-
-    const { trades = [] } = results
-
+    const { firstLogin, isGuideActive } = this.props
     return (
       <div className='hfui-strategyeditorpage__wrapper'>
         <StrategyEditor
           dark
+          onStrategyChange={content => this.setState(() => ({ strategyContent: content }))}
           key='editor'
-          onResultsChange={this.onResultsChange}
           onIndicatorsChange={this.onIndicatorsChange}
           moveable={false}
           removeable={false}
-          tf={tf}
+          tf='1m'
         />
-
+        {firstLogin
+         && (
+         <Joyride
+           steps={steps}
+           callback={this.onGuideFinish}
+           run={isGuideActive}
+           continuous
+           showProgress
+           showSkipButton
+           styles={{
+             options: {
+               zIndex: 10000,
+             },
+           }}
+         />
+         )}
         <div
           key='main'
           className='hfui-strategiespage__right'
         >
-          <div className='hfui-strategiespage__chart'>
-            <Chart
-              dark
-              showIndicatorControls={false}
-              showOrders={false}
-              showPositions={false}
-              activeMarket={activeMarket}
-              activeExchange={activeExchange}
-              indicators={indicators}
-              trades={trades}
-              focusMTS={focusMTS}
-              moveable={false}
-              removeable={false}
-              canChangeMarket={false}
-              canChangeExchange={false}
-              showMarket={false}
-              showExchange={false}
-              disableIndicatorSettings
-              disableIndicators
-              disableToolbar
-              onTFChange={this.onTFChange}
+          <Panel
+            className='hfui-strategiespage__pannel-wrapper'
+            moveable={false}
+            removeable={false}
+            darkHeader
+          >
+            <Markdown
+              tabtitle='Docs'
+              text={docsText}
             />
-          </div>
-
-          <StrategyTradesTable
-            dark
-            trades={trades}
-            onTradeClick={this.onTradeClick}
-          />
+            <div
+              tabtitle='Backtest' // lowercase name for div is requiered
+              style={{ height: 1200 }}
+            >
+              <Backtester
+                {...this.props}
+                strategyContent={strategyContent}
+                indicators={indicators}
+              />
+            </div>
+            <div
+              tabtitle='Execute' // lowercase name for div is requiered
+            >
+              <LiveStrategyExecutor
+                strategyContent={strategyContent}
+              />
+            </div>
+          </Panel>
         </div>
 
         <StatusBar

@@ -9,11 +9,16 @@ export default class AlgoOrdersTable extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
+  cancelOrder(ao) {
+    const { cancelOrder, authToken, gaCancelOrder } = this.props
+    cancelOrder(authToken, ao)
+    gaCancelOrder()
+  }
+
   render() {
     const {
-      cancelOrder, orders, apiClientState, authToken,
+      apiClientState, filteredAO: orders,
     } = this.props
-
     return (
       <ul className='hfui-ao-list__wrapper'>
         {orders.map(ao => (
@@ -25,8 +30,8 @@ export default class AlgoOrdersTable extends React.PureComponent {
                     role='button'
                     tabIndex={0}
                     name='stop'
-                    onClick={() => cancelOrder(authToken, ao)}
-                    onKeyPress={() => cancelOrder(authToken, ao)}
+                    onClick={() => { this.cancelOrder(ao) }}
+                    onKeyPress={() => { this.cancelOrder(ao) }}
                   />
                 </li>
               </ul>

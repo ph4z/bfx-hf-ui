@@ -27,8 +27,7 @@
   }
 }
 .hfui-authenticationpage__inner-left img {
-  height: 100%;
-  width: 100%;
+  width: 25%;
   margin: 0 auto;
 }
 
@@ -39,7 +38,6 @@
   bottom: 0;
   left: 0;
 }
-
 
 .hfui-authenticationpage__inner-left-version {
   position: absolute;
@@ -87,6 +85,7 @@
   }
 
   .hfui-authenticationpage__inner-form {
+    z-index: 999999;
     .hfui-button {
       margin-top: 25px; 
     }
