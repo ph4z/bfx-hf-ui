@@ -1,0 +1,40 @@
+.hfui-markdown__wrapper {
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background: #0c1b26;
+  color: white; }
+  .hfui-markdown__wrapper code {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 5px; }
+  .hfui-markdown__wrapper p a {
+    color: #fd971f;
+    text-decoration: none; }
+  .hfui-markdown__wrapper p code {
+    color: #9effff; }
+  .hfui-markdown__wrapper dl dt a {
+    color: #fd971f;
+    text-decoration: none; }
+  .hfui-markdown__wrapper dl dt code {
+    color: #9effff; }
+  .hfui-markdown__wrapper dl dd {
+    margin-bottom: 20px;
+    margin-top: 10px; }
+  .hfui-markdown__wrapper p {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .hfui-markdown__wrapper h2 {
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    color: #fd971f; }
+    .hfui-markdown__wrapper h2 code {
+      color: #9effff; }
+  .hfui-markdown__wrapper h2:first-child {
+    color: white; }
+  .hfui-markdown__wrapper table * {
+    padding: 5px; }
+  .hfui-markdown__wrapper table {
+    border-collapse: collapse; }
+  .hfui-markdown__wrapper table, .hfui-markdown__wrapper th, .hfui-markdown__wrapper td {
+    border: 1px solid gray; }
