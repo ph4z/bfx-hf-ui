@@ -63,7 +63,7 @@ export default class LiveStrategyExecutor extends React.Component {
           </div>
           <div>
             <Button
-              onClick={() => dsExecuteLiveStrategy()}
+              onClick={() => dsExecuteLiveStrategy(exId, selectedMarket.wsID, selectedTimeFrame, strategyContent)}
               className='hfui-backtester__flex_start hfui-backtester__start-button'
               label='Start'
               green

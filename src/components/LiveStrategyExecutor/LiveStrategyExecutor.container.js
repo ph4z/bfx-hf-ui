@@ -8,12 +8,12 @@ const mapStateToProps = (state = {}) => ({
   allMarkets: getMarkets(state),
 })
 
-const mapDispatchToProps = () => ({
-  dsExecuteLiveStrategy: (exchange, from, to, symbol, tf, strategy) => {
+const mapDispatchToProps = dispatch => ({
+  dsExecuteLiveStrategy: (exchange, symbol, tf, strategy) => {
   // dsExecuteLiveStrategy: () => {
     // TODO execute
     dispatch(WSActions.send([
-      'exec.live', [exchange, from, to, symbol, tf, true, true, true, strategy],
+      'exec.live', [exchange, 0, 0, symbol, tf, true, true, true, strategy],
     ]))
   },
 })
