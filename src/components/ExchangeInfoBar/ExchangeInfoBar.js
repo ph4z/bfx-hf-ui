@@ -36,7 +36,7 @@ export default class ExchangeInfoBar extends React.PureComponent {
       <div className='hfui-exchangeinfobar__wrapper'>
         <div className='hfui-exchangeinfobar__left'>
           <ExchangeInfoBarItem
-            label='Exchange'
+            // label='Exchange'
             value={(
               <Select
                 onChange={({ value }) => {
@@ -57,7 +57,7 @@ export default class ExchangeInfoBar extends React.PureComponent {
           />
 
           <ExchangeInfoBarItem
-            label='Market'
+            // label='Market'
             value={(
               <MarketSelect
                 markets={marketsForActiveExchange}
