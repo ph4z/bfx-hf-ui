@@ -383,6 +383,12 @@ export default class Chart extends React.Component {
       currentExchange,
     } = this.state
     const { base, quote } = activeMarket
+    let sym = `${currentExchange.toUpperCase()}:${base}${quote}`
+    if (currentExchange === 'binance_futures') {
+    	sym = `BINANCE:${base}${quote}PERP`
+    } 
+    
+
     return (
       <div style={{
         display: 'flex',
@@ -392,7 +398,7 @@ export default class Chart extends React.Component {
       }}
       >
         <TradingViewWidget
-          symbol={`${currentExchange.toUpperCase()}:${base}${quote}`}
+          symbol={`${sym}`}
           theme={Themes.DARK}
           autosize
           allow_symbol_change={false}
