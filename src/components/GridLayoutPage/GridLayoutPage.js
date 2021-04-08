@@ -22,12 +22,14 @@ import {
 
 import BitfinexOrders from '../../orders/bitfinex'
 import BinanceOrders from '../../orders/binance'
+import BinanceFuturesOrders from '../../orders/binance_futures'
 import KrakenOrders from '../../orders/kraken'
 import { propTypes, defaultProps } from './GridLayoutPage.props'
 
 const orderDefinitions = {
   bitfinex: Object.values(BitfinexOrders).map(uiDef => uiDef()),
   binance: Object.values(BinanceOrders).map(uiDef => uiDef()),
+  binance_futures: Object.values(BinanceFuturesOrders).map(uiDef => uiDef()),
   kraken: Object.values(KrakenOrders).map(uiDef => uiDef()),
 }
 
