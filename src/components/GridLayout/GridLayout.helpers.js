@@ -1,6 +1,7 @@
 import React from 'react'
 
 import OrderForm from '../OrderForm'
+import TransferForm from '../TransferForm'
 import OrderBookPanel from '../OrderBookPanel'
 import ChartPanel from '../ChartPanel'
 import AtomicOrdersTablePanel from '../AtomicOrdersTablePanel'
@@ -15,6 +16,7 @@ const COMPONENT_TYPES = {
   CHART: 'CHART',
   ORDER_BOOK: 'ORDER_BOOK',
   ORDER_FORM: 'ORDER_FORM',
+  TRANSFER_FORM: 'TRANSFER_FORM',
   TRADES_TABLE: 'TRADES_TABLE',
   POSITIONS_TABLE: 'POSITIONS_TABLE',
   BALANCES_TABLE: 'BALANCES_TABLE',
@@ -28,6 +30,7 @@ const COMPONENT_LABELS = {
   [COMPONENT_TYPES.CHART]: 'Chart',
   [COMPONENT_TYPES.ORDER_BOOK]: 'Order Book',
   [COMPONENT_TYPES.ORDER_FORM]: 'Order Form',
+  [COMPONENT_TYPES.TRANSFER_FORM]: 'Transfer Form',
   [COMPONENT_TYPES.TRADES_TABLE]: 'Trades Table',
   [COMPONENT_TYPES.BALANCES_TABLE]: 'Balances Table',
   [COMPONENT_TYPES.POSITIONS_TABLE]: 'Positions Table',
@@ -41,6 +44,7 @@ const COMPONENT_DIMENSIONS = {
   [COMPONENT_TYPES.CHART]: { w: 33, h: 10 },
   [COMPONENT_TYPES.ORDER_BOOK]: { w: 24, h: 20 },
   [COMPONENT_TYPES.ORDER_FORM]: { w: 24, h: 10 },
+  [COMPONENT_TYPES.TRANSFER_FORM]: { w: 24, h: 10 },
   [COMPONENT_TYPES.TRADES_TABLE]: { w: 24, h: 10 },
   [COMPONENT_TYPES.BALANCES_TABLE]: { w: 20, h: 6 },
   [COMPONENT_TYPES.POSITIONS_TABLE]: { w: 40, h: 6 },
@@ -60,6 +64,9 @@ const componentForType = (c) => {
 
     case COMPONENT_TYPES.ORDER_FORM:
       return OrderForm
+
+    case COMPONENT_TYPES.TRANSFER_FORM:
+      return TransferForm
 
     case COMPONENT_TYPES.TRADES_TABLE:
       return TradesTablePanel
@@ -115,6 +122,8 @@ const renderLayoutElement = (layoutID, def = {}, componentProps = {}, onRemoveCo
     Object.assign(cProps, componentProps.trades)
   } else if (C === OrderForm && componentProps.orderForm) {
     Object.assign(cProps, componentProps.orderForm)
+  } else if (C === TransferForm && componentProps.transferForm) {
+    Object.assign(cProps, componentProps.transferForm)
   } else if (C === AtomicOrdersTablePanel && componentProps.orders) {
     Object.assign(cProps, componentProps.orders)
   }

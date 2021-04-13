@@ -382,10 +382,13 @@ export default class Chart extends React.Component {
     const {
       currentExchange,
     } = this.state
-    const { base, quote, restID} = activeMarket
+    const { base, quote, restID, wsID, uiID} = activeMarket
     let sym = `${currentExchange.toUpperCase()}:${base}${quote}`
-    if (currentExchange === 'binance_futures') {
+    if (currentExchange === 'binance_futures' || currentExchange === 'binance_coins') {
     	sym = `BINANCE:${base}${quote}PERP`
+    } 
+    if (currentExchange === 'binance_coins') {
+    	sym = `BINANCE:${base}${quote}`
     } 
     if (currentExchange === 'kraken') {
     	sym = `${currentExchange.toUpperCase()}:${restID}`
