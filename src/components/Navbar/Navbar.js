@@ -20,6 +20,22 @@ const items = [
     label: 'Strategy Editor',
   },
   {
+    route: '/portfolio',
+    label: [<Icon name='pie-chart' key='icon' />, <p key='label'>Portfolio</p>],
+  },
+  {
+    route: '/yields',
+    label: 'Yields',
+  },
+  {
+    route: '/reports',
+    label: 'Reports',
+  },
+  {
+    route: '/ico',
+    label: 'ICO',
+  },
+  {
     route: '/settings',
     label: [<Icon name='cog' key='cog' />, <p key='label'>Settings</p>],
   },
