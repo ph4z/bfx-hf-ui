@@ -13,10 +13,12 @@ import TradingStatePanel from '../TradingStatePanel'
 import MarketCap from '../MarketCap'
 import HeatMap from '../HeatMap'
 import Screener from '../Screener'
+import Events from '../Events'
 
 const COMPONENT_TYPES = {
   CHART: 'CHART',
   HEAT_MAP: 'HEAT_MAP',
+  EVENTS: 'EVENTS',
   MARKET_CAP: 'MARKET_CAP',
   SCREENER: 'SCREENER',
   ORDER_BOOK: 'ORDER_BOOK',
@@ -33,6 +35,7 @@ const COMPONENT_TYPES = {
 const COMPONENT_LABELS = {
   [COMPONENT_TYPES.CHART]: 'Chart',
   [COMPONENT_TYPES.HEAT_MAP]: 'Heat Map',
+  [COMPONENT_TYPES.EVENTS]: 'Events',
   [COMPONENT_TYPES.SCREENER]: 'Screener',
   [COMPONENT_TYPES.MARKET_CAP]: 'Market Capitalization',
   [COMPONENT_TYPES.ORDER_BOOK]: 'Order Book',
@@ -49,6 +52,7 @@ const COMPONENT_LABELS = {
 const COMPONENT_DIMENSIONS = {
   [COMPONENT_TYPES.CHART]: { w: 33, h: 10 },
   [COMPONENT_TYPES.HEAT_MAP]: { w: 1275, h: 490 },
+  [COMPONENT_TYPES.EVENTS]: { w: 375, h: 490 },
   [COMPONENT_TYPES.MARKET_CAP]: { w: 1275, h: 490 },
   [COMPONENT_TYPES.SCREENER]: { w: 1275, h: 490 },
   [COMPONENT_TYPES.ORDER_BOOK]: { w: 24, h: 20 },
@@ -75,6 +79,9 @@ const componentForType = (c) => {
 
     case COMPONENT_TYPES.SCREENER:
       return Screener
+
+    case COMPONENT_TYPES.EVENTS:
+      return Events
 
     case COMPONENT_TYPES.ORDER_BOOK:
       return OrderBookPanel
@@ -134,6 +141,8 @@ const renderLayoutElement = (layoutID, def = {}, componentProps = {}, onRemoveCo
     Object.assign(cProps, componentProps.heatmap)
   } else if (C === MarketCap && componentProps.marketcap) {
     Object.assign(cProps, componentProps.marketcap)
+  } else if (C === Events && componentProps.events) {
+    Object.assign(cProps, componentProps.events)
   } else if (C === Screener && componentProps.screener) {
     Object.assign(cProps, componentProps.screener)
   } else if (C === OrderBookPanel && componentProps.book) {
