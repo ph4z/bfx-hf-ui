@@ -6,6 +6,7 @@ import getActiveMarket from './get_active_market'
 import getLayouts from './get_layouts'
 import getLayout from './get_layout'
 import getRemoteVersion from './get_remote_version'
+import getStrategyId from './get_strategy_id'
 
 export {
   getRemoteVersion,
@@ -16,4 +17,5 @@ export {
   getActiveMarket,
   getLayouts,
   getLayout,
+  getStrategyId,
 }
