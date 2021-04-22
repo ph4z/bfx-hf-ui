@@ -76,10 +76,7 @@ export default class StrategyEditor extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { strategyContent } = this.props
-    this.setState(() => ({
-      strategy: strategyContent,
-    }))
+    this.setState(() => ({ strategy: null }))
   }
 
   onCreateNewStrategy = (label, templateLabel) => {

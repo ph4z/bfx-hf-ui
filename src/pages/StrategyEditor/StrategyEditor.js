@@ -8,7 +8,7 @@ import Panel from '../../ui/Panel'
 import Markdown from '../../ui/Markdown'
 import StatusBar from '../../components/StatusBar'
 import Backtester from '../../components/Backtester'
-import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
+// import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
 
 import './style.css'
 
@@ -22,18 +22,15 @@ export default class StrategyEditorPage extends React.Component {
     finishGuide: PropTypes.func.isRequired,
     selectStrategy: PropTypes.func.isRequired,
     setStrategyContent: PropTypes.func.isRequired,
-    strategyContent: PropTypes.objectOf(Object),
   }
   static defaultProps = {
     dark: true,
     firstLogin: false,
     isGuideActive: true,
-    strategyContent: {},
   }
 
   state = {
     indicators: [],
-    strategyContent: null,
     steps: [
       {
         target: '.hfui-create-strategy__btn',
@@ -101,7 +98,6 @@ export default class StrategyEditorPage extends React.Component {
 
   setContent(content) {
     const { setStrategyContent } = this.props
-    this.setState(() => ({ strategyContent: content }))
     setStrategyContent(content)
   }
 
@@ -114,7 +110,6 @@ export default class StrategyEditorPage extends React.Component {
   render() {
     const {
       indicators,
-      strategyContent,
       docsText = '',
       steps,
     } = this.state
@@ -167,17 +162,16 @@ export default class StrategyEditorPage extends React.Component {
             >
               <Backtester
                 {...this.props}
-                strategyContent={strategyContent}
                 indicators={indicators}
               />
             </div>
-            <div
+            {/* <div
               tabtitle='Execute' // lowercase name for div is requiered
             >
               <LiveStrategyExecutor
                 strategyContent={strategyContent}
               />
-            </div>
+            </div> */}
           </Panel>
         </div>
 
