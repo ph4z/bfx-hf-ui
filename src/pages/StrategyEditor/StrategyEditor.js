@@ -1,26 +1,36 @@
 import React from 'react'
 import randomColor from 'randomcolor'
 import Joyride, { STATUS } from 'react-joyride'
+import PropTypes from 'prop-types'
 
 import StrategyEditor from '../../components/StrategyEditor'
 import Panel from '../../ui/Panel'
 import Markdown from '../../ui/Markdown'
 import StatusBar from '../../components/StatusBar'
 import Backtester from '../../components/Backtester'
-import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
-import { propTypes, defaultProps } from './StrategyEditor.props'
+// import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
 
 import './style.css'
 
 const DocsPath = require('bfx-hf-strategy/docs/api.md')
 
 export default class StrategyEditorPage extends React.Component {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    dark: PropTypes.bool,
+    firstLogin: PropTypes.bool,
+    isGuideActive: PropTypes.bool,
+    finishGuide: PropTypes.func.isRequired,
+    selectStrategy: PropTypes.func.isRequired,
+    setStrategyContent: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    dark: true,
+    firstLogin: false,
+    isGuideActive: true,
+  }
 
   state = {
     indicators: [],
-    strategyContent: null,
     steps: [
       {
         target: '.hfui-create-strategy__btn',
@@ -86,10 +96,20 @@ export default class StrategyEditorPage extends React.Component {
     }
   }
 
+  setContent(content) {
+    const { setStrategyContent } = this.props
+    setStrategyContent(content)
+  }
+
+  selectStrategy(content) {
+    const { selectStrategy } = this.props
+    selectStrategy()
+    this.setContent(content)
+  }
+
   render() {
     const {
       indicators,
-      strategyContent,
       docsText = '',
       steps,
     } = this.state
@@ -98,7 +118,8 @@ export default class StrategyEditorPage extends React.Component {
       <div className='hfui-strategyeditorpage__wrapper'>
         <StrategyEditor
           dark
-          onStrategyChange={content => this.setState(() => ({ strategyContent: content }))}
+          onStrategySelect={content => this.selectStrategy(content)}
+          onStrategyChange={content => this.setContent(content)}
           key='editor'
           onIndicatorsChange={this.onIndicatorsChange}
           moveable={false}
@@ -141,17 +162,16 @@ export default class StrategyEditorPage extends React.Component {
             >
               <Backtester
                 {...this.props}
-                strategyContent={strategyContent}
                 indicators={indicators}
               />
             </div>
-            <div
+            {/* <div
               tabtitle='Execute' // lowercase name for div is requiered
             >
               <LiveStrategyExecutor
                 strategyContent={strategyContent}
               />
-            </div>
+            </div> */}
           </Panel>
         </div>
 
