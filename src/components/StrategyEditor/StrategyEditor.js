@@ -44,7 +44,6 @@ export default class StrategyEditor extends React.PureComponent {
     renderResults: PropTypes.bool,
     onSave: PropTypes.func.isRequired,
     onImport: PropTypes.func.isRequired,
-    onExportStrategy: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     authToken: PropTypes.string.isRequired,
     onStrategyChange: PropTypes.func.isRequired,
@@ -145,9 +144,10 @@ export default class StrategyEditor extends React.PureComponent {
     }))
   }
 
-  onExportStrategy() {
-    const { strategy, strategyId } = this.state
-    const data = new Blob({ id: strategyId, ...strategy },{type:'json'})
+  onExportStrategy = () => {
+    const { strategy } = this.state
+    const { strategyId } = this.props
+    const data =  JSON.stringify({ id: strategyId, ...strategy })
     console.log(data)
     this.onCloseModals()
   }
@@ -162,9 +162,8 @@ export default class StrategyEditor extends React.PureComponent {
   }
 
   onImportStrategy = (strategy) => {
-    const { authToken, onImport, strategyId } = this.props
-    console.log(strategy)
-    onImport(authToken, { id: strategyId, ...strategy })
+    const { authToken, onImport } = this.props
+    onImport(authToken, { strategy })
   }
 
   onCloseModals = () => {

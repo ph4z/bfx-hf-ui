@@ -13,7 +13,6 @@ export default class ImportNewStrategyModal extends React.PureComponent {
   static propTypes = {
   onClose: PropTypes.func.isRequired,
   onImport: PropTypes.func.isRequired,
-  onStrategyLoad: PropTypes.func.isRequired,
 }
   static defaultProps = {}
 
@@ -22,32 +21,25 @@ export default class ImportNewStrategyModal extends React.PureComponent {
     error: '',
   }
 
-  onStrategyLoad(file) {
-    const reader = new FileReader()
-    reader.onload = function(evt) {
-      const strategyRaw = evt.target.result
-      console.log(strategyRaw)
-      const strategy = JSON.parse(strategyRaw)
-      this.setState(() => ({ strategy }))
-      console.log(strategy)
-    }
-    reader.readAsText(file)
-  }
-
-  jquerycode = () => {
-    $(".upload").on("change", function () {
-          this.onStrategyLoad(this.files[0])
-      })
-  }
-
   componentDidMount() {
-    this.jquerycode()
+    this.onStrategyLoad()
+  }
+
+  onStrategyLoad = () => {
+    $(".upload").on("change", (res) => {
+          const file = (res.target.files[0])
+          const reader = new FileReader()
+          reader.onload = (evt) => {
+            const strategy = JSON.parse(evt.target.result)
+            this.setState(() => ({ strategy }))
+          }
+          reader.readAsText(file)
+      })
   }
 
   onSubmit = () => {
     const { strategy } = this.state
     const { onClose, onImport } = this.props
-    console.log(strategy)
     if (!strategy) {
       console.log('strategy not found')
       return
