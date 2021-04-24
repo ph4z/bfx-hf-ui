@@ -16,6 +16,7 @@ import Templates from './templates'
 import StrategyEditorPanel from './StrategyEditorPanel'
 import CreateNewStrategyModal from '../CreateNewStrategyModal'
 import OpenExistingStrategyModal from '../OpenExistingStrategyModal'
+import ImportNewStrategyModal from '../ImportNewStrategyModal'
 
 import './style.css'
 
@@ -42,6 +43,8 @@ export default class StrategyEditor extends React.PureComponent {
     strategyId: PropTypes.string,
     renderResults: PropTypes.bool,
     onSave: PropTypes.func.isRequired,
+    onImport: PropTypes.func.isRequired,
+    onExportStrategy: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     authToken: PropTypes.string.isRequired,
     onStrategyChange: PropTypes.func.isRequired,
@@ -73,6 +76,7 @@ export default class StrategyEditor extends React.PureComponent {
     activeContent: 'defineIndicators',
     createNewStrategyModalOpen: false,
     openExistingStrategyModalOpen: false,
+    importNewStrategyModalOpen: false,
   }
 
   componentDidMount() {
@@ -128,6 +132,7 @@ export default class StrategyEditor extends React.PureComponent {
       createNewStrategyModalOpen: true,
       openExistingStrategyModalOpen: false,
       isRemoveModalOpened: false,
+      importNewStrategyModalOpen: false,
     }))
   }
 
@@ -136,7 +141,30 @@ export default class StrategyEditor extends React.PureComponent {
       createNewStrategyModalOpen: false,
       openExistingStrategyModalOpen: true,
       isRemoveModalOpened: false,
+      importNewStrategyModalOpen: false,
     }))
+  }
+
+  onExportStrategy() {
+    const { strategy, strategyId } = this.state
+    const data = new Blob({ id: strategyId, ...strategy },{type:'json'})
+    console.log(data)
+    this.onCloseModals()
+  }
+
+  onImportStrategyModal = () => {
+    this.setState(() => ({
+      createNewStrategyModalOpen: false,
+      openExistingStrategyModalOpen: false,
+      isRemoveModalOpened: false,
+      importNewStrategyModalOpen: true,
+    }))
+  }
+
+  onImportStrategy = (strategy) => {
+    const { authToken, onImport, strategyId } = this.props
+    console.log(strategy)
+    onImport(authToken, { id: strategyId, ...strategy })
   }
 
   onCloseModals = () => {
@@ -144,6 +172,7 @@ export default class StrategyEditor extends React.PureComponent {
       createNewStrategyModalOpen: false,
       openExistingStrategyModalOpen: false,
       isRemoveModalOpened: false,
+      importNewStrategyModalOpen: false,
     }))
   }
 
@@ -157,8 +186,6 @@ export default class StrategyEditor extends React.PureComponent {
   onSaveStrategy = () => {
     const { authToken, onSave, strategyId } = this.props
     const { strategy } = this.state
-    console.log(strategy)
-    console.log(strategyId)
     onSave(authToken, { id: strategyId, ...strategy })
 
     this.setState(() => ({ strategyDirty: false }))
@@ -169,6 +196,7 @@ export default class StrategyEditor extends React.PureComponent {
       createNewStrategyModalOpen: false,
       openExistingStrategyModalOpen: false,
       isRemoveModalOpened: true,
+      importNewStrategyModalOpen: false,
     }))
   }
   onRemoveStrategy = () => {
@@ -336,6 +364,8 @@ export default class StrategyEditor extends React.PureComponent {
         editorMode={editorMode}
         editorMaximised={editorMaximised}
         onOpenSelectModal={this.onOpenSelectModal}
+        onImportStrategyModal={this.onImportStrategyModal}
+        onExportStrategy={this.onExportStrategy}
         onOpenCreateModal={this.onOpenCreateModal}
         onOpenRemoveModal={this.onOpenRemoveModal}
         onCloseModals={this.onCloseModals}
@@ -352,7 +382,7 @@ export default class StrategyEditor extends React.PureComponent {
 
   renderEmptyContent = () => {
     const {
-      createNewStrategyModalOpen, openExistingStrategyModalOpen,
+      createNewStrategyModalOpen, openExistingStrategyModalOpen, importNewStrategyModalOpen
     } = this.state
     const { gaCreateStrategy } = this.props
 
@@ -389,6 +419,13 @@ export default class StrategyEditor extends React.PureComponent {
             onOpen={this.onLoadStrategy}
           />
         )}
+
+        {importNewStrategyModalOpen && (
+          <ImportNewStrategyModal
+            onClose={this.onCloseModals}
+            onImport={this.onImportStrategy}
+          />
+        )}
       </div>
     )
   }
@@ -403,6 +440,7 @@ export default class StrategyEditor extends React.PureComponent {
       editorMaximised,
       createNewStrategyModalOpen,
       openExistingStrategyModalOpen,
+      importNewStrategyModalOpen
     } = this.state
 
     if (!strategy || _isEmpty(strategy)) {
@@ -450,6 +488,13 @@ export default class StrategyEditor extends React.PureComponent {
           <OpenExistingStrategyModal
             onClose={this.onCloseModals}
             onOpen={this.onLoadStrategy}
+          />
+        )}
+
+        {importNewStrategyModalOpen && (
+          <ImportNewStrategyModal
+            onClose={this.onCloseModals}
+            onImport={this.onImportStrategy}
           />
         )}
 

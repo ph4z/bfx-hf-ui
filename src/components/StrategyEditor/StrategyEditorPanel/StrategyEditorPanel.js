@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from 'react-fa'
 import PropTypes from 'prop-types'
 
 import Panel from '../../../ui/Panel'
@@ -19,6 +20,8 @@ export default class StrategyEditorPanel extends React.PureComponent {
     onRemove: PropTypes.func.isRequired,
     strategy: PropTypes.objectOf(Object),
     onCloseModals: PropTypes.func.isRequired,
+    onExportStrategy: PropTypes.func.isRequired,
+    onImportStrategyModal: PropTypes.func.isRequired,
     onSaveStrategy: PropTypes.func.isRequired,
     onRemoveStrategy: PropTypes.func.isRequired,
     onOpenSelectModal: PropTypes.func.isRequired,
@@ -70,6 +73,8 @@ export default class StrategyEditorPanel extends React.PureComponent {
       execRunning,
       strategyDirty,
       onCloseModals,
+      onExportStrategy,
+      onImportStrategyModal,
       onSaveStrategy,
       onOpenSelectModal,
       onOpenCreateModal,
@@ -93,6 +98,27 @@ export default class StrategyEditorPanel extends React.PureComponent {
         ]}
         headerComponents={(
           <div className='hfui-strategyeditor__header'>
+            {strategy && (
+              <Button
+                className='hfui-export-strategy__btn'
+                onClick={onExportStrategy}
+                disabled={!id}
+                label={[
+                  <Icon key='icon' name='sign-out alternate' />,
+                  <p key='text'>Export</p>,
+                ]}
+              />
+            )}
+
+            <Button
+              className='hfui-import-strategy__btn'
+              onClick={onImportStrategyModal}
+              label={[
+                <Icon key='icon' name='sign-in' />,
+                <p key='text'>Import</p>,
+              ]}
+            />
+
             <Button
               className='hfui-open-strategy__btn'
               onClick={onOpenSelectModal}

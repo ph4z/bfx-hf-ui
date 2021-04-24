@@ -18,6 +18,9 @@ const mapDispatchToProps = dispatch => ({
   onSave: (authToken, strategy = {}) => {
     dispatch(WSActions.send(['strategy.save', authToken, strategy]))
   },
+  onImport: (authToken, strategy = {}) => {
+    dispatch(WSActions.send(['strategy.save', authToken, strategy]))
+  },
   onRemove: (authToken, id) => {
     dispatch(WSActions.send(['strategy.remove', authToken, id]))
   },
