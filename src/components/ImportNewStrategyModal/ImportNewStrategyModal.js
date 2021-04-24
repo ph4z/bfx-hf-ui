@@ -22,17 +22,7 @@ export default class ImportNewStrategyModal extends React.PureComponent {
     error: '',
   }
 
-  jquerycode = () => {
-    $(".upload").on("change", function () {
-          onStrategyLoad(this.files[0])
-      })
-  }
-
-  componentDidMount() {
-    this.jquerycode()
-  }
-
-  onStrategyLoad = (file) => {
+  onStrategyLoad(file) {
     const reader = new FileReader()
     reader.onload = function(evt) {
       const strategyRaw = evt.target.result
@@ -42,6 +32,16 @@ export default class ImportNewStrategyModal extends React.PureComponent {
       console.log(strategy)
     }
     reader.readAsText(file)
+  }
+
+  jquerycode = () => {
+    $(".upload").on("change", function () {
+          this.onStrategyLoad(this.files[0])
+      })
+  }
+
+  componentDidMount() {
+    this.jquerycode()
   }
 
   onSubmit = () => {
