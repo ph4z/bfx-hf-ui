@@ -146,8 +146,7 @@ export default class StrategyEditor extends React.PureComponent {
 
   onExportStrategy = () => {
     const { strategy } = this.state
-    const { strategyId } = this.props
-    const data =  JSON.stringify({ id: strategyId, ...strategy })
+    const data =  JSON.stringify(strategy)
     console.log(data)
     this.onCloseModals()
   }
@@ -163,7 +162,8 @@ export default class StrategyEditor extends React.PureComponent {
 
   onImportStrategy = (strategy) => {
     const { authToken, onImport } = this.props
-    onImport(authToken, { strategy })
+    strategy.id = null
+    onImport(authToken, strategy)
   }
 
   onCloseModals = () => {

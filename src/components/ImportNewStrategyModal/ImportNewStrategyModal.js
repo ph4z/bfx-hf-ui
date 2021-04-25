@@ -67,13 +67,11 @@ export default class ImportNewStrategyModal extends React.PureComponent {
         )}
       >
 
-      <form>
         <Input
           type='file'
           accept='.json'
           className='upload'
         />
-      </form>
 
         {!_isEmpty(error) && (
           <p className='error'>{error}</p>
