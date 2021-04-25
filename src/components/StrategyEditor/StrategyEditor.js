@@ -146,8 +146,13 @@ export default class StrategyEditor extends React.PureComponent {
 
   onExportStrategy = () => {
     const { strategy } = this.state
-    const data =  JSON.stringify(strategy)
-    console.log(data)
+    let data =  JSON.stringify(strategy)
+    const textFileAsBlob = new Blob([data], {type:'application/json'})
+    const fileName = `${strategy.label}_exported_strategy.json`
+    let downloadLink = document.createElement('a')
+    downloadLink.download = fileName
+    downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+    downloadLink.click();
     this.onCloseModals()
   }
 
@@ -186,7 +191,6 @@ export default class StrategyEditor extends React.PureComponent {
     const { authToken, onSave, strategyId } = this.props
     const { strategy } = this.state
     onSave(authToken, { id: strategyId, ...strategy })
-
     this.setState(() => ({ strategyDirty: false }))
     this.onCloseModals()
   }
