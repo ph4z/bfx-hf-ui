@@ -13,6 +13,7 @@ import * as SRD from '@projectstorm/react-diagrams'
 import PropTypes from 'prop-types'
 
 import Templates from './templates'
+import BT_Templates from './bt_templates'
 import StrategyEditorPanel from './StrategyEditorPanel'
 import CreateNewStrategyModal from '../CreateNewStrategyModal'
 import OpenExistingStrategyModal from '../OpenExistingStrategyModal'
@@ -36,6 +37,22 @@ const STRATEGY_SECTIONS = [
   'onStop',
 ]
 
+const BT_STRATEGY_SECTIONS = [
+  'init',
+  'log',
+  'start',
+  'strop',
+  'next',
+  'prenext',
+  'nextstart',
+  'notifyCashValue',
+  'notifyFund',
+  'notifyOrder',
+  'notifyStore',
+  'notifyTrade',
+  'notifyTimer',
+]
+
 export default class StrategyEditor extends React.PureComponent {
   static propTypes = {
     moveable: PropTypes.bool,
@@ -44,6 +61,8 @@ export default class StrategyEditor extends React.PureComponent {
     renderResults: PropTypes.bool,
     onSave: PropTypes.func.isRequired,
     onImport: PropTypes.func.isRequired,
+    onSaveBT: PropTypes.func.isRequired,
+    onImportBT: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
     authToken: PropTypes.string.isRequired,
     onStrategyChange: PropTypes.func.isRequired,
@@ -67,6 +86,7 @@ export default class StrategyEditor extends React.PureComponent {
 
   state = {
     strategy: null,
+    backtrader: false,
     sectionErrors: {},
     strategyDirty: false,
     editorMode: 'visual',
@@ -82,9 +102,16 @@ export default class StrategyEditor extends React.PureComponent {
     this.setState(() => ({ strategy: null }))
   }
 
-  onCreateNewStrategy = (label, templateLabel) => {
+  onCreateNewStrategy = (label, editor, templateLabel) => {
     const strategy = { label }
-    const template = Templates.find(t => t.label === templateLabel)
+    let template
+    if(editor === 'backtester') {
+      template = Templates.find(t => t.label === templateLabel)
+      this.setState(() => ({ backtrader:false }))
+    } else {
+      template = BT_Templates.find(t => t.label === templateLabel)
+      this.setState(() => ({ backtrader:true }))
+    }
 
     if (!template) {
       debug('unknown template: %s', templateLabel)
@@ -166,9 +193,13 @@ export default class StrategyEditor extends React.PureComponent {
   }
 
   onImportStrategy = (strategy) => {
-    const { authToken, onImport } = this.props
+    const { authToken, onImport, onImportBT } = this.props
     strategy.id = null
-    onImport(authToken, strategy)
+    if(strategy.editor === 'backtest') {
+      onImport(authToken, strategy)
+    } else {
+      onImportBT(authToken, strategy)
+    }
   }
 
   onCloseModals = () => {
@@ -190,7 +221,11 @@ export default class StrategyEditor extends React.PureComponent {
   onSaveStrategy = () => {
     const { authToken, onSave, strategyId } = this.props
     const { strategy } = this.state
-    onSave(authToken, { id: strategyId, ...strategy })
+    if(strategy.editor === 'backtest') {
+      onSave(authToken, { id: strategyId, ...strategy })
+    } else {
+      onSaveBT(authToken, { id: strategyId, ...strategy })
+    }
     this.setState(() => ({ strategyDirty: false }))
     this.onCloseModals()
   }
@@ -281,32 +316,57 @@ export default class StrategyEditor extends React.PureComponent {
   }
   selectStrategy = (strategy) => {
     const { onStrategySelect } = this.props
+    const { backtrader } = this.state
     this.setState(() => ({ strategy }))
 
     const strategyContent = {}
     let section
-    for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
-      section = STRATEGY_SECTIONS[i]
-      const content = strategy[section]
+    if(!backtrader) {
+      for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
+        section = STRATEGY_SECTIONS[i]
+        const content = strategy[section]
 
-      if (!_isEmpty(content)) {
-        strategyContent[section] = content
+        if (!_isEmpty(content)) {
+          strategyContent[section] = content
+        }
+      }
+    } else {
+      for (let i = 0; i < BT_STRATEGY_SECTIONS.length; i += 1) {
+        section = BT_STRATEGY_SECTIONS[i]
+        const content = strategy[section]
+
+        if (!_isEmpty(content)) {
+          strategyContent[section] = content
+        }
       }
     }
+    
     onStrategySelect(strategyContent)
   }
   updateStrategy = (strategy) => {
     const { onStrategyChange } = this.props
+    const { backtrader } = this.state
     this.setState(() => ({ strategy }))
 
     const strategyContent = {}
     let section
-    for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
-      section = STRATEGY_SECTIONS[i]
-      const content = strategy[section]
+    if(!backtrader) {
+      for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
+        section = STRATEGY_SECTIONS[i]
+        const content = strategy[section]
 
-      if (!_isEmpty(content)) {
-        strategyContent[section] = content
+        if (!_isEmpty(content)) {
+          strategyContent[section] = content
+        }
+      }
+    } else {
+      for (let i = 0; i < BT_STRATEGY_SECTIONS.length; i += 1) {
+        section = BT_STRATEGY_SECTIONS[i]
+        const content = strategy[section]
+
+        if (!_isEmpty(content)) {
+          strategyContent[section] = content
+        }
       }
     }
     onStrategyChange(strategyContent)
@@ -438,6 +498,7 @@ export default class StrategyEditor extends React.PureComponent {
     const {
       execError,
       strategy,
+      backtrader,
       activeContent,
       sectionErrors,
       editorMaximised,
@@ -502,7 +563,26 @@ export default class StrategyEditor extends React.PureComponent {
         )}
 
         <ul className='hfui-strategyeditor__func-select'>
-          {STRATEGY_SECTIONS.map(section => (
+          {!backtrader && STRATEGY_SECTIONS.map(section => (
+            <li
+              key={section}
+              onClick={this.onActiveContentChange.bind(this, section)}
+              className={ClassNames({
+                active: activeContent === section,
+                hasError: !!sectionErrors[section],
+                empty: _isEmpty(strategy[section]),
+              })}
+            >
+              <p>{section}</p>
+
+              {_isEmpty(strategy[activeContent])
+                ? null
+                : _isEmpty(sectionErrors[activeContent])
+                  ? <p>~</p>
+                  : <p>*</p>}
+            </li>
+          ))}
+          {backtrader && BT_STRATEGY_SECTIONS.map(section => (
             <li
               key={section}
               onClick={this.onActiveContentChange.bind(this, section)}
@@ -530,7 +610,9 @@ export default class StrategyEditor extends React.PureComponent {
               maximised: editorMaximised,
             })}
           >
-            <CodeMirror
+
+            {!backtrader && (
+              <CodeMirror
               value={strategy[activeContent] || ''}
               onBeforeChange={this.onEditorContentChange}
               options={{
@@ -544,6 +626,24 @@ export default class StrategyEditor extends React.PureComponent {
                 tabSize: 2,
               }}
             />
+            )}
+
+            {backtrader && (
+              <CodeMirror
+              value={strategy[activeContent] || ''}
+              onBeforeChange={this.onEditorContentChange}
+              options={{
+                mode: {
+                  name: 'text/x-python',
+                },
+
+                theme: 'monokai',
+                lineNumbers: true,
+                tabSize: 2,
+              }}
+            />
+            )}
+            
 
             <SRD.DiagramWidget diagramEngine={engine} />
 
