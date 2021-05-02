@@ -106,7 +106,7 @@ export default class StrategyEditor extends React.PureComponent {
   onCreateNewStrategy = (label, editor, templateLabel) => {
     const strategy = { label }
     let template
-    if(editor === 'backtester') {
+    if(editor === 'backtest') {
       template = Templates.find(t => t.label === templateLabel)
       this.setState(() => ({ backtrader: false }))
     } else {
