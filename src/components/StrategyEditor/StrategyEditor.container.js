@@ -30,6 +30,9 @@ const mapDispatchToProps = dispatch => ({
   onRemove: (authToken, id) => {
     dispatch(WSActions.send(['strategy.remove', authToken, id]))
   },
+  onRemoveBT: (authToken, id) => {
+    dispatch(WSActions.send(['strategy.removebt', authToken, id]))
+  },
   gaCreateStrategy: () => {
     dispatch(GAActions.createStrategy())
   },

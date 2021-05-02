@@ -41,7 +41,7 @@ const BT_STRATEGY_SECTIONS = [
   'init',
   'log',
   'start',
-  'strop',
+  'stop',
   'next',
   'prenext',
   'nextstart',
@@ -64,6 +64,7 @@ export default class StrategyEditor extends React.PureComponent {
     onSaveBT: PropTypes.func.isRequired,
     onImportBT: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onRemoveBT: PropTypes.func.isRequired,
     authToken: PropTypes.string.isRequired,
     onStrategyChange: PropTypes.func.isRequired,
     onStrategySelect: PropTypes.func.isRequired,
@@ -107,10 +108,10 @@ export default class StrategyEditor extends React.PureComponent {
     let template
     if(editor === 'backtester') {
       template = Templates.find(t => t.label === templateLabel)
-      this.setState(() => ({ backtrader:false }))
+      this.setState(() => ({ backtrader: false }))
     } else {
       template = BT_Templates.find(t => t.label === templateLabel)
-      this.setState(() => ({ backtrader:true }))
+      this.setState(() => ({ backtrader: true }))
     }
 
     if (!template) {
@@ -124,6 +125,7 @@ export default class StrategyEditor extends React.PureComponent {
 
       strategy[s] = template[s]
     })
+    strategy.editor = editor
 
     this.setState(() => ({
       sectionErrors: {},
@@ -219,7 +221,7 @@ export default class StrategyEditor extends React.PureComponent {
   }
 
   onSaveStrategy = () => {
-    const { authToken, onSave, strategyId } = this.props
+    const { authToken, onSave, onSaveBT, strategyId } = this.props
     const { strategy } = this.state
     if(strategy.editor === 'backtest') {
       onSave(authToken, { id: strategyId, ...strategy })
@@ -239,11 +241,16 @@ export default class StrategyEditor extends React.PureComponent {
   }
   onRemoveStrategy = () => {
     const {
-      authToken, onRemove, onStrategyChange, strategyId,
+      authToken, onRemove, onRemoveBT, onStrategyChange, strategyId,
     } = this.props
     const { strategy } = this.state
     const { id = strategyId } = strategy
-    onRemove(authToken, id)
+    if(strategy.editor === 'backtest') {
+      onRemove(authToken, id)
+    } else {
+      onRemoveBT(authToken, id)
+    }
+    
     this.setState(() => ({ strategy: null }))
     onStrategyChange(null)
     this.onCloseModals()
@@ -316,12 +323,13 @@ export default class StrategyEditor extends React.PureComponent {
   }
   selectStrategy = (strategy) => {
     const { onStrategySelect } = this.props
-    const { backtrader } = this.state
     this.setState(() => ({ strategy }))
 
     const strategyContent = {}
     let section
-    if(!backtrader) {
+    if(strategy.editor === "backtest") {
+      this.setState(() => ({ backtrader: false,
+      activeContent: 'defineIndicators' }))
       for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
         section = STRATEGY_SECTIONS[i]
         const content = strategy[section]
@@ -331,6 +339,8 @@ export default class StrategyEditor extends React.PureComponent {
         }
       }
     } else {
+      this.setState(() => ({ backtrader: true,
+      activeContent: 'init' }))
       for (let i = 0; i < BT_STRATEGY_SECTIONS.length; i += 1) {
         section = BT_STRATEGY_SECTIONS[i]
         const content = strategy[section]
@@ -345,12 +355,12 @@ export default class StrategyEditor extends React.PureComponent {
   }
   updateStrategy = (strategy) => {
     const { onStrategyChange } = this.props
-    const { backtrader } = this.state
     this.setState(() => ({ strategy }))
 
     const strategyContent = {}
     let section
-    if(!backtrader) {
+    if(strategy.editor === "backtest") {
+      this.setState(() => ({ backtrader: false }))
       for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
         section = STRATEGY_SECTIONS[i]
         const content = strategy[section]
@@ -360,6 +370,7 @@ export default class StrategyEditor extends React.PureComponent {
         }
       }
     } else {
+      this.setState(() => ({ backtrader: true }))
       for (let i = 0; i < BT_STRATEGY_SECTIONS.length; i += 1) {
         section = BT_STRATEGY_SECTIONS[i]
         const content = strategy[section]
@@ -634,7 +645,7 @@ export default class StrategyEditor extends React.PureComponent {
               onBeforeChange={this.onEditorContentChange}
               options={{
                 mode: {
-                  name: 'text/x-python',
+                  name: 'python',
                 },
 
                 theme: 'monokai',
