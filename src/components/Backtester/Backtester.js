@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { propTypes, defaultProps } from './Backtester.props'
+import PropTypes from 'prop-types'
 
 import RenderHistoricalReport from './reports/HistoricalReport'
 import RenderHistoricalForm from './forms/HistoricalForm'
@@ -8,8 +7,45 @@ import RenderHistoricalForm from './forms/HistoricalForm'
 import './style.css'
 
 export default class Backtester extends React.Component {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    indicators: PropTypes.arrayOf(PropTypes.object),
+    backtest: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      executing: PropTypes.bool.isRequired,
+    }),
+    backtestData: PropTypes.shape({
+      trades: PropTypes.array.isRequired,
+      candles: PropTypes.array.isRequired,
+    }),
+    strategyContent: PropTypes.objectOf(
+      PropTypes.oneOfType([
+        PropTypes.string.isRequired,
+        PropTypes.oneOf([null]).isRequired,
+      ]),
+    ),
+    allMarkets: PropTypes.objectOf(PropTypes.array),
+    backtestResults: PropTypes.objectOf(PropTypes.any),
+    backtestOptions: PropTypes.objectOf(PropTypes.any),
+    dsExecuteBacktest: PropTypes.func.isRequired,
+    dsExecuteBacktestBacktrader: PropTypes.func.isRequired,
+    setBacktestOptions: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    indicators: [],
+    backtest: {
+      loading: true,
+      executing: false,
+    },
+    backtestData: {
+      trades: [],
+      candles: [],
+    },
+    strategyContent: {},
+    allMarkets: {},
+    backtestResults: {},
+    backtestOptions: {},
+  }
 
   state = {
     backtestOptions: {},
@@ -39,26 +75,26 @@ export default class Backtester extends React.Component {
       //   renderReport: RenderImportReport,
       // },
     ]
-
-    this.backtestStrategy = this.backtestStrategy.bind(this)
-    this.updateError = this.updateError.bind(this)
   }
 
   backtestStrategy = (options) => {
     const {
       activeExchange, activeMarket, startDate, endDate, tf, trades, candles,
     } = options
-    const { dsExecuteBacktest, strategyContent } = this.props
-
+    const { dsExecuteBacktest, dsExecuteBacktestBacktrader, strategyContent, setBacktestOptions } = this.props
+    setBacktestOptions(options)
     const startNum = new Date(startDate).getTime()
     const endNum = new Date(endDate).getTime()
 
     this.setState(() => ({
-      backtestOptions: options,
       execError: undefined,
     }))
-
-    dsExecuteBacktest(activeExchange, startNum, endNum, activeMarket, tf, candles, trades, strategyContent)
+    
+    if(!strategyContent['init']) {
+      dsExecuteBacktest(activeExchange, startNum, endNum, activeMarket, tf, candles, trades, strategyContent)
+    } else {
+      dsExecuteBacktestBacktrader(activeExchange, startNum, endNum, activeMarket, tf, candles, trades, strategyContent)
+    }
   }
 
   updateExecutionType = (value) => {
@@ -76,7 +112,6 @@ export default class Backtester extends React.Component {
   render() {
     const {
       executionType = this.backtestMethods[0],
-      backtestOptions,
     } = this.state
     const {
       indicators,
@@ -84,6 +119,7 @@ export default class Backtester extends React.Component {
       strategyContent,
       allMarkets,
       backtestResults,
+      backtestOptions,
     } = this.props
 
     const formState = this.state[`${executionType.type}_formState`] || {} // eslint-disable-line
@@ -91,7 +127,7 @@ export default class Backtester extends React.Component {
       updateExecutionType: this.updateExecutionType,
       backtestMethods: this.backtestMethods,
       backtestStrategy: this.backtestStrategy,
-      executionType,
+      executionType: executionType.type,
       indicators,
       updateError: this.updateError,
       allMarkets,
@@ -107,7 +143,7 @@ export default class Backtester extends React.Component {
       },
     }
 
-    if (!strategyContent) {
+    if (!strategyContent || Object.keys(strategyContent).length === 0) {
       return (
         <div className='hfui-backtester__wrapper'>
           <p>Create a strategy to begin backtesting.</p>
@@ -135,22 +171,8 @@ export default class Backtester extends React.Component {
 
     return (
       <div className='hfui-backtester__wrapper'>
-        {
-          (!backtestResults.loading) && (
-            <>
-              <executionType.form {...opts} />
-              <p>Press start to begin backtesting.</p>
-            </>
-          )
-        }
-        {
-          (backtestResults.loading) && (
-            <>
-              <executionType.form {...opts} disabled />
-              <p>Loading candles and executing strategy...</p>
-            </>
-          )
-        }
+        <executionType.form {...opts} disabled={backtestResults.loading} />
+        <p>{backtestResults.loading ? 'Loading candles and executing strategy...' : 'Press start to begin backtesting.'}</p>
       </div>
     )
   }
