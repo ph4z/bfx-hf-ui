@@ -10,11 +10,13 @@ import prenext from './prenext'
 import start from './start'
 import stop from './stop'
 import init from './init'
+import params from './params'
 import log from './log'
 
 export default {
   label: 'Blank',
 
+  params,
   init,
   log,
   next,

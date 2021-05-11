@@ -4,11 +4,13 @@ import notifyTrade from './notifyTrade'
 import start from './start'
 import stop from './stop'
 import init from './init'
+import params from './params'
 import log from './log'
 
 export default {
-  label: 'Shad',
+  label: 'SHAD',
 
+  params,
   init,
   log,
   start,

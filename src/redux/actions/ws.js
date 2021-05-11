@@ -154,6 +154,11 @@ export default {
     payload: { strategies },
   }),
 
+  recvBTStrategies: ({ btstrategies }) => ({
+    type: t.DATA_BT_STRATEGIES,
+    payload: { btstrategies },
+  }),
+
   recvAPICredentialsConfigured: ({ exID }) => ({
     type: t.DATA_API_CREDENTIALS_CONFIGURED,
     payload: { exID },

@@ -38,6 +38,7 @@ const STRATEGY_SECTIONS = [
 ]
 
 const BT_STRATEGY_SECTIONS = [
+  'params',
   'init',
   'log',
   'start',
@@ -340,7 +341,7 @@ export default class StrategyEditor extends React.PureComponent {
       }
     } else {
       this.setState(() => ({ backtrader: true,
-      activeContent: 'init' }))
+      activeContent: 'params' }))
       for (let i = 0; i < BT_STRATEGY_SECTIONS.length; i += 1) {
         section = BT_STRATEGY_SECTIONS[i]
         const content = strategy[section]

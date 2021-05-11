@@ -93,6 +93,12 @@ export default (ws, store) => (e = {}) => {
       break
     }
 
+    case 'data.bt_strategies': {
+      const [, bt_strategies] = payload
+      store.dispatch(WSActions.recvBTStrategies({ bt_strategies }))
+      break
+    }
+
     case 'data.strategy': {
       const [, id, strategy] = payload
       store.dispatch(WSActions.recvStrategy({ id, strategy }))

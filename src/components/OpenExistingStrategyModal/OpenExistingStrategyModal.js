@@ -39,22 +39,20 @@ export default class OpenExistingStrategyModal extends React.Component {
       return
     }
 
-    const { onClose, onOpen, strategies } = this.props
+    const { onClose, onOpen, bt_strategies } = this.props
+    let { strategies } = this.props
+    strategies.concat(bt_strategies)
     const strategy = strategies.find(s => s.id === strategyID)
-
-    if (!strategy) {
-      debug('strategy not found: %s', strategyID)
-      return
-    }
 
     onOpen(strategy)
     onClose()
   }
 
   render() {
-    const { onClose, strategies } = this.props
+    const { onClose, bt_strategies } = this.props
+    let { strategies } = this.props
     const { strategyID, error } = this.state
-
+    strategies.concat(bt_strategies)
     return (
       <Modal
         onClose={onClose}

@@ -38,11 +38,10 @@ export default class CreateNewStrategyModal extends React.Component {
     this.setState(() => ({ editor }))
     if(editor === "backtest") {
       this.setState(() => ({ templates: Templates  }))
-      this.render()
     } else {
       this.setState(() => ({ templates: BT_Templates  }))
-      this.render()
     }
+    this.render()
   }
 
   onTemplateChange = (template) => {
