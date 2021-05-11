@@ -1,5 +1,4 @@
 import React from 'react'
-import Debug from 'debug'
 import _isEmpty from 'lodash/isEmpty'
 
 import Modal from '../../ui/Modal'
@@ -8,8 +7,6 @@ import Dropdown from '../../ui/Dropdown'
 
 import { propTypes, defaultProps } from './OpenExistingStrategyModal.props'
 import './style.css'
-
-const debug = Debug('hfui:c:open-existing-strategy-modal')
 
 export default class OpenExistingStrategyModal extends React.Component {
   static propTypes = propTypes
