@@ -38,7 +38,7 @@ export default class OpenExistingStrategyModal extends React.Component {
 
     const { onClose, onOpen, bt_strategies } = this.props
     let { strategies } = this.props
-    strategies.concat(bt_strategies)
+    strategies = [...strategies, ...bt_strategies]
     const strategy = strategies.find(s => s.id === strategyID)
 
     onOpen(strategy)
@@ -49,7 +49,7 @@ export default class OpenExistingStrategyModal extends React.Component {
     const { onClose, bt_strategies } = this.props
     let { strategies } = this.props
     const { strategyID, error } = this.state
-    strategies.concat(bt_strategies)
+    strategies = [...strategies, ...bt_strategies]
     return (
       <Modal
         onClose={onClose}
