@@ -40,18 +40,11 @@ const STRATEGY_SECTIONS = [
 const BT_STRATEGY_SECTIONS = [
   'params',
   'init',
-  'log',
   'start',
   'stop',
   'next',
   'prenext',
   'nextstart',
-  'notifyCashValue',
-  'notifyFund',
-  'notifyOrder',
-  'notifyStore',
-  'notifyTrade',
-  'notifyTimer',
 ]
 
 export default class StrategyEditor extends React.PureComponent {
