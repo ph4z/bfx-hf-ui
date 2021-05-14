@@ -21,8 +21,17 @@ const mapDispatchToProps = dispatch => ({
   onImport: (authToken, strategy = {}) => {
     dispatch(WSActions.send(['strategy.import', authToken, strategy]))
   },
+  onSaveBT: (authToken, strategy = {}) => {
+    dispatch(WSActions.send(['strategy.savebt', authToken, strategy]))
+  },
+  onImportBT: (authToken, strategy = {}) => {
+    dispatch(WSActions.send(['strategy.importbt', authToken, strategy]))
+  },
   onRemove: (authToken, id) => {
     dispatch(WSActions.send(['strategy.remove', authToken, id]))
+  },
+  onRemoveBT: (authToken, id) => {
+    dispatch(WSActions.send(['strategy.removebt', authToken, id]))
   },
   gaCreateStrategy: () => {
     dispatch(GAActions.createStrategy())

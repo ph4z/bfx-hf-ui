@@ -8,6 +8,7 @@ import tickers from './tickers'
 import candles from './candles'
 import channels from './channels'
 import strategies from './strategies'
+import bt_strategies from './bt_strategies'
 import apiClients from './api_clients'
 import positions from './positions'
 import balances from './balances'
@@ -23,6 +24,7 @@ export default combineReducers({
   orders,
   apiClients,
   strategies,
+  bt_strategies,
   tickers,
   candles,
   trades,

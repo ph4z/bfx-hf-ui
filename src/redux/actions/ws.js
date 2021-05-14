@@ -154,6 +154,11 @@ export default {
     payload: { strategies },
   }),
 
+  recvBTStrategies: ({ bt_strategies }) => ({
+    type: t.DATA_BT_STRATEGIES,
+    payload: { bt_strategies },
+  }),
+
   recvAPICredentialsConfigured: ({ exID }) => ({
     type: t.DATA_API_CREDENTIALS_CONFIGURED,
     payload: { exID },
@@ -277,6 +282,11 @@ export default {
   purgeDataTrades: (exID, channel) => ({
     type: t.PURGE_DATA_TRADES,
     payload: { exID, channel },
+  }),
+
+  setBacktestOptions: options => ({
+    type: t.SET_BACKTEST_OPTIONS,
+    payload: { options },
   }),
 
   purgeBacktestData: () => ({
