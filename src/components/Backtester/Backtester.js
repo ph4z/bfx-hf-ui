@@ -1,10 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _isEmpty from 'lodash/isEmpty'
 
 import RenderHistoricalReport from './reports/HistoricalReport'
 import RenderHistoricalForm from './forms/HistoricalForm'
 
 import './style.css'
+
+const STRATEGY_SECTIONS = [
+  'defineIndicators',
+  'onPriceUpdate',
+  'onEnter',
+  'onUpdate',
+  'onUpdateLong',
+  'onUpdateShort',
+  'onUpdateClosing',
+  'onPositionOpen',
+  'onPositionUpdate',
+  'onPositionClose',
+  'onStart',
+  'onStop',
+]
+
+const BT_STRATEGY_SECTIONS = [
+  'params',
+  'init',
+  'start',
+  'stop',
+  'next',
+  'prenext',
+  'nextstart',
+]
 
 export default class Backtester extends React.Component {
   static propTypes = {
@@ -17,12 +43,9 @@ export default class Backtester extends React.Component {
       trades: PropTypes.array.isRequired,
       candles: PropTypes.array.isRequired,
     }),
-    strategyContent: PropTypes.objectOf(
-      PropTypes.oneOfType([
-        PropTypes.string.isRequired,
-        PropTypes.oneOf([null]).isRequired,
-      ]),
-    ),
+    strategyId: PropTypes.string,
+    strategies: PropTypes.array,
+    bt_strategies: PropTypes.array,
     allMarkets: PropTypes.objectOf(PropTypes.array),
     backtestResults: PropTypes.objectOf(PropTypes.any),
     backtestOptions: PropTypes.objectOf(PropTypes.any),
@@ -41,7 +64,9 @@ export default class Backtester extends React.Component {
       trades: [],
       candles: [],
     },
-    strategyContent: {},
+    strategyId: '',
+    strategies: {},
+    bt_strategies: {},
     allMarkets: {},
     backtestResults: {},
     backtestOptions: {},
@@ -53,6 +78,7 @@ export default class Backtester extends React.Component {
     loadingBacktest: false,
     execRunning: false,
     results: null,
+    strategyContent: null,
   }
 
   constructor() {
@@ -77,11 +103,16 @@ export default class Backtester extends React.Component {
     ]
   }
 
+  componentDidMount() {
+    this.setStrategyContent()
+  }
+
   backtestStrategy = (options) => {
+    const strategyContent = this.setStrategyContent()
     const {
       activeExchange, activeMarket, startDate, endDate, tf, trades, candles,
     } = options
-    const { dsExecuteBacktest, dsExecuteBacktestBacktrader, strategyContent, setBacktestOptions } = this.props
+    const { dsExecuteBacktest, dsExecuteBacktestBacktrader, setBacktestOptions, } = this.props
     setBacktestOptions(options)
     const startNum = new Date(startDate).getTime()
     const endNum = new Date(endDate).getTime()
@@ -95,6 +126,35 @@ export default class Backtester extends React.Component {
     } else {
       dsExecuteBacktestBacktrader(activeExchange, startNum, endNum, activeMarket, tf, candles, trades, strategyContent)
     }
+  }
+
+  setStrategyContent = () => {
+    const { bt_strategies, strategyId } = this.props
+    let { strategies } = this.props
+    strategies = [...strategies, ...bt_strategies]
+    const strategy = strategies.find(s => s.id === strategyId)
+    const strategyContent = {}
+    let section
+    if(strategy.editor === "backtest") {
+      for (let i = 0; i < STRATEGY_SECTIONS.length; i += 1) {
+        section = STRATEGY_SECTIONS[i]
+        const content = strategy[section]
+
+        if (!_isEmpty(content)) {
+          strategyContent[section] = content
+        }
+      }
+    } else {
+      for (let i = 0; i < BT_STRATEGY_SECTIONS.length; i += 1) {
+        section = BT_STRATEGY_SECTIONS[i]
+        const content = strategy[section]
+
+        if (!_isEmpty(content)) {
+          strategyContent[section] = content
+        }
+      } 
+    }
+    return strategyContent
   }
 
   updateExecutionType = (value) => {
@@ -116,8 +176,8 @@ export default class Backtester extends React.Component {
     const {
       indicators,
       backtestData,
-      strategyContent,
       allMarkets,
+      strategyId,
       backtestResults,
       backtestOptions,
     } = this.props
@@ -142,8 +202,7 @@ export default class Backtester extends React.Component {
         }))
       },
     }
-
-    if (!strategyContent || Object.keys(strategyContent).length === 0) {
+    if (strategyId === '') {
       return (
         <div className='hfui-backtester__wrapper'>
           <p>Create a strategy to begin backtesting.</p>

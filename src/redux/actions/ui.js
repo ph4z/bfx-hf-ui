@@ -92,8 +92,9 @@ const recvNotification = notification => ({
   payload: { notification },
 })
 
-const strategySelect = () => ({
+const strategySelect = id => ({
   type: types.STRATEGY_SELECT,
+  payload: { id },
 })
 
 const updateStrategyContent = content => ({
