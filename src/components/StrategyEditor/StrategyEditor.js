@@ -215,12 +215,12 @@ export default class StrategyEditor extends React.PureComponent {
   }
 
   onSaveStrategy = () => {
-    const { authToken, onSave, onSaveBT } = this.props
+    const { authToken, onSave, onSaveBT, strategyId } = this.props
     const { strategy } = this.state
     if(strategy.editor === 'backtest') {
-      onSave(authToken, strategy)
+      onSave(authToken, { id: strategyId, ...strategy })
     } else {
-      onSaveBT(authToken, strategy)
+      onSaveBT(authToken, { id: strategyId, ...strategy })
     }
     this.setState(() => ({ strategyDirty: false }))
     this.onCloseModals()
@@ -237,11 +237,12 @@ export default class StrategyEditor extends React.PureComponent {
     const {
       authToken, onRemove, onRemoveBT, onStrategyChange, strategyId,
     } = this.props
-    const { backtrader } = this.state
-    if(backtrader) {
-      onRemove(authToken, strategyId)
+    const { strategy } = this.state
+    const { id = strategyId } = strategy
+    if(strategy.editor === 'backtest') {
+      onRemove(authToken, id)
     } else {
-      onRemoveBT(authToken, strategyId)
+      onRemoveBT(authToken, id)
     }
     
     this.setState(() => ({ strategy: null }))
@@ -261,7 +262,7 @@ export default class StrategyEditor extends React.PureComponent {
     setTimeout(() => {
       if (activeContent === 'defineIndicators') {
         this.onDefineIndicatorsChange() // tracks errors
-      } else if (strategy.editor === 'backtest') {
+      } else {
         this.evalSectionContent(activeContent)
       }
     }, 0)
@@ -317,7 +318,7 @@ export default class StrategyEditor extends React.PureComponent {
   selectStrategy = (strategy) => {
     const { onStrategySelect } = this.props
     this.setState(() => ({ strategy }))
-    const strategyId = strategy.id
+
     const strategyContent = {}
     let section
     if(strategy.editor === "backtest") {
@@ -344,7 +345,7 @@ export default class StrategyEditor extends React.PureComponent {
       }
     }
     
-    onStrategySelect(strategyId, strategyContent)
+    onStrategySelect(strategyContent)
   }
   updateStrategy = (strategy) => {
     const { onStrategyChange } = this.props

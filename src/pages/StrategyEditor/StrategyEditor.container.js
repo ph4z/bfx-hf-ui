@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => ({
   setStrategyContent(content) {
     dispatch(UIActions.updateStrategyContent(content))
   },
-  selectStrategy(id) {
-    dispatch(UIActions.strategySelect(id))
+  selectStrategy() {
+    dispatch(UIActions.strategySelect())
   },
 }) // eslint-disable-line
 

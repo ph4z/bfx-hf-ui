@@ -16,8 +16,7 @@ export default () => {
         break
       }
       case UITypes.STRATEGY_SELECT: {
-        const { id } = payload
-        store.dispatch(UIActions.updateStrategyId(id))
+        store.dispatch(UIActions.updateStrategyId(null))
         next(action)
         break
       }

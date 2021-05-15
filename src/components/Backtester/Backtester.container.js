@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
 
 import WSActions from '../../redux/actions/ws'
-import { getBacktestState, getBacktestData, getBacktestResults, getStrategies, getBTStrategies } from '../../redux/selectors/ws'
+import { getBacktestState, getBacktestData, getBacktestResults } from '../../redux/selectors/ws'
 import { getMarkets } from '../../redux/selectors/meta'
-import { getStrategyId } from '../../redux/selectors/ui'
 
 import Backtester from './Backtester'
 
@@ -12,9 +11,7 @@ const mapStateToProps = (state = {}) => ({
   backtestData: getBacktestData(state),
   allMarkets: getMarkets(state),
   backtestResults: getBacktestResults(state),
-  strategyId: getStrategyId(state),
-  strategies: getStrategies(state),
-  bt_strategies: getBTStrategies(state),
+  strategyContent: state.ui.content,
   backtestOptions: state.ws.backtest.backtestOptions || {},
 })
 
