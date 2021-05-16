@@ -262,7 +262,7 @@ export default class StrategyEditor extends React.PureComponent {
     setTimeout(() => {
       if (activeContent === 'defineIndicators') {
         this.onDefineIndicatorsChange() // tracks errors
-      } else {
+      } else if (strategy.editor === 'backtest') {
         this.evalSectionContent(activeContent)
       }
     }, 0)

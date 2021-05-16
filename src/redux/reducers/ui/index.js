@@ -232,7 +232,6 @@ function reducer(state = getInitialState(), action = {}) {
         ...state,
         content: {
           ...content,
-          ...state.content,
         },
       }
     }
