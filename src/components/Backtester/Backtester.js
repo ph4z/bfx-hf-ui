@@ -121,7 +121,7 @@ export default class Backtester extends React.Component {
       backtestResults,
       backtestOptions,
     } = this.props
-    console.log(strategyContent)
+    
     const formState = this.state[`${executionType.type}_formState`] || {} // eslint-disable-line
     const opts = {
       updateExecutionType: this.updateExecutionType,
