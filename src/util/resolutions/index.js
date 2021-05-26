@@ -1,11 +1,15 @@
 import bitfinex from './bitfinex'
 import binance from './binance'
-import kraken from './kraken'
 import binance_futures from './binance_futures'
+import binance_coins from './binance_coins'
+import kraken from './kraken'
+import ftx from './ftx'
 
 export default {
   bitfinex,
-  kraken,
   binance,
   binance_futures,
+  binance_coins,
+  kraken,
+  ftx,
 }
