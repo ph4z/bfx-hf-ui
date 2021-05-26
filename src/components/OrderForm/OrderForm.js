@@ -402,7 +402,6 @@ export default class OrderForm extends React.Component {
     const renderData = marketToQuoteBase(currentMarket)
     const atomicOrderTypes = []
     const algoOrderTypes = []
-    console.log(orders, currentExchange)
 
     orders[currentExchange].forEach(({ label, id, uiIcon }) => atomicOrderTypes.push({
       id,
