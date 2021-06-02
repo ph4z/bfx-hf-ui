@@ -29,6 +29,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(WSActions.addChannelRequirement(exchange, ['ticker', market]))
   },
 
+  removeTickerRequirement: (exchange, market) => {
+    dispatch(WSActions.removeChannelRequirement(exchange, ['ticker', market]))
+  },
+
   onChangeMarket: (exchange, market, prevMarket) => {
     dispatch(WSActions.removeChannelRequirement(exchange, ['ticker', prevMarket]))
     dispatch(UIActions.setActiveMarket(market))

@@ -7,20 +7,23 @@ import './style.css'
 export default class Chart extends React.Component {
   static propTypes = {
     activeMarket: PropTypes.object.isRequired,
-    activeExchange: PropTypes.object.isRequired,
+    activeExchange: PropTypes.string.isRequired,
   }
   static defaultProps = {
     activeMarket: {},
-    activeExchange: {},
+    activeExchange: '',
   }
 
   render() {
     const { activeMarket, activeExchange } = this.props
     const { base, quote, restID} = activeMarket
     let sym = `${activeExchange.toUpperCase()}:${base}${quote}`
-    if (activeExchange === 'binance_futures' || activeExchange === 'binance_coins') {
+    if (activeExchange === 'binance_futures') {
     	sym = `BINANCE:${base}${quote}PERP`
-    } 
+    }
+    if (activeExchange === 'binance_coins') {
+    	sym = `BINANCE:${base}${quote}TPERP`
+    }
     if (activeExchange === 'kraken') {
     	sym = `${activeExchange.toUpperCase()}:${restID}`
     } 
