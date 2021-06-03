@@ -6,18 +6,21 @@ import NavbarButton from '../NavbarButton'
 import { propTypes, defaultProps } from './Navbar.props'
 import './style.css'
 
+
+// Icon names: https://fontawesome.com/v4.7/icons/
+
 const items = [
   {
     route: '/',
-    label: 'Trading Terminal',
+    label: [<Icon name='terminal' key='icon' />, <p key='label'>Terminal</p>],
   },
   {
     route: '/data',
-    label: 'Market Data',
+    label: [<Icon name='binoculars' key='icon' />, <p key='label'>Market Data</p>],
   },
   {
     route: '/strategy-editor',
-    label: 'Strategy Editor',
+    label: [<Icon name='edit' key='icon' />, <p key='label'>Strategies</p>],
   },
   {
     route: '/portfolio',
@@ -25,15 +28,15 @@ const items = [
   },
   {
     route: '/yields',
-    label: 'Yields',
+    label: [<Icon name='percent' key='icon' />, <p key='label'>Farming</p>],
   },
   {
     route: '/reports',
-    label: 'Reports',
+    label: [<Icon name='bar-chart' key='icon' />, <p key='label'>Reports</p>],
   },
   {
     route: '/ico',
-    label: 'ICO',
+    label: [<Icon name='tags' key='icon' />, <p key='label'>ICOs</p>],
   },
   {
     route: '/settings',
