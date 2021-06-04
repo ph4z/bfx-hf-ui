@@ -1,3 +1,3 @@
-import Portfolio from './Yieldds.container'
+import Portfolio from './Yields.container'
 
 export default Portfolio
