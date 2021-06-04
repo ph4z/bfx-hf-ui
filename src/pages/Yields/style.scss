@@ -1,20 +1,13 @@
-.hfui-yieldspage__wrapper {
-  height: calc(100% - 130px);
-}
-
-.hfui-yieldspage__inner {
-  display: flex;
-  flex-direction: row;
+.hfui-yields__wrapper {
   height: 100%;
-}
+  width: 100%; 
+  margin: 0;
+  padding: 0;
+  border: 0;
 
-.hfui-yieldspage__column {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 30px;
-
-  &.center {
-    width: 100%;
+  .hfui-yields__content {
+    width: 100%; 
+    height: 100%;
+    position: absolute
   }
 }

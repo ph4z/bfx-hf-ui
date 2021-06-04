@@ -1,7 +1,6 @@
 import React from 'react'
 
 import StatusBar from '../../components/StatusBar'
-import ExchangeInfoBar from '../../components/ExchangeInfoBar'
 
 import { propTypes, defaultProps } from './Yields.props'
 import './style.css'
@@ -14,28 +13,17 @@ export default class Portfolio extends React.Component {
     super(props)
 
     this.grid = React.createRef()
-    this.onChangeMarket = this.onChangeMarket.bind(this)
   }
 
-  onChangeMarket({ value }) {
-    const { saveActiveMarket } = this.props
-    saveActiveMarket(value)
-  }
 
   render() {
-    const { activeMarket } = this.props
+    const yieldsURL = process.env.REACT_APP_YIELD_URL
     return (
       <>
-        <ExchangeInfoBar
-          selectedMarket={activeMarket}
-          onChangeMarket={this.onChangeMarket}
-        />
-        <div className='hfui-yieldspage__wrapper'>
-          <div className='hfui-yieldspage__inner'>
-            <div className='hfui-yieldspage__column center'>
-            </div>
+        <div className='hfui-yields__wrapper'>
+          <div className='hfui-yields__content'>
+            <iframe title="report" src={ yieldsURL }  frameBorder="0" style={{height: '90%', width: '100%'}} allowFullScreen></iframe>
           </div>
-
           <StatusBar />
         </div>
       </>
