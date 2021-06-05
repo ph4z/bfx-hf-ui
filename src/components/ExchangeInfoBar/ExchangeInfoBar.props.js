@@ -4,6 +4,7 @@ export const propTypes = {
   activeExchange: PropTypes.string.isRequired,
   activeMarket: PropTypes.object.isRequired,
   addTickerRequirement: PropTypes.func.isRequired,
+  removeTickerRequirement: PropTypes.func.isRequired,
   onChangeMarket: PropTypes.func.isRequired,
   onChangeExchange: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,

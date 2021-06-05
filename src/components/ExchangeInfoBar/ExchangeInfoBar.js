@@ -1,5 +1,6 @@
 import React from 'react'
 import _capitalize from 'lodash/capitalize'
+import _isEqual from 'lodash/isEqual'
 
 import Select from '../../ui/Select'
 import MarketSelect from '../MarketSelect'
@@ -10,13 +11,22 @@ import quotePrefix from '../../util/quote_prefix'
 import { propTypes, defaultProps } from './ExchangeInfoBar.props'
 import './style.css'
 
-export default class ExchangeInfoBar extends React.PureComponent {
+export default class ExchangeInfoBar extends React.Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
   componentDidMount() {
     const { activeExchange, activeMarket, addTickerRequirement } = this.props
     addTickerRequirement(activeExchange, activeMarket)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (!_isEqual(nextProps, this.props) || !_isEqual(nextState, this.state))
+  }
+
+  componentWillUnmount() {
+    const { activeExchange, activeMarket, removeTickerRequirement } = this.props
+    removeTickerRequirement(activeExchange, activeMarket)
   }
 
   render() {
@@ -36,7 +46,7 @@ export default class ExchangeInfoBar extends React.PureComponent {
       <div className='hfui-exchangeinfobar__wrapper'>
         <div className='hfui-exchangeinfobar__left'>
           <ExchangeInfoBarItem
-            // label='Exchange'
+            label='Exchange'
             value={(
               <Select
                 onChange={({ value }) => {
@@ -57,7 +67,7 @@ export default class ExchangeInfoBar extends React.PureComponent {
           />
 
           <ExchangeInfoBarItem
-            // label='Market'
+            label='Market'
             value={(
               <MarketSelect
                 markets={marketsForActiveExchange}

@@ -12,17 +12,17 @@ const balanceAdapter = (data = [], exID) => ({
   available: data[3],
 })
 
-const orderAdapter = (data = []) => ({
-  id: data[0],
-  gid: data[1],
-  cid: data[2],
-  symbol: data[3],
-  created: data[4],
-  amount: data[5],
-  originalAmount: data[6],
-  type: data[7],
-  status: data[8],
-  price: data[9],
+const orderAdapter = (data = {}) => ({
+  id: data.id,
+  gid: data.gid,
+  cid: data.cid,
+  symbol: data.symbol,
+  created: data.mtsCreate,
+  amount: data.amount,
+  originalAmount: data.amountOrig,
+  type: data.type.toUpperCase(),
+  status: data.status.toUpperCase(),
+  price: data.price,
 })
 
 const notificationAdapter = (data = []) => {
