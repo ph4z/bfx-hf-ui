@@ -19,6 +19,10 @@ const items = [
     label: [<Icon name='binoculars' key='icon' />, <p key='label'>Market Data</p>],
   },
   {
+    route: '/santiment',
+    label: [<Icon name='heart' key='icon' />, <p key='label'>Santiment</p>],
+  },
+  {
     route: '/strategy-editor',
     label: [<Icon name='edit' key='icon' />, <p key='label'>Strategies</p>],
   },

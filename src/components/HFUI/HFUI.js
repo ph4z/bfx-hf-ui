@@ -5,6 +5,7 @@ import SettingsPage from '../../pages/Settings'
 import TradingPage from '../../pages/Trading'
 import PortfolioPage from '../../pages/Portfolio'
 import YieldsPage from '../../pages/Yields'
+import SantimentPage from '../../pages/Santiment'
 import ReportsPage from '../../pages/Reports'
 import ICOPage from '../../pages/ICO'
 import StrategyEditorPage from '../../pages/StrategyEditor'
@@ -72,6 +73,12 @@ export default class HFUI extends React.PureComponent {
             path='/data'
             render={() => (
               <MarketDataPage />
+            )}
+          />
+          <Route
+            path='/santiment'
+            render={() => (
+              <SantimentPage />
             )}
           />
           <Route
