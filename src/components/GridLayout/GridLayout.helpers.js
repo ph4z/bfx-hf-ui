@@ -14,6 +14,7 @@ import MarketCap from '../MarketCap'
 import HeatMap from '../HeatMap'
 import Screener from '../Screener'
 import Events from '../Events'
+import WithdrawForm from '../WithdrawForm'
 
 const COMPONENT_TYPES = {
   CHART: 'CHART',
@@ -30,6 +31,7 @@ const COMPONENT_TYPES = {
   ATOMIC_ORDERS_TABLE: 'ATOMIC_ORDERS_TABLE',
   ORDER_HISTORY_TABLE: 'ORDER_HISTORY_TABLE',
   TRADING_STATE_PANEL: 'TRADING_STATE_PANEL',
+  WITHDRAW_FORM: 'WITHDRAW_FORM',
 }
 
 const COMPONENT_LABELS = {
@@ -47,6 +49,7 @@ const COMPONENT_LABELS = {
   [COMPONENT_TYPES.ATOMIC_ORDERS_TABLE]: 'Atomic Orders Table',
   [COMPONENT_TYPES.ORDER_HISTORY_TABLE]: 'Order History Table',
   [COMPONENT_TYPES.TRADING_STATE_PANEL]: 'Trading State Panel',
+  [COMPONENT_TYPES.WITHDRAW_FORM]: 'Withdraw Form',
 }
 
 const COMPONENT_DIMENSIONS = {
@@ -64,6 +67,7 @@ const COMPONENT_DIMENSIONS = {
   [COMPONENT_TYPES.ATOMIC_ORDERS_TABLE]: { w: 40, h: 6 },
   [COMPONENT_TYPES.ORDER_HISTORY_TABLE]: { w: 40, h: 6 },
   [COMPONENT_TYPES.TRADING_STATE_PANEL]: { w: 40, h: 6 },
+  [COMPONENT_TYPES.WITHDRAW_FORM]: { w: 24, h: 10 },
 }
 
 const componentForType = (c) => {
@@ -110,6 +114,9 @@ const componentForType = (c) => {
     case COMPONENT_TYPES.TRADING_STATE_PANEL:
       return TradingStatePanel
 
+    case COMPONENT_TYPES.WITHDRAW_FORM:
+      return WithdrawForm
+
     default:
       return null
   }
@@ -153,6 +160,8 @@ const renderLayoutElement = (layoutID, def = {}, componentProps = {}, onRemoveCo
     Object.assign(cProps, componentProps.orderForm)
   } else if (C === AtomicOrdersTablePanel && componentProps.orders) {
     Object.assign(cProps, componentProps.orders)
+  } else if (C === WithdrawForm && componentProps.withdraw) {
+    Object.assign(cProps, componentProps.withdraw)
   }
   return <C {...cProps} />
 }
