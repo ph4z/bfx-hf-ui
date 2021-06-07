@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import Debug from 'debug'
 
-import OrderForm from './OrderForm'
+import WithdrawForm from './WithdrawForm'
 import UIActions from '../../redux/actions/ui'
 import WSActions from '../../redux/actions/ws'
 import { getExchanges, getMarkets } from '../../redux/selectors/meta'
@@ -63,4 +63,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderForm)
+export default connect(mapStateToProps, mapDispatchToProps)(WithdrawForm)
