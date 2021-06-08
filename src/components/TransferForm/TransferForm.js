@@ -81,21 +81,17 @@ export default class TransferForm extends React.Component {
   }
 
   createLayout = () => {
-    let { currentExchange, currentMarket } = this.state
+    const { currentExchange, currentMarket } = this.state
     const { allMarkets } = this.props
-    if(currentExchange === 'binance_futures' || currentExchange === 'binance_coins') {
-      currentExchange = 'binance'
-    }
     const allExchanges = {
-      bitfinex: 'Bitfinex',
       binance: 'Binance',
-      kraken: 'Kraken',
-      ftx: 'FTX',
+      binance_futures: 'Binance Futures',
+      binance_coins: 'Binance Coins',
     }
     delete allExchanges[currentExchange]
     const markets = allMarkets[currentExchange] || []
-    form[0].fields.exchangeDest.options = allExchanges
-    form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
+    form[0].fields.walletDest.options = allExchanges
+    form[0].fields.walletOrig.default = currentExchange.toUpperCase()
     form[0].fields.symbol.default = currentMarket.base
     Object.values(markets).forEach(market => (
        form[0].fields.symbol.options[market.base] = market.base))
