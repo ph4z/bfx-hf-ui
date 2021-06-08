@@ -12,26 +12,21 @@ import {
 } from './WithdrawForm.helpers'
 
 import nearestMarket from '../../util/nearest_market'
-import withdraw from './withdraw'
 
 import Panel from '../../ui/Panel'
 import Select from '../../ui/Select'
-import Dropdown from '../../ui/Dropdown'
 import Scrollbars from '../../ui/Scrollbars'
 import MarketSelect from '../MarketSelect'
 
 import UnconfiguredModal from './Modals/UnconfiguredModal'
 import SubmitAPIKeysModal from './Modals/SubmitAPIKeysModal'
+import Withdraw from '../../withdraws'
 
 import { propTypes, defaultProps } from './WithdrawForm.props'
 import './style.css'
 
 const HELP_ICON_DISABLED = true // not in design
-const CONTEXT_LABELS = {
-  e: 'Exchange',
-  m: 'Margin',
-  f: 'Futures',
-}
+const form = Object.values(Withdraw).map(uiDef => uiDef())
 
 export default class WithdrawForm extends React.Component {
   static propTypes = propTypes
@@ -41,7 +36,6 @@ export default class WithdrawForm extends React.Component {
     fieldData: {},
     validationErrors: {},
     creationError: null,
-    context: 'e',
     helpOpen: false,
     configureModalOpen: false,
   }
@@ -65,12 +59,10 @@ export default class WithdrawForm extends React.Component {
 
       fieldData: {},
       currentLayout: null,
-      context: currentMarket.contexts[0],
     }
 
     this.onChangeExchange = this.onChangeExchange.bind(this)
     this.onChangeMarket = this.onChangeMarket.bind(this)
-    this.onContextChange = this.onContextChange.bind(this)
     this.onFieldChange = this.onFieldChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onToggleHelp = this.onToggleHelp.bind(this)
@@ -80,19 +72,34 @@ export default class WithdrawForm extends React.Component {
   }
 
   componentDidMount() {
-    const { currentExchange, currentMarket } = this.state
-    const { allMarkets } = this.props
-
-    const markets = allMarkets[exchange] || []
-    withdraw.fields.exchangeOrig.default = currentExchange
-    withdraw.fields.symbol.default = currentMarket
-    withdraw.fields.symbol.options = markets.map(market => {
-      market.base
-    })
+    const layout = this.createLayout()
+    
     this.setState(() => ({
-      currentLayout: withdraw,
-      fieldData: defaultDataForLayout(withdraw),
+      currentLayout: layout,
+      fieldData: defaultDataForLayout(layout),
     }))
+  }
+
+  createLayout = () => {
+    let { currentExchange, currentMarket } = this.state
+    const { allMarkets } = this.props
+    if(currentExchange === 'binance_futures' || currentExchange === 'binance_coins') {
+      currentExchange = 'binance'
+    }
+    const allExchanges = {
+      bitfinex: 'Bitfinex',
+      binance: 'Binance',
+      kraken: 'Kraken',
+      ftx: 'FTX',
+    }
+    delete allExchanges[currentExchange]
+    const markets = allMarkets[currentExchange] || []
+    form[0].fields.exchangeDest.options = allExchanges
+    form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
+    form[0].fields.symbol.default = currentMarket.base
+    Object.values(markets).forEach(market => (
+       form[0].fields.symbol.options[market.base] = market.base))
+    return form[0]
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -114,9 +121,6 @@ export default class WithdrawForm extends React.Component {
     return {
       currentExchange: activeExchange,
       currentMarket: activeMarket,
-      context: activeMarket.contexts[0],
-      fieldData: {},
-      currentLayout: null,
     }
   }
 
@@ -129,7 +133,6 @@ export default class WithdrawForm extends React.Component {
 
     this.setState(() => ({
       currentMarket: market,
-      context: market.c[0],
       marketDirty: true,
     }))
 
@@ -168,10 +171,6 @@ export default class WithdrawForm extends React.Component {
     }))
   }
 
-  onContextChange(context) {
-    this.setState(() => ({ context }))
-  }
-
   onFieldChange(fieldName, value) {
     this.setState(({
       fieldData,
@@ -204,7 +203,7 @@ export default class WithdrawForm extends React.Component {
 
   onSubmit(action) {
     const {
-      currentLayout, fieldData, context, currentExchange, currentMarket,
+      currentLayout, fieldData, currentExchange, currentMarket,
     } = this.state
 
     const { submitWithdraw, authToken } = this.props
@@ -216,7 +215,7 @@ export default class WithdrawForm extends React.Component {
     })
 
     try {
-      const packet = generateWithdraw(data, currentMarket[currentExchange === 'bitfinex' ? 'wsID' : 'restID'], context)
+      const packet = generateWithdraw(data, currentExchange)
       submitWithdraw({
         exID: currentExchange,
         authToken,
@@ -242,7 +241,6 @@ export default class WithdrawForm extends React.Component {
     this.setState(() => ({
       currentExchange: exchange,
       currentMarket: newMarket,
-      context: newMarket.c[0],
       exchangeDirty: true,
       marketDirty: true,
     }))
@@ -314,7 +312,7 @@ export default class WithdrawForm extends React.Component {
     const { onRemove, apiClientStates, apiCredentials, moveable, removeable, showExchange, showMarket } = this.props
 
     const {
-      fieldData, validationErrors, creationError, context, currentLayout,
+      fieldData, validationErrors, creationError, currentLayout,
       helpOpen, configureModalOpen, currentExchange, currentMarket,
     } = this.state
 
@@ -402,23 +400,6 @@ export default class WithdrawForm extends React.Component {
               </div>
             </div>,
 
-            <ul className='hfui-orderform__header' key='of-header'>
-              <li key='item'>
-                <Dropdown
-                  icon='exchange-passive'
-                  value={context}
-                  key='dropdown-orderform'
-                  onChange={this.onContextChange}
-                  options={currentMarket.contexts.filter(ctx => (
-                    currentExchange === 'bitfinex' || ctx !== 'm'
-                  )).map(ctx => ({
-                    label: CONTEXT_LABELS[ctx],
-                    value: ctx,
-                  }))}
-                />
-              </li>
-            </ul>,
-
             renderLayout({
               onSubmit: this.onSubmit,
               onFieldChange: this.onFieldChange,
@@ -427,7 +408,6 @@ export default class WithdrawForm extends React.Component {
               renderData,
               fieldData: {
                 ...fieldData,
-                _context: context,
               },
             }),
 

@@ -5,6 +5,7 @@ import _isBoolean from 'lodash/isBoolean'
 import _capitalize from 'lodash/capitalize'
 import _flatten from 'lodash/flatten'
 
+import TextInput from './FieldComponents/input.text'
 import NumberInput from './FieldComponents/input.number'
 import PriceInput from './FieldComponents/input.price'
 import AmountInput from './FieldComponents/input.amount'
@@ -19,6 +20,7 @@ import Button from '../../ui/Button'
 
 const COMPONENTS_FOR_ID = {
   'ui.checkbox_group': UICheckboxGroup,
+  'input.text': TextInput,
   'input.number': NumberInput,
   'input.price': PriceInput,
   'input.amount': AmountInput,

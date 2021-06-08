@@ -2,8 +2,8 @@ export default () => ({
   label: 'Withdraw',
   customHelp: 'A Withdraw order will be sent between the current exchange and the destination exchange.',
 
-  generateWithdraw: (data = {}, symbol) => {
-    const { amount, exchangeDest, exchangeOrig } = data
+  generateWithdraw: (data = {}, exchangeOrig) => {
+    const { amount, exchangeDest, symbol } = data
 
     return {
       exchangeDest,
@@ -17,7 +17,8 @@ export default () => ({
     title: '',
     name: 'general',
     rows: [
-      ['amount'],
+      ['amount', 'symbol'],
+      ['exchangeOrig', 'exchangeDest'],
     ],
   }],
 
@@ -29,22 +30,17 @@ export default () => ({
     symbol: {
       component: 'input.dropdown',
       label: 'Symbol To Withdraw',
+      options: {},
     },
     exchangeOrig: {
-      component: 'input.dropdown',
+      component: 'input.text',
       label: 'Exchange To Withdraw',
       disabled: true,
     },
     exchangeDest: {
       component: 'input.dropdown',
       label: 'Exchange To Deposit',
-      default: 'Bitfinex',
-      options: {
-        Bitfinex: 'Bitfinex',
-        Binance: 'Binance',
-        Kraken: 'Kraken',
-        FTX: 'FTX',
-      },
+      options: {},
     },
   },
 

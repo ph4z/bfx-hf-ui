@@ -16,6 +16,6 @@ export const propTypes = {
 export const defaultProps = {
   moveable: true,
   removeable: true,
-  showExchange: true,
-  showMarket: true,
+  showExchange: false,
+  showMarket: false,
 }
