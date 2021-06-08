@@ -18,7 +18,7 @@ export default () => ({
     name: 'general',
     rows: [
       ['amount', 'symbol'],
-      ['exchangeOrig', 'exchangeDest'],
+      ['walletOrig', 'walletDest'],
     ],
   }],
 
