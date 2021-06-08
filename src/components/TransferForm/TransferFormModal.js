@@ -2,9 +2,9 @@ import React from 'react'
 import ClassNames from 'classnames'
 
 import Scrollbars from '../../ui/Scrollbars'
-import { propTypes, defaultProps } from './WithdrawFormModal.props'
+import { propTypes, defaultProps } from './TransferFormModal.props'
 
-export default class WithdrawFormModal extends React.PureComponent {
+export default class TransferFormModal extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 

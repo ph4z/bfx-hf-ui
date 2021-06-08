@@ -9,7 +9,7 @@ import {
   marketToQuoteBase,
   defaultDataForLayout,
   COMPONENTS_FOR_ID,
-} from './WithdrawForm.helpers'
+} from './TransferForm.helpers'
 
 import nearestMarket from '../../util/nearest_market'
 
@@ -20,15 +20,15 @@ import MarketSelect from '../MarketSelect'
 
 import UnconfiguredModal from './Modals/UnconfiguredModal'
 import SubmitAPIKeysModal from './Modals/SubmitAPIKeysModal'
-import Withdraw from '../../withdraws'
+import Transfer from '../../transfers'
 
-import { propTypes, defaultProps } from './WithdrawForm.props'
+import { propTypes, defaultProps } from './TransferForm.props'
 import './style.css'
 
 const HELP_ICON_DISABLED = true // not in design
-const form = Object.values(Withdraw).map(uiDef => uiDef())
+const form = Object.values(Transfer).map(uiDef => uiDef())
 
-export default class WithdrawForm extends React.Component {
+export default class TransferForm extends React.Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
@@ -204,8 +204,8 @@ export default class WithdrawForm extends React.Component {
   onSubmit(action) {
     const { currentLayout, fieldData, currentExchange } = this.state
 
-    const { submitWithdraw, authToken } = this.props
-    const { generateWithdraw } = currentLayout
+    const { submitTransfer, authToken } = this.props
+    const { generateTransfer } = currentLayout
     const data = processFieldData({
       layout: currentLayout,
       fieldData,
@@ -213,8 +213,8 @@ export default class WithdrawForm extends React.Component {
     })
 
     try {
-      const packet = generateWithdraw(data, currentExchange)
-      submitWithdraw({
+      const packet = generateTransfer(data, currentExchange)
+      submitTransfer({
         exID: currentExchange,
         authToken,
         packet,
@@ -325,7 +325,7 @@ export default class WithdrawForm extends React.Component {
     return (
       <Panel
         key='execute-order'
-        label='WITHDRAW PANEL'
+        label='TRANSFER PANEL'
         className='hfui-orderform__panel'
         moveable={moveable}
         removeable={removeable}
