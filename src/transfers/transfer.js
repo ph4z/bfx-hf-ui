@@ -2,12 +2,11 @@ export default () => ({
   label: 'Transfer',
   customHelp: 'A Transfer order will be sent between the current wallet and the destination wallet.',
 
-  generateTransfer: (data = {}, walletOrig) => {
+  generateTransfer: (data = {}) => {
     const { amount, walletDest, symbol } = data
 
     return {
       walletDest,
-      walletOrig,
       quantity: Math.abs(+amount),
       symbol,
     }

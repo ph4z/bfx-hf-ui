@@ -213,7 +213,7 @@ export default class WithdrawForm extends React.Component {
     })
 
     try {
-      const packet = generateWithdraw(data, currentExchange)
+      const packet = generateWithdraw(data)
       submitWithdraw({
         exID: currentExchange,
         authToken,

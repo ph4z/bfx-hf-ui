@@ -209,7 +209,7 @@ export default class TransferForm extends React.Component {
     })
 
     try {
-      const packet = generateTransfer(data, currentExchange)
+      const packet = generateTransfer(data)
       submitTransfer({
         exID: currentExchange,
         authToken,
