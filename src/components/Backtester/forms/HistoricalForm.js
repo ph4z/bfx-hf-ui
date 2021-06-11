@@ -44,7 +44,7 @@ export default class HistoricalForm extends React.PureComponent {
 
     return backtestStrategy({
       activeExchange: exId,
-      activeMarket: selectedMarket.wsID,
+      activeMarket: selectedMarket.uiID,
       tf: selectedTimeFrame,
       startDate,
       endDate,
