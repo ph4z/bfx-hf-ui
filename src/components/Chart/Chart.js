@@ -24,10 +24,6 @@ export default class Chart extends React.Component {
     if (activeExchange === 'binance_coins') {
     	sym = `BINANCE:${base}${quote}TPERP`
     }
-    if (activeExchange === 'kraken') {
-    	sym = `${activeExchange.toUpperCase()}:${restID}`
-    } 
-    
 
     return (
       <div style={{
