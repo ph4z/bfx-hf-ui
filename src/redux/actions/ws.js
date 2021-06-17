@@ -82,6 +82,11 @@ export default {
     payload: { exID, markets },
   }),
 
+  recvDataCurrencies: (exID, currencies) => ({
+    type: t.DATA_CURRENCIES,
+    payload: { exID, currencies },
+  }),
+
   recvUpdatedSettings: settings => ({
     type: ui.UPDATE_SETTINGS,
     payload: settings,

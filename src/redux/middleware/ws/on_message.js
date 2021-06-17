@@ -39,6 +39,12 @@ export default (ws, store) => (e = {}) => {
       break
     }
 
+    case 'info.currencies': {
+      const [, ecxhangeID, currencies] = payload
+      store.dispatch(WSActions.recvDataCurrencies(ecxhangeID, currencies))
+      break
+    }
+
     case 'info.auth_configured': {
       const [, configured] = payload
       store.dispatch(WSActions.recvAuthConfigured(configured))
