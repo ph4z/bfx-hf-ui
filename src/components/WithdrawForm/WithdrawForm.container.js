@@ -5,7 +5,7 @@ import Debug from 'debug'
 import WithdrawForm from './WithdrawForm'
 import UIActions from '../../redux/actions/ui'
 import WSActions from '../../redux/actions/ws'
-import { getExchanges, getMarkets } from '../../redux/selectors/meta'
+import { getExchanges, getMarkets, getCurrencies } from '../../redux/selectors/meta'
 import {
   getAPIClientStates, getAuthToken, getAPICredentials,
 } from '../../redux/selectors/ws'
@@ -25,6 +25,7 @@ const mapStateToProps = (state = {}, ownProps = {}) => {
     exchanges: getExchanges(state),
     apiClientStates: getAPIClientStates(state),
     allMarkets: getMarkets(state),
+    currencies: getCurrencies(state),
     savedState: getComponentState(state, layoutID, 'withdrawform', id),
     authToken: getAuthToken(state),
     apiCredentials: getAPICredentials(state),
