@@ -27,8 +27,20 @@ const items = [
     label: [<Icon name='pie-chart' key='icon' />, <p key='label'>Portfolio</p>],
   },
   {
+    route: '/funds',
+    label: [<Icon name='users' key='icon' />, <p key='label'>Funds</p>],
+  },
+  {
+    route: '/swap',
+    label: [<Icon name='exchange' key='icon' />, <p key='label'>Swap</p>],
+  },
+  {
     route: '/yields',
     label: [<Icon name='percent' key='icon' />, <p key='label'>Farming</p>],
+  },
+  {
+    route: '/insurances',
+    label: [<Icon name='shield' key='icon' />, <p key='label'>Insurances</p>],
   },
   {
     route: '/reports',
@@ -37,6 +49,10 @@ const items = [
   {
     route: '/ico',
     label: [<Icon name='tags' key='icon' />, <p key='label'>ICOs</p>],
+  },
+  {
+    route: '/mixer',
+    label: [<Icon name='user-secret' key='icon' />, <p key='label'>Mix</p>],
   },
   {
     route: '/settings',
