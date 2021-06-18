@@ -3,12 +3,13 @@ export default () => ({
   customHelp: 'A Withdraw order will be sent between the current exchange and the destination exchange.',
 
   generateWithdraw: (data = {}) => {
-    const { amount, exchangeDest, symbol } = data
+    const { amount, exchangeDest, symbol, network } = data
 
     return {
       exchangeDest,
       quantity: Math.abs(+amount),
       symbol,
+      network,
     }
   },
 
@@ -17,6 +18,7 @@ export default () => ({
     name: 'general',
     rows: [
       ['amount', 'symbol'],
+      ['networks'],
       ['exchangeOrig', 'exchangeDest'],
     ],
   }],
@@ -29,6 +31,11 @@ export default () => ({
     symbol: {
       component: 'input.dropdown',
       label: 'Symbol To Withdraw',
+      options: {},
+    },
+    networks: {
+      component: 'input.dropdown',
+      label: 'Network To Use',
       options: {},
     },
     exchangeOrig: {

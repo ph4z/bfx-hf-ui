@@ -71,25 +71,16 @@ export default class WithdrawForm extends React.Component {
     this.onUnlock = this.onUnlock.bind(this)
   }
 
-  componentDidMount() {
-    const layout = this.createLayout()
-    
-    this.setState(() => ({
-      currentLayout: layout,
-      fieldData: defaultDataForLayout(layout),
-    }))
-  }
-
   createLayout = () => {
     let { currentExchange, currentMarket } = this.state
-    const { allMarkets } = this.props
+    const { allMarkets, currencies } = this.props
+    console.log(currencies)
     if(currentExchange === 'binance_futures' || currentExchange === 'binance_coins') {
       currentExchange = 'binance'
     }
     const allExchanges = {
       bitfinex: 'Bitfinex',
       binance: 'Binance',
-      kraken: 'Kraken',
       ftx: 'FTX',
     }
     delete allExchanges[currentExchange]
@@ -97,6 +88,8 @@ export default class WithdrawForm extends React.Component {
     form[0].fields.exchangeDest.options = allExchanges
     form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
     form[0].fields.symbol.default = currentMarket.base
+    form[0].fields.networks.default = currencies['bitfinex'].networks[0]
+    form[0].fields.networks.options = currencies['bitfinex'].networks
     Object.values(markets).forEach(market => (
        form[0].fields.symbol.options[market.base] = market.base))
     return form[0]
@@ -308,6 +301,13 @@ export default class WithdrawForm extends React.Component {
 
   render() {
     const { onRemove, apiClientStates, apiCredentials, moveable, removeable, showExchange, showMarket } = this.props
+
+    const layout = this.createLayout()
+    
+    this.setState(() => ({
+      currentLayout: layout,
+      fieldData: defaultDataForLayout(layout),
+    }))
 
     const {
       fieldData, validationErrors, creationError, currentLayout,
