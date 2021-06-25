@@ -17,6 +17,7 @@ export default () => ({
     name: 'general',
     rows: [
       ['amount', 'symbol'],
+      ['exchange'],
       ['walletOrig', 'walletDest'],
     ],
   }],
@@ -31,10 +32,15 @@ export default () => ({
       label: 'Symbol To Transfer',
       options: {},
     },
-    walletOrig: {
+    exchange: {
       component: 'input.text',
-      label: 'Wallet To Withdraw',
+      label: 'Exchange For Transfer',
       disabled: true,
+    },
+    walletOrig: {
+      component: 'input.dropdown',
+      label: 'Wallet To Withdraw',
+      options: {},
     },
     walletDest: {
       component: 'input.dropdown',

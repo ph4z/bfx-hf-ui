@@ -3,13 +3,13 @@ export default () => ({
   customHelp: 'A Withdraw order will be sent between the current exchange and the destination exchange.',
 
   generateWithdraw: (data = {}) => {
-    const { amount, exchangeDest, symbol, network } = data
+    const { amount, exchangeDest, symbol, networks } = data
 
     return {
       exchangeDest,
       quantity: Math.abs(+amount),
       symbol,
-      network,
+      networks,
     }
   },
 
