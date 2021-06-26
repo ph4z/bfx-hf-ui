@@ -30,8 +30,9 @@ export default class AuthenticationInit extends React.Component {
 
   onUnlock() {
     const { password } = this.state
+    const { username } = this.state
     const { onUnlock } = this.props
-    onUnlock(password)
+    onUnlock(username, password)
   }
 
   onReset() {
@@ -48,6 +49,7 @@ export default class AuthenticationInit extends React.Component {
 
   render() {
     const { password } = this.state
+    const { username } = this.state
     const submitReady = !_isEmpty(password)
 
     return (

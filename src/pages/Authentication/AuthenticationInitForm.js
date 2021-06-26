@@ -11,6 +11,7 @@ export default class AuthenticationInit extends React.Component {
 
   state = {
     password: '',
+    username: '',
     confirmPassword: '',
     error: '',
   }
@@ -32,7 +33,7 @@ export default class AuthenticationInit extends React.Component {
   }
 
   onSubmit() {
-    const { password, confirmPassword } = this.state
+    const { username, password, confirmPassword } = this.state
     const { onInit } = this.props
 
     if (password !== confirmPassword) {
@@ -41,11 +42,11 @@ export default class AuthenticationInit extends React.Component {
     }
 
     this.setState(() => ({ error: '' }))
-    onInit(password)
+    onInit(username, password)
   }
 
   render() {
-    const { password, confirmPassword, error } = this.state
+    const { username, password, confirmPassword, error } = this.state
     const submitReady = (
       (!_isEmpty(password) && !_isEmpty(confirmPassword))
       && (password === confirmPassword)
@@ -60,9 +61,9 @@ export default class AuthenticationInit extends React.Component {
           <Input
             type='text'
             name='username'
-            placeholder='Username'
+            placeholder='Email'
             autocomplete='username'
-            style={{ display: 'none' }}
+            //style={{ display: 'none' }}
           />
 
           <Input
