@@ -16,8 +16,8 @@ const mapStateToProps = (state = {}) => {
 }
 
 const mapDispatchToProps = dispatch => ({ // eslint-disable-line
-  onInit: (password) => {
-    dispatch(WSActions.initAuth(password))
+  onInit: (username, password) => {
+    dispatch(WSActions.initAuth(username, password))
     dispatch(UIActions.firstLogin())
   },
 
