@@ -59,8 +59,9 @@ export default class AuthenticationInit extends React.Component {
           <Input
             type='text'
             name='username'
+            placeholder='Email'
             autocomplete='username'
-            style={{ display: 'none' }}
+            //style={{ display: 'none' }}
           />
 
           <Input
@@ -79,7 +80,7 @@ export default class AuthenticationInit extends React.Component {
           />
         </form>
 
-        <div className='hfui-authenticationpage__clear'>
+	{/*<div className='hfui-authenticationpage__clear'>
           <p>Alternatively, clear your credentials &amp; and stored data to set a new password.</p>
 
           <Button
@@ -87,7 +88,7 @@ export default class AuthenticationInit extends React.Component {
             label='Clear Data &amp; Reset'
             red
           />
-        </div>
+        </div>}*/}
       </div>
     )
   }
