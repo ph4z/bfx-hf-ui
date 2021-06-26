@@ -15,7 +15,7 @@ export default class Authentication extends React.PureComponent {
 
   render() {
     const {
-      wsConnected, configured, onUnlock, onInit, onReset,
+      wsConnected, configured, onUnlock, onInit, onReset, onRegister
     } = this.props
 
     return (
@@ -44,6 +44,7 @@ export default class Authentication extends React.PureComponent {
           ) : (
             <AuthenticationInitForm
               onInit={onInit}
+              onRegister={onRegister}
             />
           )}
         </div>

@@ -28,6 +28,10 @@ const mapDispatchToProps = dispatch => ({ // eslint-disable-line
   onReset: () => {
     dispatch(WSActions.resetAuth())
   },
+
+  onRegister: () => {
+    dispatch(WSActions.registerAuth())
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Authentication)

@@ -23,8 +23,13 @@ export default class AuthenticationInit extends React.Component {
     this.onUsernameChange = this.onUsernameChange.bind(this)
     this.onConfirmPasswordChange = this.onConfirmPasswordChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onRegister = this.onRegister.bind(this)
   }
 
+  onRegister() {
+    const { onRegister } = this.props
+    onRegister()
+  }
   onPasswordChange(password) {
     this.setState(() => ({ password }))
   }
@@ -60,7 +65,7 @@ export default class AuthenticationInit extends React.Component {
     return (
       <div className='hfui-authenticationpage__content'>
         <h2>Honey Framework UI</h2>
-        <p>Create a password to encrypt your API credentials &amp; strategies. All data is stored locally, and your password is hashed.</p>
+        <p>Create a new account</p>
 
         <form className='hfui-authenticationpage__inner-form'>
           <Input
@@ -93,6 +98,14 @@ export default class AuthenticationInit extends React.Component {
             onClick={this.onSubmit}
             disabled={!submitReady}
             label='Save Credentials'
+            green
+          />
+
+          <p>Already have an account ? Sign-In</p>
+
+          <Button
+            onClick={this.onRegister}
+            label='Sign-In'
             green
           />
 

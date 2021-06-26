@@ -4,6 +4,7 @@ export const propTypes = {
   onInit: PropTypes.func.isRequired,
   onUnlock: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
+  onRegister: PropTypes.func.isRequired,
 }
 
 export const defaultProps = {}
