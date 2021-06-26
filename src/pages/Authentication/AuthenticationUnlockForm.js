@@ -13,12 +13,14 @@ export default class AuthenticationInit extends React.Component {
 
   state = {
     password: '',
+    username: '',
   }
 
   constructor(props) {
     super(props)
 
     this.onPasswordChange = this.onPasswordChange.bind(this)
+    this.onUsernameChange = this.onUsernameChange.bind(this)
     this.onUnlock = this.onUnlock.bind(this)
     this.onReset = this.onReset.bind(this)
     this.onEnterPress = this.onEnterPress.bind(this)
@@ -28,11 +30,14 @@ export default class AuthenticationInit extends React.Component {
     this.setState(() => ({ password }))
   }
 
+  onUsernameChange(username) {
+    this.setState(() => ({ username }))
+  }
+
   onUnlock() {
     const { password } = this.state
-    const { username } = this.state
     const { onUnlock } = this.props
-    onUnlock(username, password)
+    onUnlock(password)
   }
 
   onReset() {
@@ -48,8 +53,7 @@ export default class AuthenticationInit extends React.Component {
   }
 
   render() {
-    const { password } = this.state
-    const { username } = this.state
+    const { username, password } = this.state
     const submitReady = !_isEmpty(password)
 
     return (
@@ -63,6 +67,8 @@ export default class AuthenticationInit extends React.Component {
             name='username'
             placeholder='Email'
             autocomplete='username'
+            value={username}
+            onChange={this.onUsernameChange}
             //style={{ display: 'none' }}
           />
 

@@ -20,12 +20,17 @@ export default class AuthenticationInit extends React.Component {
     super(props)
 
     this.onPasswordChange = this.onPasswordChange.bind(this)
+    this.onUsernameChange = this.onUsernameChange.bind(this)
     this.onConfirmPasswordChange = this.onConfirmPasswordChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   onPasswordChange(password) {
     this.setState(() => ({ password }))
+  }
+
+  onUsernameChange(username) {
+    this.setState(() => ({ username }))
   }
 
   onConfirmPasswordChange(confirmPassword) {
@@ -63,6 +68,8 @@ export default class AuthenticationInit extends React.Component {
             name='username'
             placeholder='Email'
             autocomplete='username'
+            value={username}
+            onChange={this.onUsernameChange}
             //style={{ display: 'none' }}
           />
 
