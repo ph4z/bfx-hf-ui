@@ -21,8 +21,8 @@ const mapDispatchToProps = dispatch => ({ // eslint-disable-line
     dispatch(UIActions.firstLogin())
   },
 
-  onUnlock: (password) => {
-    dispatch(WSActions.auth(password))
+  onUnlock: (username, password) => {
+    dispatch(WSActions.auth(username, password))
   },
 
   onReset: () => {

@@ -294,6 +294,6 @@ export default {
   }),
 
   initAuth: password => send(['auth.init', password]),
-  auth: password => send(['auth.submit', password]),
+  auth: (username, password) => send(['auth.submit', password, username]),
   resetAuth: () => send(['auth.reset']),
 }
