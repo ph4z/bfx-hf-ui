@@ -293,7 +293,7 @@ export default {
     type: t.PURGE_DATA_BACKTEST,
   }),
 
-  initAuth: password => send(['auth.init', password]),
+  initAuth: (username, password) => send(['auth.init', password, username]),
   auth: (username, password) => send(['auth.submit', password, username]),
   resetAuth: () => send(['auth.reset']),
 }
