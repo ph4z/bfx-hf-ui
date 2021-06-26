@@ -69,7 +69,6 @@ export default class AuthenticationInit extends React.Component {
             autocomplete='username'
             value={username}
             onChange={this.onUsernameChange}
-            //style={{ display: 'none' }}
           />
 
           <Input
@@ -87,6 +86,16 @@ export default class AuthenticationInit extends React.Component {
             green
           />
         </form>
+            
+	<div className='hfui-authenticationpage__clear'>
+          <p>Register a new account</p>
+
+          <Button
+            onClick={this.onReset}
+            label='Sign-On'
+            green
+          />
+        </div>
 
 	{/*<div className='hfui-authenticationpage__clear'>
           <p>Alternatively, clear your credentials &amp; and stored data to set a new password.</p>
