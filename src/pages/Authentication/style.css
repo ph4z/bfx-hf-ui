@@ -44,6 +44,10 @@
     font-size: 15px;
     font-weight: 500;
     margin-bottom: 8px; }
+  .hfui-authenticationpage__inner-left-version img {
+    padding-top: 5px;
+    height: 15px;
+    width: 15px; }
 
 .hfui-authenticationpage__content {
   padding-left: 5%;

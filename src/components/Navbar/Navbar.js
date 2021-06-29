@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon } from 'react-fa'
 
-import HFIcon from '../../ui/HFIcon'
+//import HFIcon from '../../ui/HFIcon'
 import NavbarButton from '../NavbarButton'
 import { propTypes, defaultProps } from './Navbar.props'
 import './style.css'
@@ -56,7 +56,7 @@ const items = [
   },
   {
     route: '/mixer',
-    label: [<Icon name='user-secret' key='icon' />, <p key='label'>Mix</p>],
+    label: [<Icon name='user-secret' key='icon' />, <p key='label'>Mixer</p>],
   },
   {
     route: '/settings',
@@ -71,7 +71,6 @@ export default class Navbar extends React.PureComponent {
   render() {
     return (
       <div className='hfui-navbar__wrapper'>
-        <HFIcon />
 
         <ul className='hfui-navbar__main-links'>
           {
