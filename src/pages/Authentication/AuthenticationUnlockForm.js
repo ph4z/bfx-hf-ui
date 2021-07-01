@@ -1,5 +1,5 @@
 import React from 'react'
-import _isEmpty from 'lodash/isEmpty'
+//import _isEmpty from 'lodash/isEmpty'
 
 import Button from '../../ui/Button'
 import Input from '../../ui/Input'
@@ -54,12 +54,12 @@ export default class AuthenticationInit extends React.Component {
 
   render() {
     const { username, password } = this.state
-    const submitReady = !_isEmpty(password)
+    // const submitReady = !_isEmpty(password)
 
     return (
       <div className='hfui-authenticationpage__content' onKeyDown={this.onEnterPress}>
-        <h2>Honey Framework UI</h2>
-        <p>Enter your password to unlock.</p>
+        <h2>Kaïo Coin</h2>
+        <p>Unleash your trading power.</p>
 
         <form className='hfui-authenticationpage__inner-form'>
           <Input
@@ -81,20 +81,22 @@ export default class AuthenticationInit extends React.Component {
 
           <Button
             onClick={this.onUnlock}
-            disabled={!submitReady}
-            label='Unlock'
+            //disabled={!submitReady}
+            label='Login'
             green
           />
-        </form>
+
+	</form>
             
 	<div className='hfui-authenticationpage__clear'>
-          <p>Register a new account</p>
+          <p>Or register a free account</p>
 
           <Button
             onClick={this.onReset}
-            label='Sign-On'
+            label='Register'
             green
           />
+            
         </div>
 
 	{/*<div className='hfui-authenticationpage__clear'>

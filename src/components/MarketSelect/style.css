@@ -1,7 +1,2 @@
 .hfui-marketselect {
   min-width: 125px !important; }
-
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-  /* make scrollbar transparent */ }

@@ -3,11 +3,11 @@
 }
 
 .hfui-app__content {
-  // display: flex;
-  // flex-direction: row;
+   // display: flex;
+   // flex-direction: row;
 
   .hfui-sidebar__wrapper {
-    border-right: 1px solid #333;
+     border-right: 1px solid #333;
   }
 }
 
@@ -25,10 +25,10 @@
 .hfui-app__content-primary {
   width: 100%;
   min-height: 400px;
-  z-index: 1;
+  // z-index: 1;
 
   .hfui-sidebar__wrapper {
-    border-right: 1px solid #333;
+     border-right: 1px solid #333;
   }
 
   .hfui-chart__wrapper {
