@@ -4,11 +4,7 @@
 .hfui-authenticationpage__inner {
   height: 100%;
   display: flex;
-  flex-direction: row;
-  background-image: url("../../ui/ontheroad.jpg");
-  background-blend-mode: lighten;
-  background-size: 100% 100%;
-  background-repeat: no-repeat; }
+  flex-direction: row; }
   .hfui-authenticationpage__inner > * {
     width: 50%;
     height: 100%;
@@ -65,7 +61,8 @@
     font-style: normal;
     font-weight: bold;
     font-size: 2em;
-    line-height: 145.5%; }
+    line-height: 145.5%;
+    position: relative; }
   .hfui-authenticationpage__content p {
     width: 65%;
     line-height: 1.5; }

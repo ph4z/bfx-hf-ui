@@ -58,7 +58,7 @@ export default class AuthenticationInit extends React.Component {
 
     return (
       <div className='hfui-authenticationpage__content' onKeyDown={this.onEnterPress}>
-        <h2>Kaïo Coin</h2>
+        <h2>Kaïo Coin</h2> 
         <p>Unleash your trading power.</p>
 
         <form className='hfui-authenticationpage__inner-form'>

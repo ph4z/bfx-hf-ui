@@ -92,8 +92,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background: #172d3e;
+  // background: #172d3e;
   color: #e2e5e7;
+  background-image: url('./ui/ontheroad.jpg');
+  //background-color: rgba(255,255,255,0.6);
+  //background-blend-mode: lighten;
+  background-size: 100% 100%;
+  //background-size: cover;
+  background-repeat: no-repeat;
 
    margin: 0;
    overflow: hidden;
