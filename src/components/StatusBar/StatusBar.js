@@ -1,7 +1,12 @@
 import React from 'react'
 import ClassNames from 'classnames'
-import NavbarButton from '../NavbarButton'
-import MANIFEST from '../../../package.json'
+// import NavbarButton from '../NavbarButton'
+// import MANIFEST from '../../../package.json'
+import BinanceLogo from '../../ui/binance.png'
+import BinanceFuturesLogo from '../../ui/binancefutures.png'
+import BinanceCoinsLogo from '../../ui/binanceus.png'
+import BitfinexLogo from '../../ui/bitfinex.png'
+import FtxLogo from '../../ui/ftx.png'
 import { propTypes, defaultProps } from './StatusBar.props'
 import './style.css'
 
@@ -11,7 +16,7 @@ export default class StatusBar extends React.Component {
 
   render() {
     const {
-      wsConnected, remoteVersion, apiClientStates, currentExchange,
+      wsConnected, apiClientStates, currentExchange,
     } = this.props
 
     const apiClientState = apiClientStates[currentExchange]
@@ -22,7 +27,7 @@ export default class StatusBar extends React.Component {
     return (
       <div className='hfui-statusbar__wrapper'>
         <div className='hfui-statusbar__left'>
-          <p>
+	    {/*<p>
             {remoteVersion && remoteVersion !== MANIFEST.version ? (
               <NavbarButton
                 label='Update to latest version'
@@ -32,12 +37,18 @@ export default class StatusBar extends React.Component {
             &nbsp;
             v
             {MANIFEST.version}
-          </p>
+          </p>*/}
 
           <p>
-            {apiClientConnected
-              ? `UNLOCKED FOR ${currentExchange.toUpperCase()}`
-              : 'LOCKED'}
+            {apiClientConnected ? 
+              <div>
+	        <img src={BitfinexLogo} alt='bitfinexlogo' />
+                <img src={BinanceLogo} alt='binancelogo' />
+                <img src={BinanceFuturesLogo} alt='binancefutureslogo' />
+                <img src={BinanceCoinsLogo} alt='binancecoinslogo' />
+                <img src={FtxLogo} alt='ftxlogo' /> 
+              </div>
+	     : 'LOCKED'}
           </p>
         </div>
 
