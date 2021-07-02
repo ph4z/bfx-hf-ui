@@ -7,6 +7,7 @@ import BinanceFuturesLogo from '../../ui/binancefutures.png'
 import BinanceCoinsLogo from '../../ui/binanceus.png'
 import BitfinexLogo from '../../ui/bitfinex.png'
 import FtxLogo from '../../ui/ftx.png'
+import KrakenLogo from '../../ui/kraken.png'
 import { propTypes, defaultProps } from './StatusBar.props'
 import './style.css'
 
@@ -40,15 +41,28 @@ export default class StatusBar extends React.Component {
           </p>*/}
 
           <p>
-            {apiClientConnected ? 
+	    {/*{apiClientConnected ?*/}
               <div>
-	        <img src={BitfinexLogo} alt='bitfinexlogo' />
-                <img src={BinanceLogo} alt='binancelogo' />
-                <img src={BinanceFuturesLogo} alt='binancefutureslogo' />
-                <img src={BinanceCoinsLogo} alt='binancecoinslogo' />
-                <img src={FtxLogo} alt='ftxlogo' /> 
+	        { apiClientStates['bitfinex'] === 2 ? 
+	          <img src={BitfinexLogo} alt='bitfinexlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
+	          <img src={BitfinexLogo} alt='bitfinexlogo' /> }
+	        { apiClientStates['binance'] === 2 ? 
+	          <img src={BinanceLogo} alt='binancelogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
+                  <img src={BinanceLogo} alt='binancelogo' /> }
+	        { apiClientStates['binance_futures'] === 2 ? 
+	          <img src={BinanceFuturesLogo} alt='binancefutureslogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
+                  <img src={BinanceFuturesLogo} alt='binancefutureslogo' /> }
+	        { apiClientStates['binance_coins'] === 2 ? 
+	          <img src={BinanceCoinsLogo} alt='binancecoinslogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
+                  <img src={BinanceCoinsLogo} alt='binancecoinslogo' /> }
+	        { apiClientStates['ftx'] === 2 ? 
+	          <img src={FtxLogo} alt='ftxlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
+                  <img src={FtxLogo} alt='ftxlogo' /> }
+	        { apiClientStates['kraken'] === 2 ? 
+	          <img src={KrakenLogo} alt='krakenlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
+                  <img src={KrakenLogo} alt='krakenlogo' /> }
               </div>
-	     : 'LOCKED'}
+	    {/*: 'LOCKED'}*/}
           </p>
         </div>
 

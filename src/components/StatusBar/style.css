@@ -21,7 +21,7 @@
   .hfui-statusbar__left img {
     width: 15px;
     height: 15px;
-    padding-left: 16px; }
+    margin-left: 16px; }
   .hfui-statusbar__left > * {
     margin-right: 10px; }
     .hfui-statusbar__left > *:last-child {
