@@ -8,11 +8,25 @@
   flex-wrap: wrap;
 
   font-size: 12px;
-  background: #102331;
+  // background: #102331;
   height: 33px;
 
   svg {
     width: 70px;
+    margin-left: 31px;
+    margin-right: 10px
+  }
+
+  img {
+    width: 33px;
+    height: 33px;
+    margin-left: 31px;
+    margin-right: 10px
+  }
+
+  h4 {
+    text-transform: uppercase;
+    font-size: 13px;
     margin-left: 31px;
     margin-right: 10px
   }
@@ -41,6 +55,7 @@
     &:hover, &.active {
       border-bottom: 2px solid #54b361;
       color: #4faa5e;
+      background: #102331;
     }
 
     &.hover {
