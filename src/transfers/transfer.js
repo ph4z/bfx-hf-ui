@@ -3,10 +3,11 @@ export default () => ({
   customHelp: 'A Transfer order will be sent between the current wallet and the destination wallet.',
 
   generateTransfer: (data = {}) => {
-    const { amount, walletDest, symbol } = data
+    const { amount, fromWallet, symbol, toWallet } = data
 
     return {
-      walletDest,
+      fromWallet,
+      toWallet,
       quantity: Math.abs(+amount),
       symbol,
     }
@@ -18,7 +19,7 @@ export default () => ({
     rows: [
       ['amount', 'symbol'],
       ['exchange'],
-      ['walletOrig', 'walletDest'],
+      ['fromWallet', 'toWallet'],
     ],
   }],
 
@@ -35,16 +36,16 @@ export default () => ({
     exchange: {
       component: 'input.text',
       label: 'Exchange For Transfer',
-      disabled: true,
+      // disabled: true,
     },
-    walletOrig: {
+    fromWallet: {
       component: 'input.dropdown',
-      label: 'Wallet To Withdraw',
+      label: 'Source wallet',
       options: {},
     },
-    walletDest: {
+    toWallet: {
       component: 'input.dropdown',
-      label: 'Wallet To Deposit',
+      label: 'Destination wallet',
       options: {},
     },
   },
