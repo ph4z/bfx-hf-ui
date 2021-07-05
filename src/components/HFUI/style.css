@@ -15,8 +15,7 @@
 
 .hfui-app__content-primary {
   width: 100%;
-  min-height: 400px;
-  z-index: 1; }
+  min-height: 400px; }
   .hfui-app__content-primary .hfui-sidebar__wrapper {
     border-right: 1px solid #333; }
   .hfui-app__content-primary .hfui-chart__wrapper {

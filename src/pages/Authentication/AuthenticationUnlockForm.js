@@ -1,5 +1,5 @@
 import React from 'react'
-import _isEmpty from 'lodash/isEmpty'
+//import _isEmpty from 'lodash/isEmpty'
 
 import Button from '../../ui/Button'
 import Input from '../../ui/Input'
@@ -13,12 +13,14 @@ export default class AuthenticationInit extends React.Component {
 
   state = {
     password: '',
+    username: '',
   }
 
   constructor(props) {
     super(props)
 
     this.onPasswordChange = this.onPasswordChange.bind(this)
+    this.onUsernameChange = this.onUsernameChange.bind(this)
     this.onUnlock = this.onUnlock.bind(this)
     this.onReset = this.onReset.bind(this)
     this.onEnterPress = this.onEnterPress.bind(this)
@@ -28,10 +30,14 @@ export default class AuthenticationInit extends React.Component {
     this.setState(() => ({ password }))
   }
 
+  onUsernameChange(username) {
+    this.setState(() => ({ username }))
+  }
+
   onUnlock() {
-    const { password } = this.state
+    const { username, password } = this.state
     const { onUnlock } = this.props
-    onUnlock(password)
+    onUnlock(username, password)
   }
 
   onReset() {
@@ -47,20 +53,22 @@ export default class AuthenticationInit extends React.Component {
   }
 
   render() {
-    const { password } = this.state
-    const submitReady = !_isEmpty(password)
+    const { username, password } = this.state
+    // const submitReady = !_isEmpty(password)
 
     return (
       <div className='hfui-authenticationpage__content' onKeyDown={this.onEnterPress}>
-        <h2>Honey Framework UI</h2>
-        <p>Enter your password to unlock.</p>
+        <h2>Kaïo Coin</h2> 
+        <p>Unleash your trading power.</p>
 
         <form className='hfui-authenticationpage__inner-form'>
           <Input
             type='text'
             name='username'
+            placeholder='Email'
             autocomplete='username'
-            style={{ display: 'none' }}
+            value={username}
+            onChange={this.onUsernameChange}
           />
 
           <Input
@@ -73,13 +81,25 @@ export default class AuthenticationInit extends React.Component {
 
           <Button
             onClick={this.onUnlock}
-            disabled={!submitReady}
-            label='Unlock'
+            //disabled={!submitReady}
+            label='Login'
             green
           />
-        </form>
 
-        <div className='hfui-authenticationpage__clear'>
+	</form>
+            
+	<div className='hfui-authenticationpage__clear'>
+          <p>Or register a free account</p>
+
+          <Button
+            onClick={this.onReset}
+            label='Register'
+            green
+          />
+            
+        </div>
+
+	{/*<div className='hfui-authenticationpage__clear'>
           <p>Alternatively, clear your credentials &amp; and stored data to set a new password.</p>
 
           <Button
@@ -87,7 +107,7 @@ export default class AuthenticationInit extends React.Component {
             label='Clear Data &amp; Reset'
             red
           />
-        </div>
+        </div>}*/}
       </div>
     )
   }

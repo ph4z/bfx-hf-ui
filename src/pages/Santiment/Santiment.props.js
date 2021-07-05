@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
 
 export const propTypes = {
-  onInit: PropTypes.func.isRequired,
-  onRegister: PropTypes.func.isRequired,
+  activeMarket: PropTypes.object.isRequired,
 }
 
 export const defaultProps = {}

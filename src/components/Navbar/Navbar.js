@@ -1,7 +1,7 @@
 import React from 'react'
 import { Icon } from 'react-fa'
 
-import HFIcon from '../../ui/HFIcon'
+//import HFIcon from '../../ui/HFIcon'
 import NavbarButton from '../NavbarButton'
 import { propTypes, defaultProps } from './Navbar.props'
 import './style.css'
@@ -27,6 +27,10 @@ const items = [
     label: [<Icon name='pie-chart' key='icon' />, <p key='label'>Portfolio</p>],
   },
   {
+    route: '/santiment',
+    label: [<Icon name='heartbeat' key='icon' />, <p key='label'>Santiment</p>],
+  },
+  {
     route: '/funds',
     label: [<Icon name='users' key='icon' />, <p key='label'>Funds</p>],
   },
@@ -38,10 +42,10 @@ const items = [
     route: '/yields',
     label: [<Icon name='percent' key='icon' />, <p key='label'>Farming</p>],
   },
-  {
-    route: '/insurances',
-    label: [<Icon name='shield' key='icon' />, <p key='label'>Insurances</p>],
-  },
+  //{
+  //  route: '/insurances',
+  //  label: [<Icon name='shield' key='icon' />, <p key='label'>Insurances</p>],
+  //},
   {
     route: '/reports',
     label: [<Icon name='bar-chart' key='icon' />, <p key='label'>Reports</p>],
@@ -52,7 +56,7 @@ const items = [
   },
   {
     route: '/mixer',
-    label: [<Icon name='user-secret' key='icon' />, <p key='label'>Mix</p>],
+    label: [<Icon name='user-secret' key='icon' />, <p key='label'>Mixer</p>],
   },
   {
     route: '/settings',
@@ -67,7 +71,8 @@ export default class Navbar extends React.PureComponent {
   render() {
     return (
       <div className='hfui-navbar__wrapper'>
-        <HFIcon />
+
+      	<h4> </h4>
 
         <ul className='hfui-navbar__main-links'>
           {
