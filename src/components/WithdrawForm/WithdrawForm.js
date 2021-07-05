@@ -73,6 +73,15 @@ export default class WithdrawForm extends React.Component {
     this.onUnlock = this.onUnlock.bind(this)
   }
 
+  componentDidMount() {
+    const layout = this.createLayout()
+    
+    this.setState(() => ({
+      currentLayout: layout,
+      fieldData: defaultDataForLayout(layout),
+    }))
+  }
+
   createLayout = () => {
     form[0].fields.networks.options = {}
     form[0].fields.networks.disabled = false
@@ -80,6 +89,7 @@ export default class WithdrawForm extends React.Component {
     form[0].fields.symbol.options = {}
     let { currentExchange, selectedExchange, selectedSymbol } = this.state
     const { currencies } = this.props
+    console.log(currencies)
     if(currentExchange === 'binance_futures' || currentExchange === 'binance_coins') {
       currentExchange = 'binance'
     }
@@ -91,8 +101,10 @@ export default class WithdrawForm extends React.Component {
     delete allExchanges[currentExchange]
     form[0].fields.exchangeDest.options = allExchanges
     form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
+    //if(true) {
     if(selectedExchange) {
-      Object.values(currencies[selectedExchange]).forEach(destCurrency => {
+      Object.values(currencies[currentExchange]).forEach(destCurrency => {
+      //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
           Object.values(currencies[currentExchange]).forEach(fromCurrency => {
               if(destCurrency.currency === fromCurrency.currency) {
                 const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
@@ -302,7 +314,7 @@ export default class WithdrawForm extends React.Component {
         key='exchange-dropdown'
         className={{ yellow: exchangeDirty }}
         onChange={this.onChangeExchange}
-        disabled={!canChangeExchange}
+	disabled={!canChangeExchange}
         value={{
           label: _capitalize(currentExchange),
           value: currentExchange,
@@ -336,12 +348,12 @@ export default class WithdrawForm extends React.Component {
   render() {
     const { onRemove, apiClientStates, apiCredentials, moveable, removeable, showExchange, showMarket } = this.props
 
-    const layout = this.createLayout()
+    //const layout = this.createLayout()
     
-    this.setState(() => ({
-      currentLayout: layout,
-      fieldData: defaultDataForLayout(layout),
-    }))
+    //this.setState(() => ({
+    //  currentLayout: layout,
+    //  fieldData: defaultDataForLayout(layout),
+    //}))
 
     const {
       fieldData, validationErrors, creationError, currentLayout,
