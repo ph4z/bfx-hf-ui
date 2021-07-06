@@ -40,6 +40,7 @@ export default class WithdrawForm extends React.Component {
     helpOpen: false,
     configureModalOpen: false,
     selectedExchange: null,
+    originExchange: null,
     selectedSymbol: null,
   }
 
@@ -84,48 +85,16 @@ export default class WithdrawForm extends React.Component {
   }
 
   createLayout = () => {
-    form[0].fields.networks.options = {}
-    form[0].fields.networks.disabled = false
-    form[0].fields.symbol.disabled = false
-    form[0].fields.symbol.options = {}
-    let { currentExchange, selectedExchange, selectedSymbol } = this.state
-    const { currencies } = this.props
-    console.log(currencies)
-    if(currentExchange === 'binance_futures' || currentExchange === 'binance_coins') {
-      currentExchange = 'binance'
-    }
     const allExchanges = {
       bitfinex: 'Bitfinex',
       binance: 'Binance',
       ftx: 'FTX',
     }
-    //delete allExchanges[currentExchange]
-    form[0].fields.exchangeDest.options = allExchanges
+    form[0].fields.amount.disabled = true
+    form[0].fields.networks.disabled = true
+    form[0].fields.symbol.disabled = true
+    form[0].fields.exchangeDest.disabled = true
     form[0].fields.exchangeOrig.options = allExchanges
-    //form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
-    if(true) {
-    //if(selectedExchange) {
-      Object.values(currencies[currentExchange]).forEach(destCurrency => {
-      //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
-          Object.values(currencies[currentExchange]).forEach(fromCurrency => {
-              if(destCurrency.currency === fromCurrency.currency) {
-                const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
-                console.log(networksList)
-                destCurrency.commonNetworks = Object.values(networksList).reduce((a,b) => b.filter(Set.prototype.has, new Set(a)))
-                if(destCurrency.commonNetworks.length > 0) {
-                  form[0].fields.symbol.options[destCurrency.currency] = destCurrency.currency
-                }
-                if(destCurrency.currency === selectedSymbol) {
-                  destCurrency.commonNetworks.map(network => form[0].fields.networks.options[network] = network)
-                }
-              }
-          })
-      })
-    } else {
-      form[0].fields.networks.disabled = true
-      form[0].fields.symbol.disabled = true
-    }
-    
     return form[0]
   }
 
@@ -199,35 +168,34 @@ export default class WithdrawForm extends React.Component {
   }
 
   onFieldChange(fieldName, value) {
-    let { currentExchange, selectedExchange, selectedSymbol } = this.state
+    let { currentExchange, originExchange, selectedExchange, selectedSymbol } = this.state
     const { currencies } = this.props
     const allExchanges = {
       bitfinex: 'Bitfinex',
       binance: 'Binance',
       ftx: 'FTX',
+      ext: 'External'
     }
 
     if(fieldName === "exchangeOrig") {
       form[0].fields.exchangeOrig.default = value
+      form[0].fields.exchangeDest.disabled = false
       form[0].fields.exchangeDest.options = _omit(allExchanges, [value])
+      this.setState({originExchange: value})
     }
 
     if(fieldName === "exchangeDest") {
+      form[0].fields.symbol.disabled = false
       form[0].fields.exchangeDest.default = value
-      form[0].fields.exchangeOrig.options = _omit(allExchanges, [value])
       this.setState({selectedExchange: value})
-      Object.values(currencies[currentExchange]).forEach(destCurrency => {
-      //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
-	  Object.values(currencies[currentExchange]).forEach(fromCurrency => {
+      Object.values(currencies[value]).forEach(destCurrency => {
+	  Object.values(currencies[originExchange]).forEach(fromCurrency => {
 	      if(destCurrency.currency === fromCurrency.currency) {
 		const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
 		destCurrency.commonNetworks = Object.values(networksList).reduce((a,b) => b.filter(Set.prototype.has, new Set(a)))
 		console.log(destCurrency.commonNetworks)
 		if(destCurrency.commonNetworks.length > 0) {
 		  form[0].fields.symbol.options[destCurrency.currency] = destCurrency.currency
-		}
-		if(destCurrency.currency === selectedSymbol) {
-		  destCurrency.commonNetworks.map(network => form[0].fields.networks.options[network] = network)
 		}
 	      }
 	  })
@@ -235,20 +203,15 @@ export default class WithdrawForm extends React.Component {
     }
 
     if(fieldName === "symbol") {
+      form[0].fields.networks.disabled = false
       form[0].fields.symbol.default = value
       this.setState({selectedSymbol: value})
-	    //if(selectedExchange) {
-      Object.values(currencies[currentExchange]).forEach(destCurrency => {
-      //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
-	  Object.values(currencies[currentExchange]).forEach(fromCurrency => {
+      Object.values(currencies[selectedExchange]).forEach(destCurrency => {
+	  Object.values(currencies[originExchange]).forEach(fromCurrency => {
 	      if(destCurrency.currency === fromCurrency.currency) {
 		const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
 		destCurrency.commonNetworks = Object.values(networksList).reduce((a,b) => b.filter(Set.prototype.has, new Set(a)))
-		console.log(destCurrency.commonNetworks)
-		if(destCurrency.commonNetworks.length > 0) {
-		  form[0].fields.symbol.options[destCurrency.currency] = destCurrency.currency
-		}
-		if(destCurrency.currency === selectedSymbol) {
+		if(destCurrency.currency === value) {
 		  destCurrency.commonNetworks.map(network => form[0].fields.networks.options[network] = network)
 		}
 	      }
@@ -257,7 +220,12 @@ export default class WithdrawForm extends React.Component {
     }
 
     if(fieldName === "networks") {
+      form[0].fields.amount.disabled = false
       form[0].fields.networks.default = value
+    }
+
+    if(fieldName === "amount") {
+      form[0].fields.amount.default = value
     }
 
     this.setState(({
@@ -396,13 +364,6 @@ export default class WithdrawForm extends React.Component {
 
   render() {
     const { onRemove, apiClientStates, apiCredentials, moveable, removeable, showExchange, showMarket } = this.props
-
-    //const layout = this.createLayout()
-    
-    //this.setState(() => ({
-    //  currentLayout: layout,
-    //  fieldData: defaultDataForLayout(layout),
-    //}))
 
     const {
       fieldData, validationErrors, creationError, currentLayout,

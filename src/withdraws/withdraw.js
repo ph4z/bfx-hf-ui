@@ -39,10 +39,8 @@ export default () => ({
       options: {},
     },
     exchangeOrig: {
-      //component: 'input.text',
       component: 'input.dropdown',
       label: 'Exchange To Withdraw',
-      //disabled: true,
     },
     exchangeDest: {
       component: 'input.dropdown',
