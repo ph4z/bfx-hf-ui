@@ -1,6 +1,7 @@
 import React from 'react'
 import _capitalize from 'lodash/capitalize'
 import _isEqual from 'lodash/isEqual'
+import _omit from 'lodash/omit'
 import ClassNames from 'classnames'
 
 import {
@@ -98,11 +99,12 @@ export default class WithdrawForm extends React.Component {
       binance: 'Binance',
       ftx: 'FTX',
     }
-    delete allExchanges[currentExchange]
+    //delete allExchanges[currentExchange]
     form[0].fields.exchangeDest.options = allExchanges
-    form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
-    //if(true) {
-    if(selectedExchange) {
+    form[0].fields.exchangeOrig.options = allExchanges
+    //form[0].fields.exchangeOrig.default = currentExchange.toUpperCase()
+    if(true) {
+    //if(selectedExchange) {
       Object.values(currencies[currentExchange]).forEach(destCurrency => {
       //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
           Object.values(currencies[currentExchange]).forEach(fromCurrency => {
@@ -197,14 +199,61 @@ export default class WithdrawForm extends React.Component {
   }
 
   onFieldChange(fieldName, value) {
+    let { currentExchange, selectedExchange, selectedSymbol } = this.state
+    const { currencies } = this.props
+    const allExchanges = {
+      bitfinex: 'Bitfinex',
+      binance: 'Binance',
+      ftx: 'FTX',
+    }
+
+    if(fieldName === "exchangeOrig") {
+      form[0].fields.exchangeOrig.default = value
+      form[0].fields.exchangeDest.options = _omit(allExchanges, [value])
+    }
+
     if(fieldName === "exchangeDest") {
       form[0].fields.exchangeDest.default = value
+      form[0].fields.exchangeOrig.options = _omit(allExchanges, [value])
       this.setState({selectedExchange: value})
+      Object.values(currencies[currentExchange]).forEach(destCurrency => {
+      //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
+	  Object.values(currencies[currentExchange]).forEach(fromCurrency => {
+	      if(destCurrency.currency === fromCurrency.currency) {
+		const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
+		destCurrency.commonNetworks = Object.values(networksList).reduce((a,b) => b.filter(Set.prototype.has, new Set(a)))
+		console.log(destCurrency.commonNetworks)
+		if(destCurrency.commonNetworks.length > 0) {
+		  form[0].fields.symbol.options[destCurrency.currency] = destCurrency.currency
+		}
+		if(destCurrency.currency === selectedSymbol) {
+		  destCurrency.commonNetworks.map(network => form[0].fields.networks.options[network] = network)
+		}
+	      }
+	  })
+      })
     }
 
     if(fieldName === "symbol") {
       form[0].fields.symbol.default = value
       this.setState({selectedSymbol: value})
+	    //if(selectedExchange) {
+      Object.values(currencies[currentExchange]).forEach(destCurrency => {
+      //Object.values(currencies[selectedExchange]).forEach(destCurrency => {
+	  Object.values(currencies[currentExchange]).forEach(fromCurrency => {
+	      if(destCurrency.currency === fromCurrency.currency) {
+		const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
+		destCurrency.commonNetworks = Object.values(networksList).reduce((a,b) => b.filter(Set.prototype.has, new Set(a)))
+		console.log(destCurrency.commonNetworks)
+		if(destCurrency.commonNetworks.length > 0) {
+		  form[0].fields.symbol.options[destCurrency.currency] = destCurrency.currency
+		}
+		if(destCurrency.currency === selectedSymbol) {
+		  destCurrency.commonNetworks.map(network => form[0].fields.networks.options[network] = network)
+		}
+	      }
+	  })
+      })
     }
 
     if(fieldName === "networks") {
