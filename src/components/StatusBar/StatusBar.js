@@ -40,30 +40,28 @@ export default class StatusBar extends React.Component {
             {MANIFEST.version}
           </p>*/}
 
-          <p>
 	    {/*{apiClientConnected ?*/}
               <div>
 	        { apiClientStates['bitfinex'] === 2 ? 
 	          <img src={BitfinexLogo} alt='bitfinexlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	          <img src={BitfinexLogo} alt='bitfinexlogo' /> }
+	           <img src={BitfinexLogo} alt='bitfinexlogo' /> }
 	        { apiClientStates['binance'] === 2 ? 
 	          <img src={BinanceLogo} alt='binancelogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-                  <img src={BinanceLogo} alt='binancelogo' /> }
+	           <img src={BinanceLogo} alt='binancelogo' /> }
 	        { apiClientStates['binance_futures'] === 2 ? 
 	          <img src={BinanceFuturesLogo} alt='binancefutureslogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-                  <img src={BinanceFuturesLogo} alt='binancefutureslogo' /> }
+	           <img src={BinanceFuturesLogo} alt='binancefutureslogo' /> }
 	        { apiClientStates['binance_coins'] === 2 ? 
 	          <img src={BinanceCoinsLogo} alt='binancecoinslogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-                  <img src={BinanceCoinsLogo} alt='binancecoinslogo' /> }
+	           <img src={BinanceCoinsLogo} alt='binancecoinslogo' /> }
 	        { apiClientStates['ftx'] === 2 ? 
 	          <img src={FtxLogo} alt='ftxlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-                  <img src={FtxLogo} alt='ftxlogo' /> }
+	           <img src={FtxLogo} alt='ftxlogo' /> }
 	        { apiClientStates['kraken'] === 2 ? 
 	          <img src={KrakenLogo} alt='krakenlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-                  <img src={KrakenLogo} alt='krakenlogo' /> }
+	           <img src={KrakenLogo} alt='krakenlogo' /> }
               </div>
 	    {/*: 'LOCKED'}*/}
-          </p>
         </div>
 
         <div className='hfui-statusbar__right'>
