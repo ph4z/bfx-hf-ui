@@ -168,7 +168,7 @@ export default class WithdrawForm extends React.Component {
   }
 
   onFieldChange(fieldName, value) {
-    let { currentExchange, originExchange, selectedExchange, selectedSymbol } = this.state
+    let { originExchange, selectedExchange } = this.state
     const { currencies } = this.props
     const allExchanges = {
       bitfinex: 'Bitfinex',
