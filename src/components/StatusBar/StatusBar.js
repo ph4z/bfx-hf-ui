@@ -42,24 +42,24 @@ export default class StatusBar extends React.Component {
 
 	    {/*{apiClientConnected ?*/}
               <div>
-	        { apiClientStates['bitfinex'] === 2 ? 
-	          <img src={BitfinexLogo} alt='bitfinexlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	           <img src={BitfinexLogo} alt='bitfinexlogo' /> }
+	        { apiClientStates['bitfinex'] === 2 ?
+	          <img src={BitfinexLogo} title='Bitfinex' alt='bitfinexlogo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	           <img src={BitfinexLogo} title='Bitfinex' alt='bitfinexlogo' /> }
 	        { apiClientStates['binance'] === 2 ? 
-	          <img src={BinanceLogo} alt='binancelogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	           <img src={BinanceLogo} alt='binancelogo' /> }
+	          <img src={BinanceLogo} title='Binance' alt='binancelogo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	           <img src={BinanceLogo} title='Binance' alt='binancelogo' /> }
 	        { apiClientStates['binance_futures'] === 2 ? 
-	          <img src={BinanceFuturesLogo} alt='binancefutureslogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	           <img src={BinanceFuturesLogo} alt='binancefutureslogo' /> }
+	          <img src={BinanceFuturesLogo} title='Binance Futures' alt='binancefutureslogo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	           <img src={BinanceFuturesLogo} title='Binance Futures' alt='binancefutureslogo' /> }
 	        { apiClientStates['binance_coins'] === 2 ? 
-	          <img src={BinanceCoinsLogo} alt='binancecoinslogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	           <img src={BinanceCoinsLogo} alt='binancecoinslogo' /> }
+	          <img src={BinanceCoinsLogo} title='Binance Coins' alt='binancecoinslogo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	           <img src={BinanceCoinsLogo} title='Binance Coins' alt='binancecoinslogo' /> }
 	        { apiClientStates['ftx'] === 2 ? 
-	          <img src={FtxLogo} alt='ftxlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	           <img src={FtxLogo} alt='ftxlogo' /> }
+	          <img src={FtxLogo} title='FTX' alt='ftxlogo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	           <img src={FtxLogo} title='FTX' alt='ftxlogo' /> }
 	        { apiClientStates['kraken'] === 2 ? 
-	          <img src={KrakenLogo} alt='krakenlogo' style={{border: '2px solid lightgreen', borderRadius: '50%'}}/> :
-	           <img src={KrakenLogo} alt='krakenlogo' /> }
+	          <img src={KrakenLogo} title='Kraken' alt='krakenlogo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	           <img src={KrakenLogo} title='Kraken' alt='krakenlogo' /> }
               </div>
 	    {/*: 'LOCKED'}*/}
         </div>
