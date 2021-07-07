@@ -8,7 +8,7 @@ import Panel from '../../ui/Panel'
 import Markdown from '../../ui/Markdown'
 import StatusBar from '../../components/StatusBar'
 import Backtester from '../../components/Backtester'
-// import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
+import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
 
 import './style.css'
 
@@ -113,7 +113,7 @@ export default class StrategyEditorPage extends React.Component {
       docsText = '',
       steps,
     } = this.state
-    const { firstLogin, isGuideActive } = this.props
+    const { firstLogin, isGuideActive, strategyContent } = this.props
     return (
       <div className='hfui-strategyeditorpage__wrapper'>
         <StrategyEditor
@@ -165,13 +165,14 @@ export default class StrategyEditorPage extends React.Component {
                 indicators={indicators}
               />
             </div>
-            {/* <div
+            <div
               tabtitle='Execute' // lowercase name for div is requiered
             >
               <LiveStrategyExecutor
+                {...this.props}
                 strategyContent={strategyContent}
               />
-            </div> */}
+            </div> 
           </Panel>
         </div>
 
