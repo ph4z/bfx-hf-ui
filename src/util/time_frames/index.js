@@ -5,6 +5,8 @@ import binance_coins from './binance_coins'
 import kraken from './kraken'
 import ftx from './ftx'
 
+// TODO get TF from info.exchanges (from ccxt.exchange.timeframes)
+
 export default {
   bitfinex,
   binance,
