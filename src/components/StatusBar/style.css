@@ -34,6 +34,10 @@
   .hfui-statusbar__right p, .hfui-statusbar__right span {
     line-height: 32px;
     display: inline-block; }
+  .hfui-statusbar__right img {
+    width: 15px;
+    height: 15px;
+    margin-left: 16px; }
   .hfui-statusbar__right > *, .hfui-statusbar__right .hfui-statusbar__connection-status > * {
     display: inline-block;
     vertical-align: middle;

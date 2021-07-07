@@ -7,6 +7,7 @@ import BinanceFuturesLogo from '../../ui/binancefutures.png'
 import BinanceCoinsLogo from '../../ui/binanceus.png'
 import BitfinexLogo from '../../ui/bitfinex.png'
 import FtxLogo from '../../ui/ftx.png'
+import PotaraLogo from '../../ui/potara.png'
 import KrakenLogo from '../../ui/kraken.png'
 import { propTypes, defaultProps } from './StatusBar.props'
 import './style.css'
@@ -65,28 +66,12 @@ export default class StatusBar extends React.Component {
         </div>
 
         <div className='hfui-statusbar__right'>
-          <p>
-            {apiClientConnected
-              ? 'HF Connected'
-              : apiClientConnecting
-                ? 'HF Connecting'
-                : 'HF Disconnected'}
-          </p>
 
-          <span className={ClassNames('hfui-statusbar__statuscircle', {
-            green: apiClientConnected,
-            yellow: apiClientConnecting,
-            red: apiClientDisconnected,
-          })}
-          />
+          <p>{wsConnected ?
+	      <img src={PotaraLogo} title='Kaio' alt='kaiologo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
+	       <img src={PotaraLogo} title='Kaio' alt='kaiologo' style={{border: '2px solid lightred', borderRadius: '50%', padding: '1px'}}/> }
+	  </p>
 
-          <p>{wsConnected ? 'WS Connected' : 'WS Disconnected'}</p>
-
-          <span className={ClassNames('hfui-statusbar__statuscircle', {
-            green: wsConnected,
-            red: !wsConnected,
-          })}
-          />
         </div>
       </div>
     )
