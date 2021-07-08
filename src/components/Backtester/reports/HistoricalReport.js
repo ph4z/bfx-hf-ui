@@ -11,6 +11,7 @@ export default (opts, results, backtestData, backtestOptions) => {
   const { indicators } = opts
   const { candles = [] } = backtestData
   const { tf } = backtestOptions
+  let idbool = true
 
   // convert candles to array for the chart
   const candleArr = Object.values(candles).map(c => (
@@ -23,6 +24,10 @@ export default (opts, results, backtestData, backtestOptions) => {
       c.volume,
     ]
   ))
+
+  if (indicators) {
+    idbool = false
+  }
 
   return (
     <div className='hfui-backtester__candlechart'>
@@ -46,8 +51,9 @@ export default (opts, results, backtestData, backtestOptions) => {
               AXIS_TICK_COLOR: '#00000000',
             }}
             candleWidth={tf}
-            disableToolbar
-            disableIndicatorSettings
+            disableToolbar={true}
+            disableIndicatorSettings={true}
+            disableIndicators={idbool}
             showMarketLabel={false}
           />
         )}

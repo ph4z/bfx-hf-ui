@@ -41,7 +41,6 @@ export default (ws, store) => (e = {}) => {
 
     case 'info.currencies': {
       const [, ecxhangeID, currencies] = payload
-      console.log(currencies)
       store.dispatch(WSActions.recvDataCurrencies(ecxhangeID, currencies))
       break
     }

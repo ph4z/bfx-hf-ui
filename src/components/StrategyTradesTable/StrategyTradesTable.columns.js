@@ -25,7 +25,7 @@ export default [{
 }, {
   label: 'Label',
   dataKey: 'label',
-  width: 200,
+  width: 100,
   cellRenderer: ({ rowData = {} }) => rowData.label,
 }, {
   label: 'Time',

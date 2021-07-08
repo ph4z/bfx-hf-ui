@@ -193,7 +193,6 @@ export default class WithdrawForm extends React.Component {
 	      if(destCurrency.currency === fromCurrency.currency) {
 		const networksList = { destNetworks: destCurrency.networks, fromNetworks: fromCurrency.networks}
 		destCurrency.commonNetworks = Object.values(networksList).reduce((a,b) => b.filter(Set.prototype.has, new Set(a)))
-		console.log(destCurrency.commonNetworks)
 		if(destCurrency.commonNetworks.length > 0) {
 		  form[0].fields.symbol.options[destCurrency.currency] = destCurrency.currency
 		}

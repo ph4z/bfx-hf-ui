@@ -82,12 +82,21 @@ export default class Backtester extends React.Component {
       activeExchange, activeMarket, startDate, endDate, tf, trades, candles,
     } = options
     const { dsExecuteBacktest, dsExecuteBacktestBacktrader, strategyContent, setBacktestOptions } = this.props
+    console.log(options)
     setBacktestOptions(options)
     const startNum = new Date(startDate).getTime()
     const endNum = new Date(endDate).getTime()
+    let ftf = tf
+    if (tf === '1d') { 
+       ftf = '1D'
+    }
+    if (tf === '1w') { 
+       ftf = '7D'
+    }
 
     this.setState(() => ({
       execError: undefined,
+      backtestOptions: {tf: ftf}
     }))
     
     if(!strategyContent['init']) {
@@ -112,6 +121,7 @@ export default class Backtester extends React.Component {
   render() {
     const {
       executionType = this.backtestMethods[0],
+      backtestOptions
     } = this.state
     const {
       indicators,
@@ -119,7 +129,7 @@ export default class Backtester extends React.Component {
       strategyContent,
       allMarkets,
       backtestResults,
-      backtestOptions,
+      // backtestOptions,
     } = this.props
     
     const formState = this.state[`${executionType.type}_formState`] || {} // eslint-disable-line
@@ -161,6 +171,7 @@ export default class Backtester extends React.Component {
     }
 
     if (!backtestResults.executing && !backtestResults.loading && backtestResults.finished) {
+      console.log(backtestOptions)
       return (
         <div className='hfui-backtester__wrapper'>
           <executionType.form {...opts} />
