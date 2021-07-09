@@ -134,7 +134,7 @@ export default class StrategyEditorPanel extends React.PureComponent {
               onClick={onOpenCreateModal}
               label={[
                 <i key='icon' className='icon-strategy-editor-passive' />,
-                <p key='text'>New Strategy</p>,
+                <p key='text'>New</p>,
               ]}
             />
 
