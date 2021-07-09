@@ -69,7 +69,7 @@ export default class StatusBar extends React.Component {
 
           <p>{wsConnected ?
 	      <img src={PotaraLogo} title='Kaio' alt='kaiologo' style={{border: '2px solid lightgreen', borderRadius: '50%', padding: '1px'}}/> :
-	       <img src={PotaraLogo} title='Kaio' alt='kaiologo' style={{border: '2px solid lightred', borderRadius: '50%', padding: '1px'}}/> }
+	       <img src={PotaraLogo} title='Kaio' alt='kaiologo' style={{border: '2px solid red', borderRadius: '50%', padding: '1px'}}/> }
 	  </p>
 
         </div>
