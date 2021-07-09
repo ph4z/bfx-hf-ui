@@ -4,6 +4,7 @@ import ClassNames from 'classnames'
 import _isEmpty from 'lodash/isEmpty'
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/python/python'
 import Indicators from 'bfx-hf-indicators'
 import { nonce } from 'bfx-api-node-util'
 import HFS from 'bfx-hf-strategy'
@@ -650,7 +651,7 @@ export default class StrategyEditor extends React.PureComponent {
             )}
             
 
-            <SRD.DiagramWidget diagramEngine={engine} />
+	    {/*<SRD.DiagramWidget diagramEngine={engine} />*/}
 
             {execError || sectionErrors[activeContent] ? (
               <div className='hfui-strategyeditor__editor-error-output'>
