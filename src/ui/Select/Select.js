@@ -20,12 +20,12 @@ export default class Select extends React.PureComponent {
         {label && (
           <p>{label}</p>
         )}
-
         <RSelect
           className={ClassNames('hfui-select', className)}
           isDisabled={disabled || isDisabled}
           classNamePrefix='hfui-select'
           onChange={onChange}
+          maxMenuHeight={200}
           value={value}
           options={options}
           {...otherProps}

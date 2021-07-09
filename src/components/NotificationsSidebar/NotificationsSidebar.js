@@ -2,7 +2,6 @@ import React from 'react'
 import ClassNames from 'classnames'
 import Scrollbars from 'react-custom-scrollbars'
 import { nonce } from 'bfx-api-node-util'
-import { Icon } from 'react-fa'
 
 import Notification from './Notification'
 import Panel from '../../ui/Panel'
@@ -101,16 +100,16 @@ export default class NotificationsSidebar extends React.Component {
 
   render() {
     const { open, liveNotifications } = this.state
-    const { notifications } = this.props
-
+    const { notifications, notificationsVisible, closeNotificationPanel } = this.props
     return (
-      <div className={ClassNames('hfui-notificationssidebar__wrapper', {
-        visible: open,
+      <div className={ClassNames(`hfui-notificationssidebar__wrapper ${notificationsVisible ? 'absoulute' : ''}`, {
+        visible: notificationsVisible,
       })}
       >
         <Panel
           label='NOTIFICATIONS'
           hideIcons
+          closePanel={closeNotificationPanel}
         >
           <ul>
             <Scrollbars height='100%'>
@@ -128,13 +127,6 @@ export default class NotificationsSidebar extends React.Component {
             ))}
           </ul>
         )}
-
-        <div
-          onClick={this.onToggleOpen}
-          className='hfui-notificationssidebar__notch'
-        >
-          <Icon name='bell' />
-        </div>
       </div>
     )
   }

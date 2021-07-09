@@ -5,19 +5,29 @@ import ClassNames from 'classnames'
 import { propTypes, defaultProps } from './Panel.props'
 import './style.css'
 
-export default class Panel extends React.PureComponent {
+export default class Panel extends React.Component {
   static propTypes = propTypes
 
   static defaultProps = defaultProps
 
+  state = {}
+  getTabTitle(tab) { //eslint-disable-line
+    const { htmlKey, tabtitle } = tab.props
+    if (typeof tabtitle === 'string') {
+      return tabtitle
+    }
+    if (!htmlKey) console.trace('htmlKey missing')
+    return htmlKey
+  }
   render() {
     const {
-      className, label, children, onRemove, headerComponents, hideIcons,
+      className, label, children = [], onRemove, headerComponents, hideIcons,
       extraIcons, moveable, removeable, modal, footer, settingsOpen,
-      onToggleSettings, tabs, activeTab, onChangeTab, darkHeader, dark,
-      secondaryHeaderComponents, secondaryHeaderReverse,
+      onToggleSettings, darkHeader, dark,
+      secondaryHeaderComponents, secondaryHeaderReverse, closePanel,
     } = this.props
-
+    const tabs = React.Children.toArray(children).filter(c => c && c.props.tabtitle)
+    const { selectedTab = tabs[0] } = this.state
     let heightOffsetPX = 0
 
     if (label || tabs) heightOffsetPX += 50
@@ -36,19 +46,19 @@ export default class Panel extends React.PureComponent {
           })}
         >
           {label && <p className='hfui-panel__label'>{label}</p>}
-
-          {tabs && (
+          { closePanel && (
+            <p className='hfui-panel__close' onClick={closePanel}>X</p>
+          )}
+          {tabs.length > 0 && (
             <ul className='hfui-panel__header-tabs'>
               {tabs.map(tab => (
                 <li
-                  key={tab.id}
-                  className={ClassNames({ active: tab.id === activeTab })}
-                  onClick={() => onChangeTab(tab.id)}
+                  key={tab.props.htmlKey || tab.props.tabtitle}
+                  className={ClassNames({ active: this.getTabTitle(tab) === this.getTabTitle(selectedTab) })}
+                  onClick={() => this.setState(() => ({ selectedTab: tab }))}
                 >
                   <p className='hfui-panel__label'>
-                    {tab.label}
-                    {' '}
-                    {tab.suffix}
+                    {tab.props.tabtitle}
                   </p>
                 </li>
               ))}
@@ -105,12 +115,20 @@ export default class Panel extends React.PureComponent {
             renderTrackVertical={props => (
               <div {...props} className='hfui-scrollbars-track-vertical' />
             )}
-
             renderThumbVertical={props => (
               <div {...props} className='hfui-scrollbars-thumb-vertical' />
             )}
           >
-            {children}
+            {
+              (tabs.length > 0) && (
+                selectedTab
+              )
+            }
+            {
+              (tabs.length === 0) && (
+                children
+              )
+            }
           </Scrollbars>
         </div>
 

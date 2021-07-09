@@ -1,14 +1,16 @@
 process.env.DEBUG = 'bfx:hf:*'
+process.env.DEBUG_TRACE = true
 
 require('dotenv').config()
 require('bfx-hf-util/lib/catch_uncaught_errors')
 
 const startHFServer = require('bfx-hf-server')
+const os = require('os')
+const dir = `${os.homedir()}/.honeyframework`;
 
 startHFServer({
-  uiDBPath: `${__dirname}/db/ui.json`,
-  algoDBPath: `${__dirname}/db/algos.json`,
-
+  uiDBPath: `${dir}/ui.json`,
+  algoDBPath: `${dir}/algos.json`,
   // Data servers are started by individual scripts
   // hfBitfinexDBPath: `${__dirname}/db/hf-bitfinex.json`,
   // hfBinanceDBPath: `${__dirname}/db/hf-binance.json`,

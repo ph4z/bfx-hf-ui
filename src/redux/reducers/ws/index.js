@@ -8,26 +8,28 @@ import tickers from './tickers'
 import candles from './candles'
 import channels from './channels'
 import strategies from './strategies'
+import bt_strategies from './bt_strategies'
 import apiClients from './api_clients'
 import positions from './positions'
 import balances from './balances'
 import orders from './orders'
 import algoOrders from './algo_orders'
-import notifications from './notifications'
+import backtest from './backtest'
 
 export default combineReducers({
   channelData: channels,
-  notifications,
   algoOrders,
   positions,
   balances,
   orders,
   apiClients,
   strategies,
+  bt_strategies,
   tickers,
   candles,
   trades,
   socket,
   books,
   auth,
+  backtest,
 })

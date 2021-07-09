@@ -25,7 +25,7 @@ export default class GridLayout extends React.PureComponent {
   render() {
     const {
       layoutDef, chartProps, bookProps, tradesProps, orderFormProps, ordersProps,
-      onRemoveComponent, layoutID, darkPanels,
+      onRemoveComponent, layoutID, darkPanels, sharedProps,
     } = this.props
 
     const componentProps = {
@@ -35,15 +35,16 @@ export default class GridLayout extends React.PureComponent {
       orders: ordersProps,
       book: bookProps,
       dark: darkPanels,
+      sharedProps,
     }
 
     return (
       <GridLayoutP
         autoSize
         className='layout'
-        draggableHandle='.icon-expand-arrow'
+        draggableHandle='.icon-move'
         cols={{
-          lg: 100, md: 20, sm: 20, xs: 20, xxs: 20,
+          lg: 100, md: 100, sm: 100, xs: 100, xxs: 100,
         }}
         rowHeight={25}
         margin={[16, 16]}

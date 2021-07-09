@@ -22,7 +22,6 @@ export default (ws, store) => (e = {}) => {
   }
 
   const [type] = payload
-
   switch (type) {
     case 'info.version': {
       debug('API version %s', payload[1])
@@ -37,6 +36,12 @@ export default (ws, store) => (e = {}) => {
     case 'info.markets': {
       const [, ecxhangeID, markets] = payload
       store.dispatch(WSActions.recvDataMarkets(ecxhangeID, markets))
+      break
+    }
+
+    case 'info.currencies': {
+      const [, ecxhangeID, currencies] = payload
+      store.dispatch(WSActions.recvDataCurrencies(ecxhangeID, currencies))
       break
     }
 
@@ -94,6 +99,12 @@ export default (ws, store) => (e = {}) => {
       break
     }
 
+    case 'data.bt_strategies': {
+      const [, bt_strategies] = payload
+      store.dispatch(WSActions.recvBTStrategies({ bt_strategies }))
+      break
+    }
+
     case 'data.strategy': {
       const [, id, strategy] = payload
       store.dispatch(WSActions.recvStrategy({ id, strategy }))
@@ -123,6 +134,12 @@ export default (ws, store) => (e = {}) => {
     case 'data.api_credentials.configured': {
       const [, exID] = payload
       store.dispatch(WSActions.recvAPICredentialsConfigured({ exID }))
+      break
+    }
+
+    case 'data.settings.updated': {
+      const [, settings] = payload
+      store.dispatch(WSActions.recvUpdatedSettings(settings))
       break
     }
 
@@ -195,6 +212,50 @@ export default (ws, store) => (e = {}) => {
     case 'data.ao.stopped': {
       const [, exID, gid] = payload
       store.dispatch(WSActions.recvDataAlgoOrderStopped({ exID, gid }))
+      break
+    }
+
+    case 'bt.exec': {
+      const [, from, to, symbol, tf, withCandles, withTrades, syncData] = payload
+      store.dispatch(WSActions.recvBacktestExecute({
+        from,
+        to,
+        symbol,
+        tf,
+        withCandles,
+        withTrades,
+        syncData,
+      }))
+      break
+    }
+
+    case 'bt.start': {
+      const [,,, from, to] = payload
+      store.dispatch(WSActions.recvBacktestStart({ from, to }))
+      break
+    }
+
+    case 'bt.candle': {
+      const [,,, candle] = payload
+      store.dispatch(WSActions.recvBacktestCandle(candle))
+      break
+    }
+
+    case 'bt.trade': {
+      const [,,, trade] = payload
+      store.dispatch(WSActions.recvBacktestTrade(trade))
+      break
+    }
+
+    case 'bt.end': {
+      const [,,, from, to] = payload
+      store.dispatch(WSActions.recvBacktestEnd({ from, to }))
+      break
+    }
+
+    case 'bt.btresult': {
+      const [, res] = payload
+      store.dispatch(WSActions.recvBacktestResults(res))
       break
     }
 

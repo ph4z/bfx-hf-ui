@@ -2,23 +2,44 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
 @import '~react-datepicker/dist/react-datepicker';
 @import '~codemirror/lib/codemirror';
-@import '~codemirror/theme/tomorrow-night-eighties';
+@import '~codemirror/theme/monokai';
 @import '~@projectstorm/react-diagrams/dist/style.min';
 @import 'https://fonts.googleapis.com/css?family=Roboto&display=swap';
 @import '/icon_font/styles.css';
 
+
+body button:focus {
+  outline: none;
+  border: none;
+}
+
+body button {
+  outline: none;
+}
+
+
+
 .react-datepicker {
-  background-color: #000;
+  background-color: #102331;
   color: #ccc;
-  border-color: #666;
+  border:none;
 }
 
 .react-datepicker__time-container .react-datepicker__time {
-  background: #000;
+  background: #102331;
+  border: none;
+}
+.react-datepicker__time-container { 
+  border: none;
+}
+
+.react-datepicker__time-container .react-datepicker__month-container {
+  border:none;
 }
 
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item:hover {
-  background-color: #333;
+  background-color: #000;
+  border:none;
 }
 
 .react-datepicker__time-list-item {
@@ -30,10 +51,16 @@
 .react-datepicker-time__header,
 .react-datepicker-year-header {
   color: #ccc;
+  border:none;
 }
 
 .react-datepicker__header {
-  background-color: #333;
+  background-color: #000;
+  border:none;
+}
+
+.react-datepicker__month-container {
+  border:none;
 }
 
 .react-datepicker__day-name,
@@ -55,6 +82,7 @@
 .react-datepicker-wrapper,
 .react-datepicker__input-container {
   width: 100%;
+  border:none;
 }
 
 body {
@@ -64,11 +92,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background: #172d3e;
+  // background: #172d3e;
   color: #e2e5e7;
+  background-image: url('./ui/ontheroad.jpg');
+  //background-color: rgba(255,255,255,0.6);
+  //background-blend-mode: lighten;
+  background-size: 100% 100%;
+  //background-size: cover;
+  background-repeat: no-repeat;
 
-  margin: 0;
-  overflow: hidden;
+   margin: 0;
+   overflow: hidden;
 }
 
 html, body, #root {

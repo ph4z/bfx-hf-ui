@@ -1,13 +1,18 @@
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router'
 
+import SettingsPage from '../../pages/Settings'
 import TradingPage from '../../pages/Trading'
+import PortfolioPage from '../../pages/Portfolio'
+import YieldsPage from '../../pages/Yields'
+import ReportsPage from '../../pages/Reports'
+import SantimentPage from '../../pages/Santiment'
+import ICOPage from '../../pages/ICO'
 import StrategyEditorPage from '../../pages/StrategyEditor'
 import MarketDataPage from '../../pages/MarketData'
 import AuthenticationPage from '../../pages/Authentication'
 
 import Navbar from '../Navbar'
-import ExchangeInfoBar from '../ExchangeInfoBar'
 import NotificationsSidebar from '../NotificationsSidebar'
 
 import { propTypes, defaultProps } from './HFUI.props'
@@ -17,21 +22,20 @@ export default class HFUI extends React.PureComponent {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
-  constructor(props) {
-    super(props)
-
-    this.onChangeMarket = this.onChangeMarket.bind(this)
-  }
-
-  onChangeMarket(option) {
-    const { saveActiveMarket } = this.props
-    saveActiveMarket(option.value)
+  componentDidUpdate() {
+    const { GAPageview } = this.props
+    GAPageview(window.location.pathname)
   }
 
   render() {
-    const { activeMarket, authToken, getLastVersion } = this.props
+    const {
+      authToken, getLastVersion, getSettings, notificationsVisible,
+    } = this.props
     const oneHour = 360000
     getLastVersion()
+    if (authToken) {
+      getSettings(authToken)
+    }
     setInterval(getLastVersion(), oneHour)
     if (!authToken) {
       return (
@@ -45,11 +49,6 @@ export default class HFUI extends React.PureComponent {
     return (
       <div className='hfui-app'>
         <Navbar />
-
-        <ExchangeInfoBar
-          selectedMarket={activeMarket}
-          onChangeMarket={this.onChangeMarket}
-        />
 
         <Switch>
 
@@ -76,9 +75,45 @@ export default class HFUI extends React.PureComponent {
               <MarketDataPage />
             )}
           />
+          <Route
+            path='/portfolio'
+            render={() => (
+              <PortfolioPage />
+            )}
+          />
+          <Route
+            path='/yields'
+            render={() => (
+              <YieldsPage />
+            )}
+          />
+          <Route
+            path='/reports'
+            render={() => (
+              <ReportsPage />
+            )}
+          />
+          <Route
+            path='/santiment'
+            render={() => (
+              <SantimentPage />
+            )}
+          />
+          <Route
+            path='/ico'
+            render={() => (
+              <ICOPage />
+            )}
+          />
+          <Route
+            path='/settings'
+            render={() => (
+              <SettingsPage />
+            )}
+          />
         </Switch>
 
-        <NotificationsSidebar />
+        <NotificationsSidebar notificationsVisible={notificationsVisible} />
       </div>
     )
   }

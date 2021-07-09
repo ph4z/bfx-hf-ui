@@ -1,159 +1,179 @@
 import React from 'react'
+import randomColor from 'randomcolor'
+import Joyride, { STATUS } from 'react-joyride'
+import PropTypes from 'prop-types'
 
 import StrategyEditor from '../../components/StrategyEditor'
-import StrategyTradesTable from '../../components/StrategyTradesTable'
-import Chart from '../../components/Chart'
+import Panel from '../../ui/Panel'
+import Markdown from '../../ui/Markdown'
 import StatusBar from '../../components/StatusBar'
-import { calcIndicatorValuesForCandles } from '../../components/Chart/helpers'
-import { propTypes, defaultProps } from './StrategyEditor.props'
+import Backtester from '../../components/Backtester'
+import LiveStrategyExecutor from '../../components/LiveStrategyExecutor'
+
 import './style.css'
 
+const DocsPath = require('bfx-hf-strategy/docs/api.md')
+
 export default class StrategyEditorPage extends React.Component {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = {
+    dark: PropTypes.bool,
+    firstLogin: PropTypes.bool,
+    isGuideActive: PropTypes.bool,
+    finishGuide: PropTypes.func.isRequired,
+    selectStrategy: PropTypes.func.isRequired,
+    setStrategyContent: PropTypes.func.isRequired,
+  }
+  static defaultProps = {
+    dark: true,
+    firstLogin: false,
+    isGuideActive: true,
+  }
 
   state = {
-    results: {},
     indicators: [],
-    indicatorData: {},
-    currentRange: [],
-    tf: '1m',
-    focusMTS: null,
+    steps: [
+      {
+        target: '.hfui-create-strategy__btn',
+        content: 'Create your own strategies',
+      },
+      {
+        target: '.hfui-open-strategy__btn',
+        content: 'Or open an existing one',
+      },
+      {
+        locale: { last: 'Finish' },
+        target: '.hfui-markdown__wrapper',
+        content: 'In this section you find the available function declarations to code your own strategies',
+      },
+    ],
   }
 
   constructor(props) {
     super(props)
 
-    this.onResultsChange = this.onResultsChange.bind(this)
     this.onIndicatorsChange = this.onIndicatorsChange.bind(this)
-    this.onCurrentRangeChange = this.onCurrentRangeChange.bind(this)
-    this.onTradeClick = this.onTradeClick.bind(this)
-    this.onCurrentTFChange = this.onCurrentTFChange.bind(this)
+    this.onGuideFinish = this.onGuideFinish.bind(this)
   }
 
-  onResultsChange(results) {
-    this.setState(() => ({ results }))
-  }
-
-  onCurrentRangeChange(currentRange) {
-    this.setState(() => ({ currentRange }))
+  componentDidMount() {
+    // load readme docs (DocsPath is an object when running in electron window)
+    const docsPath = typeof DocsPath === 'object' ? DocsPath.default : DocsPath
+    fetch(docsPath)
+      .then(response => response.text())
+      .then(t => this.setState(() => ({ docsText: t })))
   }
 
   onIndicatorsChange(indicators) {
-    const { candleData, activeMarket, activeExchange } = this.props
-    const { currentRange, tf } = this.state
-    const candleKey = `${tf}:${activeMarket.uiID}`
-    const start = +currentRange[0]
-
-    const allCandles = Object.values((candleData[activeExchange] || {})[candleKey] || {})
-    const candles = allCandles.filter(({ mts }) => mts >= start)
-    candles.sort((a, b) => a.mts - b.mts)
-
-    const indicatorData = {}
-
-    Object.values(indicators).forEach((i) => {
-      indicatorData[i.key] = calcIndicatorValuesForCandles(i, candles)
-    })
-
+    // TODO: Better color generation; to save time we generate enough colors for
+    //       all indicators here, but optimally we'd switch on i.constructor.ui
     this.setState(() => ({
-      tf,
-      indicators,
-      indicatorData,
+      indicators: Object.values(indicators).map((ind) => {
+        let colors = []
+
+        for (let i = 0; i < 5; i += 1) {
+          colors.push(randomColor())
+        }
+
+        // allow users to overwrite colors
+        if (ind.color) {
+          colors[0] = ind.color
+        } else if (ind.colors) {
+          colors = ind.colors // eslint-disable-line
+        }
+
+        return [ind.constructor, ind._args, colors]
+      }),
     }))
   }
 
-  onCurrentTFChange(tf) {
-    this.setState(() => ({ tf }))
-
-    setTimeout(() => {
-      const { indicators } = this.state
-      this.onIndicatorsChange(indicators)
-    }, 0)
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { candleData, activeMarket, activeExchange } = nextProps
-    const { currentRange, tf, indicators } = prevState
-
-    if (indicators.length === 0) {
-      return {}
+  onGuideFinish(data) {
+    const { finishGuide } = this.props
+    const { status } = data
+    const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED]
+    const CLOSE = 'close'
+    if (finishedStatuses.includes(status) || data.action === CLOSE) {
+      finishGuide()
     }
-
-    const candleKey = `${tf}:${activeMarket.uiID}`
-    const start = +currentRange[0]
-
-    const allCandles = Object.values((candleData[activeExchange] || {})[candleKey] || {})
-    const candles = allCandles.filter(({ mts }) => mts >= start)
-    candles.sort((a, b) => a.mts - b.mts)
-
-    const indicatorData = {}
-
-    Object.values(indicators).forEach((i) => {
-      indicatorData[i.key] = calcIndicatorValuesForCandles(i, candles)
-    })
-
-    return { indicatorData }
   }
 
-  onTradeClick(trade) {
-    const { mts } = trade
+  setContent(content) {
+    const { setStrategyContent } = this.props
+    setStrategyContent(content)
+  }
 
-    this.setState(() => ({
-      focusMTS: mts,
-    }))
+  selectStrategy(content) {
+    const { selectStrategy } = this.props
+    selectStrategy()
+    this.setContent(content)
   }
 
   render() {
-    const { activeExchange, activeMarket } = this.props
     const {
-      results = {}, indicators, indicatorData, focusMTS, tf,
+      indicators,
+      docsText = '',
+      steps,
     } = this.state
-    const { trades = [] } = results
-
+    const { firstLogin, isGuideActive, strategyContent } = this.props
     return (
       <div className='hfui-strategyeditorpage__wrapper'>
         <StrategyEditor
           dark
+          onStrategySelect={content => this.selectStrategy(content)}
+          onStrategyChange={content => this.setContent(content)}
           key='editor'
-          onResultsChange={this.onResultsChange}
           onIndicatorsChange={this.onIndicatorsChange}
           moveable={false}
           removeable={false}
-          tf={tf}
+          tf='1m'
         />
-
+        {firstLogin
+         && (
+         <Joyride
+           steps={steps}
+           callback={this.onGuideFinish}
+           run={isGuideActive}
+           continuous
+           showProgress
+           showSkipButton
+           styles={{
+             options: {
+               zIndex: 10000,
+             },
+           }}
+         />
+         )}
         <div
           key='main'
           className='hfui-strategiespage__right'
         >
-          <Chart
-            dark
-            showIndicatorControls={false}
-            showOrders={false}
-            showPositions={false}
-            activeMarket={activeMarket}
-            activeExchange={activeExchange}
-            indicators={Object.values(indicators)}
-            indicatorData={indicatorData}
-            trades={trades}
-            focusMTS={focusMTS}
+          <Panel
+            className='hfui-strategiespage__pannel-wrapper'
             moveable={false}
             removeable={false}
-            canChangeMarket={false}
-            canChangeExchange={false}
-            showMarket={false}
-            showExchange={false}
-            disableIndicatorSettings
-
-            onRangeChange={this.onCurrentRangeChange}
-            onTFChange={this.onCurrentTFChange}
-          />
-
-          <StrategyTradesTable
-            dark
-            trades={trades}
-            onTradeClick={this.onTradeClick}
-          />
+            darkHeader
+          >
+            <Markdown
+              tabtitle='Docs'
+              text={docsText}
+            />
+            <div
+              tabtitle='Backtest' // lowercase name for div is requiered
+              style={{ height: 1200 }}
+            >
+              <Backtester
+                {...this.props}
+                indicators={indicators}
+              />
+            </div>
+            <div
+              tabtitle='Execute' // lowercase name for div is requiered
+            >
+              <LiveStrategyExecutor
+                {...this.props}
+                strategyContent={strategyContent}
+              />
+            </div> 
+          </Panel>
         </div>
 
         <StatusBar

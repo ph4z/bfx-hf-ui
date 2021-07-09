@@ -1,5 +1,4 @@
 import React from 'react'
-import Debug from 'debug'
 import _isEmpty from 'lodash/isEmpty'
 
 import Modal from '../../ui/Modal'
@@ -8,8 +7,6 @@ import Dropdown from '../../ui/Dropdown'
 
 import { propTypes, defaultProps } from './OpenExistingStrategyModal.props'
 import './style.css'
-
-const debug = Debug('hfui:c:open-existing-strategy-modal')
 
 export default class OpenExistingStrategyModal extends React.Component {
   static propTypes = propTypes
@@ -39,22 +36,20 @@ export default class OpenExistingStrategyModal extends React.Component {
       return
     }
 
-    const { onClose, onOpen, strategies } = this.props
+    const { onClose, onOpen, bt_strategies } = this.props
+    let { strategies } = this.props
+    strategies = [...strategies, ...bt_strategies]
     const strategy = strategies.find(s => s.id === strategyID)
-
-    if (!strategy) {
-      debug('strategy not found: %s', strategyID)
-      return
-    }
 
     onOpen(strategy)
     onClose()
   }
 
   render() {
-    const { onClose, strategies } = this.props
+    const { onClose, bt_strategies } = this.props
+    let { strategies } = this.props
     const { strategyID, error } = this.state
-
+    strategies = [...strategies, ...bt_strategies]
     return (
       <Modal
         onClose={onClose}

@@ -44,7 +44,8 @@ export default class OrderBook extends React.Component {
     const allBids = fullOB.filter(pl => pl[1] > 0)
     const allAsks = fullOB.filter(pl => pl[1] < 0)
     const bids = allBids.slice(0, TEMP_OB_SIDE_LENGTH_LIMIT)
-    const asks = allAsks.slice(0, TEMP_OB_SIDE_LENGTH_LIMIT)
+    const asks = allAsks.slice(allAsks.length - TEMP_OB_SIDE_LENGTH_LIMIT)
+
     const ob = [...asks, ...bids]
     const maxVol = _max(ob.map(pl => Math.abs(pl[1])))
     const totalBuyAmount = _sum(ob.filter(pl => pl[1] > 0).map(pl => pl[1]))
@@ -60,7 +61,6 @@ export default class OrderBook extends React.Component {
       >
         {stackedView ? [
           <div key='header' className='hfui-orderbook__header'>
-            <p>Count</p>
             <p>Amount</p>
             <p>Total</p>
             <p>Price</p>
@@ -77,7 +77,7 @@ export default class OrderBook extends React.Component {
               if (i > 0 && pl[1] > 0 && ob[i - 1][1] < 0) {
                 html.push(
                   <li
-                    key='spread'
+                    key={`spread-${i}`} // eslint-disable-line
                     className='spread'
                     style={{
                       marginTop: `calc(100% / ${ob.length})`,
@@ -85,10 +85,6 @@ export default class OrderBook extends React.Component {
                     }}
                   >
                     <div className='hfui-orderbook__pl-container spread'>
-                      <p className='hfui-orderbook__pl-count'>
-                        —
-                      </p>
-
                       <p className='hfui-orderbook__pl-amount' />
                       <p className='hfui-orderbook__pl-total'>
                         {totalAmount.toFixed(2)}
@@ -113,10 +109,6 @@ export default class OrderBook extends React.Component {
                   })}
                 >
                   <div className='hfui-orderbook__pl-container'>
-                    <p className='hfui-orderbook__pl-count'>
-                      —
-                    </p>
-
                     <p className='hfui-orderbook__pl-amount'>
                       {pl[1].toFixed(2)}
                     </p>
@@ -130,7 +122,7 @@ export default class OrderBook extends React.Component {
                     <p className='hfui-orderbook__pl-price'>
                       <PLNumber
                         value={pl[1]}
-                        processFunc={() => new BigN(`${pl[0]}`).toString(10)}
+                        prepareFunc={() => new BigN(`${pl[0]}`).toString(10)}
                       />
                     </p>
 
@@ -159,11 +151,13 @@ export default class OrderBook extends React.Component {
           </ul>,
         ] : [
           <OBSide
+            key='ob-bids'
             levels={bids}
             sumAmounts={sumAmounts}
           />,
 
           <OBSide
+            key='ob-asks'
             levels={_reverse(asks)}
             sumAmounts={sumAmounts}
           />,

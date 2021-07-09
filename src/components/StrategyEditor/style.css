@@ -1,0 +1,133 @@
+.hfui-strategyeditor__wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%; }
+
+.hfui-removestrategymodal__wrapper button {
+  margin-right: 10px; }
+
+.hfui-removestrategymodal__wrapper .hfui-removestrategymodal__content p {
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+.hfui-strategyeditor__editor-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 10px);
+  position: relative;
+  border-bottom: 1px solid #282e58;
+  background: #000; }
+  .hfui-strategyeditor__editor-wrapper.noresults {
+    height: 100%; }
+  .hfui-strategyeditor__editor-wrapper .react-codemirror2, .hfui-strategyeditor__editor-wrapper .CodeMirror {
+    height: 100%; }
+  .hfui-strategyeditor__editor-wrapper .CodeMirror-code {
+    font-size: 13px; }
+  .hfui-strategyeditor__editor-wrapper .cm-s-monokai.CodeMirror {
+    background: #0c1b26; }
+  .hfui-strategyeditor__editor-wrapper .cm-s-monokai .CodeMirror-gutters {
+    background-color: #172d3e; }
+  .hfui-strategyeditor__editor-wrapper.maximised {
+    position: fixed;
+    left: 150px;
+    top: 99px;
+    width: calc(100% - 152px);
+    z-index: 99;
+    height: calc(100% - 134px);
+    border: 1px solid #3c3202; }
+
+.hfui-strategyeditor__editor-error-output {
+  font-family: monospace;
+  padding: 0 16px;
+  background: #161a2f;
+  color: red;
+  font-size: 11px;
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  width: calc(100% - 32px);
+  z-index: 9999;
+  border-top: 1px solid #333; }
+  .hfui-strategyeditor__editor-error-output .fas.fa-times-circle {
+    position: absolute;
+    top: 12px;
+    right: 8px; }
+    .hfui-strategyeditor__editor-error-output .fas.fa-times-circle:hover {
+      color: #fcd206;
+      cursor: pointer; }
+  .hfui-strategyeditor__editor-error-output pre {
+    white-space: pre-wrap; }
+
+.hfui-strategyeditor__func-select {
+  width: 150px;
+  min-width: 150px;
+  font-size: 12px;
+  background: #172d3e;
+  margin: 12px; }
+  .hfui-strategyeditor__func-select li {
+    padding: 0 8px;
+    border-bottom: 0.5px solid #282e58;
+    display: flex;
+    flex-direction: row; }
+    .hfui-strategyeditor__func-select li p {
+      height: 25px;
+      line-height: 25px;
+      text-transform: uppercase; }
+    .hfui-strategyeditor__func-select li p:first-child {
+      width: 100%; }
+    .hfui-strategyeditor__func-select li.active {
+      color: #54b361 !important;
+      border-bottom: 1px solid #54b361; }
+    .hfui-strategyeditor__func-select li:not(.active) {
+      color: #364855; }
+    .hfui-strategyeditor__func-select li.empty {
+      color: #666; }
+    .hfui-strategyeditor__func-select li:hover {
+      cursor: pointer;
+      color: #54b361; }
+    .hfui-strategyeditor__func-select li.hasError {
+      color: red !important; }
+
+.hfui-strategyeditor__header {
+  text-align: right; }
+  .hfui-strategyeditor__header .hfui-button {
+    padding: 8px 13px; }
+    .hfui-strategyeditor__header .hfui-button:not(.green) {
+      background: #172d3e; }
+    .hfui-strategyeditor__header .hfui-button button {
+      font-size: 13px;
+      font-weight: 300; }
+    .hfui-strategyeditor__header .hfui-button button, .hfui-strategyeditor__header .hfui-button i {
+      color: #fff; }
+
+.hfui-strategyeditor__content-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column; }
+
+.hfui-strategyeditor__results-outer {
+  display: flex;
+  flex-direction: row;
+  height: 42%; }
+
+.hfui-strategyeditor__header-label {
+  border: none !important;
+  margin: 0;
+  padding: 0;
+  text-align: center; }
+
+.hfui-strategyeditor__panel .hfui-panel__header {
+  border-bottom: 1px solid #20313e; }
+  .hfui-strategyeditor__panel .hfui-panel__header .hfui-panel__label {
+    line-height: 57px; }
+
+.hfui-strategyeditor__panel .hfui-panel__header-components {
+  width: calc(100% - 155px); }
+  .hfui-strategyeditor__panel .hfui-panel__header-components .hfui-strategyeditor__header {
+    width: calc(100% - 16px);
+    padding: 14px 16px 14px 0; }
+    .hfui-strategyeditor__panel .hfui-panel__header-components .hfui-strategyeditor__header > * {
+      margin-right: 14px; }
+      .hfui-strategyeditor__panel .hfui-panel__header-components .hfui-strategyeditor__header > *:last-child {
+        margin-right: 0; }

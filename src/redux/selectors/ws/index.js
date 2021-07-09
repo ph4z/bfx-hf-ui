@@ -18,6 +18,7 @@ import getLastCandleUpdate from './get_last_candle_update'
 import getAuthToken from './get_auth_token'
 import getAuthConfigured from './get_auth_configured'
 import getStrategies from './get_strategies'
+import getBTStrategies from './get_bt_strategies'
 import getPositions from './get_positions'
 import getAllPositions from './get_all_positions'
 import getAllBalances from './get_all_balances'
@@ -27,6 +28,11 @@ import getAllOrders from './get_all_orders'
 import getAlgoOrders from './get_algo_orders'
 import getNotifications from './get_notifications'
 import getAPICredentials from './get_api_credentials'
+import getAllSyncRanges from './get_all_sync_ranges'
+
+import getBacktestState from './get_backtest_state'
+import getBacktestData from './get_backtest_data'
+import getBacktestResults from './get_backtest_results'
 
 import getAPIClientState from './get_api_client_state'
 import getAPIClientStates from './get_api_client_states'
@@ -57,6 +63,11 @@ export {
   isSyncingCandles,
   getLastCandleUpdate,
   getStrategies,
+  getBTStrategies,
+
+  getBacktestState,
+  getBacktestData,
+  getBacktestResults,
 
   getAPIClientState,
   getAPIClientStates,
@@ -74,4 +85,5 @@ export {
 
   getNotifications,
   getAPICredentials,
+  getAllSyncRanges,
 }

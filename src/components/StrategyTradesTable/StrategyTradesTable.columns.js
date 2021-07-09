@@ -25,11 +25,11 @@ export default [{
 }, {
   label: 'Label',
   dataKey: 'label',
-  width: 200,
+  width: 100,
   cellRenderer: ({ rowData = {} }) => rowData.label,
 }, {
   label: 'Time',
   dataKey: 'mts',
-  width: 100,
-  cellRenderer: ({ rowData = {} }) => new Date(rowData.mts).toLocaleTimeString(),
+  width: 150,
+  cellRenderer: ({ rowData = {} }) => new Date(rowData.mts).toLocaleString(),
 }]

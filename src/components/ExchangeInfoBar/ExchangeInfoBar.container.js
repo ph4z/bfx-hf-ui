@@ -11,6 +11,8 @@ import ExchangeInfoBar from './ExchangeInfoBar'
 const mapStateToProps = (state = {}) => {
   const activeExchange = getActiveExchange(state)
   const activeMarket = getActiveMarket(state)
+  const { ui = {} } = state
+  const { isNotificationsOpened } = ui
 
   return {
     activeExchange,
@@ -18,12 +20,17 @@ const mapStateToProps = (state = {}) => {
     ticker: getTicker(state, activeExchange, activeMarket),
     exchanges: getExchanges(state),
     markets: getMarkets(state),
+    isNotificationsOpened,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   addTickerRequirement: (exchange, market) => {
     dispatch(WSActions.addChannelRequirement(exchange, ['ticker', market]))
+  },
+
+  removeTickerRequirement: (exchange, market) => {
+    dispatch(WSActions.removeChannelRequirement(exchange, ['ticker', market]))
   },
 
   onChangeMarket: (exchange, market, prevMarket) => {
@@ -36,6 +43,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(WSActions.removeChannelRequirement(prevExchange, ['ticker', prevMarket]))
     dispatch(UIActions.setActiveExchange(exchange, market))
     dispatch(WSActions.addChannelRequirement(exchange, ['ticker', market]))
+  },
+
+  openNotifications: () => {
+    dispatch(UIActions.openNotifcationPanel())
   },
 })
 

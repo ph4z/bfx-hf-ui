@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 
 import WSActions from '../../redux/actions/ws'
+import UIActions from '../../redux/actions/ui'
 import { getSocket, getAuthConfigured } from '../../redux/selectors/ws'
 import Authentication from './Authentication'
 
@@ -15,16 +16,21 @@ const mapStateToProps = (state = {}) => {
 }
 
 const mapDispatchToProps = dispatch => ({ // eslint-disable-line
-  onInit: (password) => {
-    dispatch(WSActions.initAuth(password))
+  onInit: (username, password) => {
+    dispatch(WSActions.initAuth(username, password))
+    dispatch(UIActions.firstLogin())
   },
 
-  onUnlock: (password) => {
-    dispatch(WSActions.auth(password))
+  onUnlock: (username, password) => {
+    dispatch(WSActions.auth(username, password))
   },
 
   onReset: () => {
     dispatch(WSActions.resetAuth())
+  },
+
+  onRegister: () => {
+    dispatch(WSActions.registerAuth())
   },
 })
 

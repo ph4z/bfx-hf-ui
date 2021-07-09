@@ -11,6 +11,7 @@ export default class AuthenticationInit extends React.Component {
 
   state = {
     password: '',
+    username: '',
     confirmPassword: '',
     error: '',
   }
@@ -19,12 +20,22 @@ export default class AuthenticationInit extends React.Component {
     super(props)
 
     this.onPasswordChange = this.onPasswordChange.bind(this)
+    this.onUsernameChange = this.onUsernameChange.bind(this)
     this.onConfirmPasswordChange = this.onConfirmPasswordChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onRegister = this.onRegister.bind(this)
   }
 
+  onRegister() {
+    const { onRegister } = this.props
+    onRegister()
+  }
   onPasswordChange(password) {
     this.setState(() => ({ password }))
+  }
+
+  onUsernameChange(username) {
+    this.setState(() => ({ username }))
   }
 
   onConfirmPasswordChange(confirmPassword) {
@@ -32,7 +43,7 @@ export default class AuthenticationInit extends React.Component {
   }
 
   onSubmit() {
-    const { password, confirmPassword } = this.state
+    const { username, password, confirmPassword } = this.state
     const { onInit } = this.props
 
     if (password !== confirmPassword) {
@@ -41,11 +52,11 @@ export default class AuthenticationInit extends React.Component {
     }
 
     this.setState(() => ({ error: '' }))
-    onInit(password)
+    onInit(username, password)
   }
 
   render() {
-    const { password, confirmPassword, error } = this.state
+    const { username, password, confirmPassword, error } = this.state
     const submitReady = (
       (!_isEmpty(password) && !_isEmpty(confirmPassword))
       && (password === confirmPassword)
@@ -54,15 +65,17 @@ export default class AuthenticationInit extends React.Component {
     return (
       <div className='hfui-authenticationpage__content'>
         <h2>Honey Framework UI</h2>
-        <p>Create a password to encrypt your API credentials &amp; strategies. All data is stored locally, and your password is hashed.</p>
+        <p>Create a new account</p>
 
         <form className='hfui-authenticationpage__inner-form'>
           <Input
             type='text'
             name='username'
-            placeholder='Username'
+            placeholder='Email'
             autocomplete='username'
-            style={{ display: 'none' }}
+            value={username}
+            onChange={this.onUsernameChange}
+            //style={{ display: 'none' }}
           />
 
           <Input
@@ -85,6 +98,14 @@ export default class AuthenticationInit extends React.Component {
             onClick={this.onSubmit}
             disabled={!submitReady}
             label='Save Credentials'
+            green
+          />
+
+          <p>Already have an account ? Sign-In</p>
+
+          <Button
+            onClick={this.onRegister}
+            label='Sign-In'
             green
           />
 

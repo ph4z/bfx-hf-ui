@@ -1,6 +1,7 @@
 import _isString from 'lodash/isString'
 import _isFinite from 'lodash/isFinite'
 import t from '../constants/ws'
+import ui from '../constants/ui'
 
 const send = payload => ({
   type: t.BUFF_SEND,
@@ -66,6 +67,11 @@ export default {
     payload: { exID, channel },
   }),
 
+  setBacktestLoading: () => ({
+    type: t.SET_BACKTEST_LOADING,
+    payload: {},
+  }),
+
   recvDataExchanges: exchanges => ({
     type: t.DATA_EXCHANGES,
     payload: { exchanges },
@@ -74,6 +80,16 @@ export default {
   recvDataMarkets: (exID, markets) => ({
     type: t.DATA_MARKETS,
     payload: { exID, markets },
+  }),
+
+  recvDataCurrencies: (exID, currencies) => ({
+    type: t.DATA_CURRENCIES,
+    payload: { exID, currencies },
+  }),
+
+  recvUpdatedSettings: settings => ({
+    type: ui.UPDATE_SETTINGS,
+    payload: settings,
   }),
 
   bufferDataFromExchange: (exID, chanID, data) => ({
@@ -103,11 +119,6 @@ export default {
   recvDataTicker: (exID, channel, ticker) => ({
     type: t.DATA_TICKER,
     payload: { exID, channel, ticker },
-  }),
-
-  recvDataTrade: (exID, channel, trade) => ({
-    type: t.DATA_TRADE,
-    payload: { exID, channel, trade },
   }),
 
   recvDataTrades: (exID, channel, trades) => ({
@@ -146,6 +157,11 @@ export default {
   recvStrategies: ({ strategies }) => ({
     type: t.DATA_STRATEGIES,
     payload: { strategies },
+  }),
+
+  recvBTStrategies: ({ bt_strategies }) => ({
+    type: t.DATA_BT_STRATEGIES,
+    payload: { bt_strategies },
   }),
 
   recvAPICredentialsConfigured: ({ exID }) => ({
@@ -228,7 +244,62 @@ export default {
     payload: { token },
   }),
 
-  initAuth: password => send(['auth.init', password]),
-  auth: password => send(['auth.submit', password]),
+  recvBacktestStart: opts => ({
+    type: t.BACKTEST_START,
+    payload: opts,
+  }),
+
+  recvBacktestEnd: opts => ({
+    type: t.BACKTEST_END,
+    payload: opts,
+  }),
+
+  recvBacktestResults: opts => ({
+    type: t.BACKTEST_RESULTS,
+    payload: opts,
+  }),
+
+  recvBacktestCandle: candle => ({
+    type: t.BACKTEST_CANDLE,
+    payload: candle,
+  }),
+
+  recvBacktestTrade: trade => ({
+    type: t.BACKTEST_TRADE,
+    payload: trade,
+  }),
+
+  recvBacktestExecute: opts => ({
+    type: t.BACKTEST_EXECUTE,
+    payload: opts,
+  }),
+
+  purgeDataCandles: (exID, channel) => ({
+    type: t.PURGE_DATA_CANDLES,
+    payload: { exID, channel },
+  }),
+
+  purgeDataBook: (exID, channel) => ({
+    type: t.PURGE_DATA_BOOK,
+    payload: { exID, channel },
+  }),
+
+  purgeDataTrades: (exID, channel) => ({
+    type: t.PURGE_DATA_TRADES,
+    payload: { exID, channel },
+  }),
+
+  setBacktestOptions: options => ({
+    type: t.SET_BACKTEST_OPTIONS,
+    payload: { options },
+  }),
+
+  purgeBacktestData: () => ({
+    type: t.PURGE_DATA_BACKTEST,
+  }),
+
+  initAuth: (username, password) => send(['auth.init', password, username]),
+  auth: (username, password) => send(['auth.submit', password, username]),
   resetAuth: () => send(['auth.reset']),
+  registerAuth: () => send(['auth.register']),
 }

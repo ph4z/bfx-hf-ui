@@ -42,6 +42,14 @@ const setActiveExchange = (exchange, market) => ({
   payload: { exchange, market },
 })
 
+const setFilteredValueWithKey = (key, value) => ({
+  type: types.SET_FILTRED_VALUE,
+  payload: {
+    key,
+    value,
+  },
+})
+
 const saveComponentState = ({
   layoutID,
   componentID,
@@ -62,6 +70,42 @@ const setRoute = route => ({
   },
 })
 
+const closeNotificationPanel = () => ({
+  type: types.CLOSE_NOTIFICATIONS,
+})
+
+const openNotifcationPanel = () => ({
+  type: types.OPEN_NOTIFICATIONS,
+})
+
+const firstLogin = () => ({
+  type: types.FIRST_LOGIN,
+})
+
+const finishGuide = (page) => ({
+  type: types.FINISH_GUIDE,
+  payload: page,
+})
+
+const recvNotification = notification => ({
+  type: types.DATA_NOTIFICATION,
+  payload: { notification },
+})
+
+const strategySelect = () => ({
+  type: types.STRATEGY_SELECT,
+})
+
+const updateStrategyContent = content => ({
+  type: types.UPDATE_STRATEGY_CONTENT,
+  payload: { content },
+})
+
+const updateStrategyId = id => ({
+  type: types.UPDATE_STRATEGY_ID,
+  payload: { id },
+})
+
 export default {
   setRoute,
   saveLayout,
@@ -71,4 +115,13 @@ export default {
   saveComponentState,
   setActiveExchange,
   saveRemoteVersion,
+  closeNotificationPanel,
+  openNotifcationPanel,
+  firstLogin,
+  finishGuide,
+  setFilteredValueWithKey,
+  recvNotification,
+  strategySelect,
+  updateStrategyContent,
+  updateStrategyId,
 }

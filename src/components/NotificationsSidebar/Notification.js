@@ -16,10 +16,22 @@ export default class Notification extends React.PureComponent {
   static INTENT_WARNING = 'warning'
   static INTENT_ERROR = 'error'
   static INTENT_INFO = 'info'
-
+  state = {
+    NOTIFICATION_STATE: 'OPENED',
+  }
+  closeNotification() {
+    const { NOTIFICATION_STATE } = this.state
+    if (NOTIFICATION_STATE === 'OPENED') {
+      this.setState({
+        NOTIFICATION_STATE: 'CLOSED',
+      })
+    }
+  }
   render() {
     const { data = {} } = this.props
     const { status, text, mts } = data
+    const { NOTIFICATION_STATE } = this.state
+
 
     let icon
 
@@ -50,7 +62,7 @@ export default class Notification extends React.PureComponent {
     }
 
     return (
-      <li className={ClassNames('hfui-notification', {
+      <li className={ClassNames(`hfui-notification ${NOTIFICATION_STATE === 'OPENED' ? '' : 'closed'}`, {
         [status.toLowerCase()]: true,
       })}
       >
@@ -59,6 +71,7 @@ export default class Notification extends React.PureComponent {
         </div>
 
         <div className='hfui-notification-data'>
+          <p className='hfui-notification__close' onClick={() => this.closeNotification()}>X</p>
           <p className='nfui-notification-msg'>{text}</p>
           <p className='hfui-notification__ts'>{`${new Date(mts).toLocaleString()}`}</p>
         </div>

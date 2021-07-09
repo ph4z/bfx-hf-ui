@@ -31,19 +31,18 @@ export default class DateInput extends React.PureComponent {
     const renderedLabel = renderString(label, renderData)
 
     return (
-      <div className='hfui-orderform__input fullWidth'>
+      <div className='hfui-orderform__input fullWidth hfui-input'>
         <DatePicker
-          className='hfui-input'
           popperPlacement='bottom-start'
           dateFormat='MMMM d, yyyy h:mm aa'
           timeCaption='Time'
           timeFormat='HH:mm'
           timeIntervals={10}
           showTimeSelect
-
+          width='100%'
           selected={value}
           onChange={onChange}
-          placeholder={CONVERT_LABELS_TO_PLACEHOLDERS && renderedLabel}
+          placeholder={CONVERT_LABELS_TO_PLACEHOLDERS ? renderedLabel : undefined}
         />
 
         {!CONVERT_LABELS_TO_PLACEHOLDERS && (

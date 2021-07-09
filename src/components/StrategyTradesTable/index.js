@@ -28,7 +28,7 @@ export default class StrategyTradesTable extends React.PureComponent {
           data={trades}
           columns={StrategyTradesTableColumns}
           defaultSortBy='mts'
-          defaultSortDirection='DESC'
+          defaultSortDirection='ASC'
           onRowClick={({ rowData }) => onTradeClick(rowData)}
         />
       </Panel>

@@ -1,0 +1,13 @@
+.hfui-panelsettings__wrapper {
+  padding: 0 16px; }
+  .hfui-panelsettings__wrapper .header {
+    width: 100%;
+    font-size: 12px;
+    margin: 8px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #111; }
+  .hfui-panelsettings__wrapper .inner.center {
+    text-align: center; }
+  .hfui-panelsettings__wrapper .footer {
+    width: 100%;
+    margin-top: 32px; }

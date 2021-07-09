@@ -1,5 +1,6 @@
 import React from 'react'
 import _capitalize from 'lodash/capitalize'
+import _isEqual from 'lodash/isEqual'
 
 import Select from '../../ui/Select'
 import MarketSelect from '../MarketSelect'
@@ -10,7 +11,7 @@ import quotePrefix from '../../util/quote_prefix'
 import { propTypes, defaultProps } from './ExchangeInfoBar.props'
 import './style.css'
 
-export default class ExchangeInfoBar extends React.PureComponent {
+export default class ExchangeInfoBar extends React.Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
 
@@ -19,10 +20,20 @@ export default class ExchangeInfoBar extends React.PureComponent {
     addTickerRequirement(activeExchange, activeMarket)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (!_isEqual(nextProps, this.props) || !_isEqual(nextState, this.state))
+  }
+
+  componentWillUnmount() {
+    const { activeExchange, activeMarket, removeTickerRequirement } = this.props
+    removeTickerRequirement(activeExchange, activeMarket)
+  }
+
   render() {
     const {
       onChangeMarket, activeMarket, ticker, exchanges = [], activeExchange,
-      onChangeExchange, markets,
+      onChangeExchange, markets, openNotifications, showTicker, showNotifications,
+      showAddComponent, onAddComponent, showSave, onSave,
     } = this.props
 
     const {
@@ -43,12 +54,10 @@ export default class ExchangeInfoBar extends React.PureComponent {
                   const newMarket = nearestMarket(activeMarket, marketsForEx)
                   onChangeExchange(activeExchange, value, activeMarket, newMarket)
                 }}
-
                 value={{
                   label: _capitalize(activeExchange),
                   value: activeExchange,
                 }}
-
                 options={exchanges.map(ex => ({
                   label: _capitalize(ex),
                   value: ex,
@@ -70,67 +79,84 @@ export default class ExchangeInfoBar extends React.PureComponent {
             )}
           />
         </div>
+        {(showTicker) && (
+          <ul>
+            <ExchangeInfoBarItem
+              text
+              vertical
+              label='Last Price'
+              value={lastPrice || '-'}
+              valuePrefix={quotePrefix(activeMarket.quote)}
+            />
 
-        <ul>
-          <ExchangeInfoBarItem
-            text
-            vertical
-            label='Last Price'
-            value={lastPrice || '-'}
-            valuePrefix={quotePrefix(activeMarket.quote)}
-          />
+            <ExchangeInfoBarItem
+              text
+              vertical
+              label='24h Change'
+              value={dailyChange || '-'}
+              valuePrefix={quotePrefix(activeMarket.quote)}
+              dataClassName={
+                dailyChange
+                  ? dailyChange < 0 ? 'hfui-red' : 'hfui-green'
+                  : ''
+              }
+            />
 
-          <ExchangeInfoBarItem
-            text
-            vertical
-            label='24h Change'
-            value={dailyChange || '-'}
-            valuePrefix={quotePrefix(activeMarket.quote)}
-            dataClassName={dailyChange
-              ? dailyChange < 0 ? 'hfui-red' : 'hfui-green'
-              : ''
-            }
-          />
+            <ExchangeInfoBarItem
+              text
+              vertical
+              label='24h Change %'
+              valueSuffix='%'
+              value={dailyChangePerc ? dailyChangePerc * 100 : '-'}
+              dataClassName={
+                dailyChangePerc
+                  ? dailyChangePerc < 0 ? 'hfui-red' : 'hfui-green'
+                  : ''
+              }
+            />
 
-          <ExchangeInfoBarItem
-            text
-            vertical
-            label='24h Change %'
-            valueSuffix='%'
-            value={dailyChangePerc ? dailyChangePerc * 100 : '-'}
-            dataClassName={dailyChangePerc
-              ? dailyChangePerc < 0 ? 'hfui-red' : 'hfui-green'
-              : ''
-            }
-          />
+            <ExchangeInfoBarItem
+              text
+              vertical
+              label='24h High'
+              valuePrefix={quotePrefix(activeMarket.quote)}
+              value={high || '-'}
+            />
 
-          <ExchangeInfoBarItem
-            text
-            vertical
-            label='24h High'
-            valuePrefix={quotePrefix(activeMarket.quote)}
-            value={high || '-'}
-          />
+            <ExchangeInfoBarItem
+              text
+              vertical
+              label='24h Low'
+              valuePrefix={quotePrefix(activeMarket.quote)}
+              value={low || '-'}
+            />
 
-          <ExchangeInfoBarItem
-            text
-            vertical
-            label='24h Low'
-            valuePrefix={quotePrefix(activeMarket.quote)}
-            value={low || '-'}
-          />
+            <ExchangeInfoBarItem
+              text
+              vertical
+              label='24h Volume'
+              value={volume || '-'}
+            />
+          </ul>
+        )}
 
-          <ExchangeInfoBarItem
-            text
-            vertical
-            label='24h Volume'
-            value={volume || '-'}
-          />
-        </ul>
+        {(showSave) && (
+          <div className='hfui-exchangeinfobar__right' onClick={onSave}>
+            <i className='icon-save' />
+          </div>
+        )}
 
-        <div className='hfui-exchangeinfobar__right'>
-          <i className='icon-notifications' />
-        </div>
+        {(showAddComponent) && (
+          <div className='hfui-exchangeinfobar__right' onClick={onAddComponent}>
+            <i className='icon-plus' />
+          </div>
+        )}
+
+        {(showNotifications) && (
+          <div className='hfui-exchangeinfobar__right' onClick={openNotifications}>
+            <i className='icon-notifications' />
+          </div>
+        )}
       </div>
     )
   }

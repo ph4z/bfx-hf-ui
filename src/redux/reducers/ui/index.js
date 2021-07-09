@@ -25,9 +25,12 @@ function getInitialState() {
     route: DEFAULT_ROUTE,
     activeMarket: DEFAULT_MARKET,
     activeExchange: DEFAULT_EXCHANGE,
+    notificationsVisible: false,
     previousMarket: null,
     previousExchange: null,
     remoteVersion: null,
+    firstLogin: false,
+    TRADING_PAGE_IS_GUIDE_ACTIVE: true,
   }
 
   if (!localStorage) {
@@ -105,6 +108,27 @@ function reducer(state = getInitialState(), action = {}) {
       }
     }
 
+    case types.UPDATE_SETTINGS: {
+      return {
+        ...state,
+        settings: payload,
+      }
+    }
+
+    case types.OPEN_NOTIFICATIONS: {
+      return {
+        ...state,
+        notificationsVisible: true,
+      }
+    }
+
+    case types.CLOSE_NOTIFICATIONS: {
+      return {
+        ...state,
+        notificationsVisible: false,
+      }
+    }
+
     case types.CREATE_LAYOUT: {
       const { id, tradingEnabled } = payload
 
@@ -173,6 +197,14 @@ function reducer(state = getInitialState(), action = {}) {
       }
     }
 
+    case types.SET_FILTRED_VALUE: {
+      const { key, value } = payload
+      return {
+        ...state,
+        [key]: value,
+      }
+    }
+
     case types.SET_ROUTE: {
       const { route } = payload
 
@@ -181,7 +213,38 @@ function reducer(state = getInitialState(), action = {}) {
         route,
       }
     }
-
+    case types.FIRST_LOGIN: {
+      return {
+        ...state,
+        firstLogin: true,
+      }
+    }
+    case types.FINISH_GUIDE: {
+      const page = payload
+      return {
+        ...state,
+        [`${page}_GUIDE_ACTIVE`]: false,
+      }
+    }
+    case types.UPDATE_STRATEGY_CONTENT: {
+      const { content = {} } = payload
+      return {
+        ...state,
+        content: {
+          ...content,
+        },
+      }
+    }
+    case types.UPDATE_STRATEGY_ID: {
+      const { id } = payload
+      return {
+        ...state,
+        content: {
+          ...state.content,
+          id,
+        },
+      }
+    }
     default: {
       return state
     }

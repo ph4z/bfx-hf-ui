@@ -7,7 +7,16 @@
 
 ```bash
 git clone https://github.com/bitfinexcom/bfx-hf-ui
+cd bfx-hf-ui
 npm  install
+```
+Create folder to store local db
+```
+mkdir ~/.hfdb
+touch ~/.hfdb/algos.json
+touch ~/.hfdb/hf-binance.json
+touch ~/.hfdb/hf-bitfinex.json
+touch ~/.hfdb/ui.json
 ```
 
 ## Run in the browser
@@ -15,6 +24,7 @@ npm  install
 ```
 npm run build
 npm run start-server
+npm run start-ds-bitfinex
 npm start
 ```
 
@@ -24,7 +34,7 @@ Generates an installable application to run independently from the browser. Once
 
 ```bash
 npm run build
-npm run dist-win # for windows
+npm run dist-win-unpruned # for windows
 npm run dist-mac # for mac
 npm run dist-linux # for linux
 ```
@@ -52,3 +62,7 @@ Starting the HF UI will spawn all of the Honey Framework services that are neede
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Trigger Travis build
+
+Travis automatically builds and deploys this code to the github releases page whenever a commit specifying a new tag ('v3.0.4', 'v5.0.4' ect...) is merged into master.

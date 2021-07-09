@@ -1,0 +1,65 @@
+.hfui-modal__wrapper {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100000; }
+  .hfui-modal__wrapper.fixed {
+    position: fixed; }
+
+.hfui-modal__content {
+  width: 50%;
+  max-width: 447px;
+  background: #172d3e;
+  padding: 0 26px 31px 26px; }
+  .hfui-modal__content .error {
+    color: red;
+    font-size: 12px; }
+  .hfui-modal__content .notice {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 300;
+    text-transform: uppercase;
+    line-height: 1.5;
+    margin-top: -30px;
+    padding-right: 32px;
+    padding-bottom: 20px; }
+  .hfui-modal__content .hfui-dropdown__button, .hfui-modal__content .hfui-input {
+    background: #102331;
+    max-width: 300px; }
+  .hfui-modal__content .hfui-input > * {
+    line-height: 36px;
+    padding: 0 8px; }
+
+.hfui-modal__actions {
+  text-align: right;
+  margin-top: 80px; }
+  .hfui-modal__actions .hfui-button {
+    padding: 8px 13px; }
+    .hfui-modal__actions .hfui-button button {
+      font-size: 13px;
+      font-weight: 300; }
+    .hfui-modal__actions .hfui-button button, .hfui-modal__actions .hfui-button i {
+      color: #fff; }
+
+.hfui-modal__label {
+  text-transform: uppercase;
+  color: #54b361;
+  font-weight: 500;
+  font-size: 15px; }
+
+.hfui-modal__header {
+  padding: 23px 0;
+  display: flex;
+  flex-direction: row; }
+  .hfui-modal__header p {
+    flex-shrink: 0; }
+  .hfui-modal__header i {
+    width: 100%;
+    text-align: right; }
