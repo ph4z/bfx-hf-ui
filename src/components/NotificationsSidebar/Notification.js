@@ -32,6 +32,7 @@ export default class Notification extends React.PureComponent {
     const { status, text, mts } = data
     const { NOTIFICATION_STATE } = this.state
 
+
     let icon
 
     switch (status) {
@@ -59,6 +60,7 @@ export default class Notification extends React.PureComponent {
         icon = <img src={check} alt='check' />
         break
     }
+
     return (
       <li className={ClassNames(`hfui-notification ${NOTIFICATION_STATE === 'OPENED' ? '' : 'closed'}`, {
         [status.toLowerCase()]: true,
