@@ -1,5 +1,5 @@
 import React from 'react'
-import ClassNames from 'classnames'
+// import ClassNames from 'classnames'
 // import NavbarButton from '../NavbarButton'
 // import MANIFEST from '../../../package.json'
 import BinanceLogo from '../../ui/binance.png'
@@ -18,13 +18,13 @@ export default class StatusBar extends React.Component {
 
   render() {
     const {
-      wsConnected, apiClientStates, currentExchange,
+      wsConnected, apiClientStates
     } = this.props
 
-    const apiClientState = apiClientStates[currentExchange]
-    const apiClientConnected = apiClientState === 2
-    const apiClientConnecting = apiClientState === 1
-    const apiClientDisconnected = !apiClientState
+    // const apiClientState = apiClientStates[currentExchange]
+    // const apiClientConnected = apiClientState === 2
+    // const apiClientConnecting = apiClientState === 1
+    // const apiClientDisconnected = !apiClientState
 
     return (
       <div className='hfui-statusbar__wrapper'>
