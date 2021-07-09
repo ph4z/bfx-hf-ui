@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 
 import './style.css'
 
+const CHART_URL = 'https://bitfinexcom.github.io/bfx-hf-tradingview'
+
 export default class Chart extends React.Component {
   static propTypes = {
     activeMarket: PropTypes.object.isRequired,
@@ -33,16 +35,16 @@ export default class Chart extends React.Component {
         height: '100%',
       }}
       >
-        <TradingViewWidget
-          symbol={`${sym}`}
-          theme={Themes.DARK}
-          autosize
-          allow_symbol_change={false}
-          enable_publishing={false}
-          hideideas
-          save_image={false}
-          toolbar_bg='#fff'
-        />
+      <TradingViewWidget
+        symbol={`${sym}`}
+        theme={Themes.DARK}
+        autosize
+        allow_symbol_change={false}
+        enable_publishing={false}
+        hideideas
+        save_image={false}
+        toolbar_bg='#fff'
+      /> 
       </div>
     )
   }

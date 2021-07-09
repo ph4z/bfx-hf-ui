@@ -11,7 +11,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     flex: 1;
-    margin-left: 55px; }
+    margin-left: 15px;
+    height: 50px; }
   .hfui-exchangeinfobar__wrapper li {
     min-width: fit-content;
     display: inline-block;
@@ -29,7 +30,7 @@
 
 .hfui-exchangeinfobar__right {
   text-align: right;
-  height: 75%;
+  height: 100%;
   margin-left: 10px;
   display: flex;
   flex-direction: column;
