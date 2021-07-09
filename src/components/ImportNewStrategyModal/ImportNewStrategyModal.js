@@ -41,7 +41,6 @@ export default class ImportNewStrategyModal extends React.PureComponent {
     const { strategy } = this.state
     const { onClose, onImport } = this.props
     if (!strategy) {
-      console.log('strategy not found')
       return
     }
 

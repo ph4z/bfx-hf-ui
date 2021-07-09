@@ -82,7 +82,6 @@ export default class Backtester extends React.Component {
       activeExchange, activeMarket, startDate, endDate, tf, trades, candles,
     } = options
     const { dsExecuteBacktest, dsExecuteBacktestBacktrader, strategyContent, setBacktestOptions } = this.props
-    console.log(options)
     setBacktestOptions(options)
     const startNum = new Date(startDate).getTime()
     const endNum = new Date(endDate).getTime()
@@ -171,7 +170,6 @@ export default class Backtester extends React.Component {
     }
 
     if (!backtestResults.executing && !backtestResults.loading && backtestResults.finished) {
-      console.log(backtestOptions)
       return (
         <div className='hfui-backtester__wrapper'>
           <executionType.form {...opts} />
