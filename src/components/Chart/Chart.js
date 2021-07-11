@@ -4,8 +4,6 @@ import PropTypes from 'prop-types'
 
 import './style.css'
 
-const CHART_URL = 'https://bitfinexcom.github.io/bfx-hf-tradingview'
-
 export default class Chart extends React.Component {
   static propTypes = {
     activeMarket: PropTypes.object.isRequired,
