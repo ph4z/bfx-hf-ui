@@ -197,6 +197,12 @@ export default (ws, store) => (e = {}) => {
       break
     }
 
+    case 'data.defi.protocols': {
+      const [, protocols] = payload
+      store.dispatch(WSActions.recvDefiProtocols({ protocols }))
+      break
+    }
+
     case 'data.aos': {
       const [, exID, aos] = payload
       store.dispatch(WSActions.recvDataAlgoOrders({ exID, aos }))

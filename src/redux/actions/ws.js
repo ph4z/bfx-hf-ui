@@ -214,6 +214,11 @@ export default {
     payload: { exID, order },
   }),
 
+  recvDefiProtocols: ({ protocols }) => ({
+    type: t.DATA_DEFI_PROTOCOLS,
+    payload: { protocols },
+  }),
+
   recvDataAlgoOrder: ({ exID, ao }) => ({
     type: t.DATA_ALGO_ORDER,
     payload: { exID, ao },

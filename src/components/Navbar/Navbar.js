@@ -42,6 +42,10 @@ const items = [
     route: '/yields',
     label: [<Icon name='percent' key='icon' />, <p key='label'>Farming</p>],
   },
+  {
+    route: '/defi',
+    label: [<Icon name='percent' key='icon' />, <p key='label'>Defi</p>],
+  },
   //{
   //  route: '/insurances',
   //  label: [<Icon name='shield' key='icon' />, <p key='label'>Insurances</p>],
