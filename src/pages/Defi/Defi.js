@@ -5,6 +5,9 @@ import ExchangeInfoBar from '../../components/ExchangeInfoBar'
 import DefiControlToolbar from '../../components/DefiControlToolbar'
 import DefiProtocolsTable from '../../components/DefiProtocolsTable'
 
+import Panel from '../../ui/Panel'
+import Markdown from '../../ui/Markdown'
+
 import { propTypes, defaultProps } from './Defi.props'
 import './style.css'
 
@@ -32,7 +35,6 @@ export default class Defi extends React.Component {
   render() {
     const { activeMarket } = this.props
     return (
-      <>
         <div className='hfui-defipage__wrapper'>
           <DefiControlToolbar
           />
@@ -44,11 +46,21 @@ export default class Defi extends React.Component {
                 onChangeMarket={this.onChangeMarket}
               />
             </div>
+              <Panel
+                className='hfui-defipage__pannel-wrapper'
+                moveable={false}
+                removeable={false}
+                darkHeader
+              >
+                <Markdown
+                  tabtitle='Filter'
+                  text='Filter protocols'
+                />
+              </Panel>
           </div>
 
           <StatusBar />
         </div>
-      </>
     )
   }
 }

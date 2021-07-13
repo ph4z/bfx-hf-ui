@@ -19,6 +19,11 @@ export default [{
   width: 100,
   cellRenderer: ({ rowData = {} }) => rowData.chain
 }, {
+  label: 'Category',
+  dataKey: 'category',
+  width: 100,
+  cellRenderer: ({ rowData = {} }) => rowData.category
+}, {
   label: '1H Change',
   dataKey: 'change_1h',
   width: 80,

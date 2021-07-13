@@ -33,6 +33,20 @@ export default class DefiControlToolbar extends React.PureComponent {
           ]}
         />
 
+        <Button
+          green
+          label={[
+            <p key='text'>Pools</p>,
+          ]}
+        />
+
+        <Button
+          green
+          label={[
+            <p key='text'>Swap</p>,
+          ]}
+        />
+
       </div>
     )
   }

@@ -6,21 +6,32 @@
   display: flex;
   flex-direction: row;
   height: 100%;
+
 }
 
 .hfui-defipage__column {
   height: 100%;
   display: flex;
   flex-direction: column;
-  margin-left: 30px;
+  margin-left: 16px;
 
   &.center {
     width: 100%;
   }
 
   .hfui-table {
-    width: 60%;
     height: 100%;
+    margin-right: 16px;
     background-color: #102331;
   }
+
+}
+
+.hfui-defipage__pannel-wrapper {
+  display: flex;
+  height: 100%;
+  width: 40%;
+  margin-right: 16px;
+  flex-direction: column;
+  background: #0c1b26;
 }
